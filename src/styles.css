@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+  font-family: "Kimberley Bl";
+  src: local("Kimberley Black"), url("./assets/fonts/kimberley.bl-regular.otf") format("opentype");
+}
+
+.logo-text {
+  font-family: "Kimberley Bl", sans-serif;
+  color: #3655B3;
+  font-size: 2.5rem;
+}
