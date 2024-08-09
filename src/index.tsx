@@ -33,10 +33,13 @@ const router = createBrowserRouter([
     },
 ]);
 
-const root = ReactDOM.createRoot(
+document.documentElement.setAttribute("theme", "light");
+
+const reactRoot = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
-root.render(
+
+reactRoot.render(
     <React.StrictMode>
         <RouterProvider router={router}></RouterProvider>
     </React.StrictMode>
