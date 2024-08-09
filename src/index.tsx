@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { createBrowserRouter, RouterProvider, Navigate} from "react-router-dom";
 
-import Sandbox from './Sandbox';
+import Sandbox from './Sandbox/Sandbox';
 import Todo from "./Todo";
 
 const router = createBrowserRouter([
