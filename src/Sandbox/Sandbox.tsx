@@ -1,6 +1,15 @@
 import '../index.css';
 import './Sandbox.css';
 
+import themeSwitchLight from '../icons/theme_switch_light.svg';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import themeSwitchDark from '../../public/icons/theme_switch_dark.svg';
+import github from '../icons/github.svg';
+import linkedIn from '../icons/linked_in.svg';
+import telegram from '../icons/telegram.svg';
+import upload from '../icons/upload.svg';
+import download from '../icons/download.svg';
+
 function Sandbox() {
     return (
         <div className="vertical-group">
@@ -9,29 +18,45 @@ function Sandbox() {
                     <div>Logo Todo</div>
                     <div>Guidelines Todo</div>
                 </div>
-                <div className="horizontal-group">
-                    <div>Theme Todo</div>
-                    <div>| Todo</div>
-                    <div>Socials</div>
+                <div className="horizontal-group center" style={{
+                    gap: "32px",
+                }}>
+                    <div className="horizontal-group center">
+                        Theme
+                        <img className={"theme-icon"} src={themeSwitchLight} alt=""/>
+                    </div>
+                    <strong>|</strong>
+                    <div className="horizontal-group center" style={{
+                        gap: "32px",
+                    }}>
+                        <div className="github-icon"></div>
+                        <img src={github} alt={"GitHub"}/>
+                        <img src={linkedIn} alt={"LinkedIn"}/>
+                        <img src={telegram} alt={"Telegram"}/>
+                    </div>
                 </div>
             </nav>
             <div className="editor-container">
                 <div className="code-space">
                     <div className="horizontal-group underline-group code-border">
                         <div className="horizontal-group">
-                            <button id="examples" className="text-button code-primary-text accent">script1.min</button>
-                            <button id="examples" className="text-button code-secondary-text neutral">script1.min</button>
+                            <button id="examples" className="text-button code-primary-text tab-primary">script1.min</button>
+                            <button id="examples" className="text-button code-secondary-text tab-secondary">script1.min</button>
                         </div>
                         <div className="horizontal-group">
-                            <button id="upload" className="icon-button neutral"></button>
-                            <button id="download" className="icon-button neutral"></button>
-                            <button id="examples" className="text-button code-secondary-text neutral">Examples</button>
+                            <button id="upload" className="icon-button tab-secondary">
+                                <img src={upload} alt={"Upload"}/>
+                            </button>
+                            <button id="download" className="icon-button tab-secondary">
+                                <img src={download} alt={"Donwload"}/>
+                            </button>
+                            <button id="examples" className="text-button code-secondary-text tab-secondary">Examples</button>
                         </div>
                     </div>
                     <div className="horizontal-group overline-group code-border" style={{
                         justifyContent: "flex-end"
                     }}>
-                        <text className="code-secondary-text">line 1, col 1</text>
+                        <div className="code-secondary-text">line 1, col 1</div>
                     </div>
                 </div>
                 <div className="terminal vertical-group dont-stretch">

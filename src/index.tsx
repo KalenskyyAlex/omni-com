@@ -33,7 +33,7 @@ const router = createBrowserRouter([
     },
 ]);
 
-document.documentElement.setAttribute("theme", "light");
+document.documentElement.setAttribute("theme", "dark");
 
 const reactRoot = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement

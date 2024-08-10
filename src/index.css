@@ -1,4 +1,16 @@
+@font-face {
+    font-family: Hack;
+    src: url('../public/fonts/hack.ttf');
+}
+
+@font-face {
+    font-family: Kimberley;
+    src: url('../public/fonts/kimberley.ttf');
+}
+
 html {
+    height: 100%;
+
     --terminal-green: #11D181;
     --terminal-red: #F04343;
     --terminal-neutral: #E0E6F9;
@@ -12,11 +24,11 @@ html {
     --code-function: #FB902E;
     --code-string: #11D181;
     --code-variable: #F04343;
-
-    height: 100%;
 }
 
 #root {
+    font-family: Kimberley, sans-serif;
+    letter-spacing: 1px;
     height: 100%;
 }
 
@@ -30,6 +42,9 @@ code {
 }
 
 button {
+    font-weight: bold;
+    font-family: Kimberley, sans-serif;
+    letter-spacing: 1px;
     cursor: pointer;
     outline: none;
     border: none;
@@ -83,6 +98,7 @@ body {
 }
 
 nav {
+    font-weight: bold;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -92,6 +108,7 @@ nav {
     margin: 0 8px 0 8px;
     background-color: var(--nav-background);
     min-height: 64px;
+    color: var(--logo-primary);
 }
 
 nav > div {
@@ -102,6 +119,10 @@ nav > div {
     display: flex;
     justify-content: space-between;
     gap: 8px;
+}
+
+.center {
+    align-items: center;
 }
 
 .vertical-group {
@@ -115,6 +136,9 @@ nav > div {
 }
 
 .icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 36px;
     height: 36px;
 }
@@ -150,4 +174,36 @@ nav > div {
     color: var(--terminal-text-primary);
 }
 
+.theme-icon{
+    background: url("icons/theme_switch_light.svg");
+}
 
+.github-icon{
+    background: var(--logo-primary);
+    -webkit-mask-image: url("icons/github.svg");
+    mask-image: url("icons/github.svg");
+}
+
+.linked-in-icon{
+    background: var(--logo-primary);
+    -webkit-mask-image: url("icons/linked_in.svg");
+    mask-image: url("icons/linked_in.svg");
+}
+
+.telegram-icon{
+    background: var(--logo-primary);
+    -webkit-mask-image: url("icons/telegram.svg");
+    mask-image: url("icons/telegram.svg");
+}
+
+.upload-icon{
+    background: var(--code-text-secondary);
+    -webkit-mask-image: url("icons/upload.svg");
+    mask-image: url("icons/upload.svg");
+}
+
+.download-icon{
+    background: var(--code-text-secondary);
+    -webkit-mask-image: url("icons/upload.svg");
+    mask-image: url("icons/upload.svg");
+}
