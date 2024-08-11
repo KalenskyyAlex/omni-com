@@ -4,11 +4,6 @@ import './Sandbox.css';
 import themeSwitchLight from '../icons/theme_switch_light.svg';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import themeSwitchDark from '../../public/icons/theme_switch_dark.svg';
-import github from '../icons/github.svg';
-import linkedIn from '../icons/linked_in.svg';
-import telegram from '../icons/telegram.svg';
-import upload from '../icons/upload.svg';
-import download from '../icons/download.svg';
 
 function Sandbox() {
     return (
@@ -30,9 +25,8 @@ function Sandbox() {
                         gap: "32px",
                     }}>
                         <div className="github-icon"></div>
-                        <img src={github} alt={"GitHub"}/>
-                        <img src={linkedIn} alt={"LinkedIn"}/>
-                        <img src={telegram} alt={"Telegram"}/>
+                        <div className="linked-in-icon"></div>
+                        <div className="telegram-icon"></div>
                     </div>
                 </div>
             </nav>
@@ -45,10 +39,10 @@ function Sandbox() {
                         </div>
                         <div className="horizontal-group">
                             <button id="upload" className="icon-button tab-secondary">
-                                <img src={upload} alt={"Upload"}/>
+                                <div className="upload-icon"></div>
                             </button>
                             <button id="download" className="icon-button tab-secondary">
-                                <img src={download} alt={"Donwload"}/>
+                                <div className="download-icon"></div>
                             </button>
                             <button id="examples" className="text-button code-secondary-text tab-secondary">Examples</button>
                         </div>
@@ -56,7 +50,7 @@ function Sandbox() {
                     <div className="horizontal-group overline-group code-border" style={{
                         justifyContent: "flex-end"
                     }}>
-                        <div className="code-secondary-text">line 1, col 1</div>
+                        <div className="line-coord">line 1, col 1</div>
                     </div>
                 </div>
                 <div className="terminal vertical-group dont-stretch">

@@ -22,6 +22,7 @@
 
 .terminal {
     font-family: Hack, sans-serif;
+    color: var(--terminal-text-primary);
 
     display: flex;
     padding: 8px;
@@ -30,7 +31,6 @@
     max-width: 33%;
     min-height: 33%;
     background-color: var(--terminal-background);
-    color: var(--code-text-primary);
 }
 
 .red {
@@ -63,6 +63,10 @@
 
 .code-border {
     border-color: var(--code-outline);
+}
+
+.line-coord {
+    color: var(--code-outline);
 }
 
 .terminal-outlet-wrapper {
