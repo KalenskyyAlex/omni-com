@@ -1,0 +1,64 @@
+.code-space {
+    font-family: Hack, sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8px;
+    border-radius: 10px;
+    flex-grow: 2;
+    background-color: var(--code-background);
+    color: var(--code-text-secondary);
+}
+
+.upload-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--code-text-secondary);
+
+    -webkit-mask-image: url("../icons/upload.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/upload.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.download-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--code-text-secondary);
+
+    -webkit-mask-image: url("../icons/upload.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/upload.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.code-secondary-text {
+    color: var(--code-text-secondary);
+}
+
+.code-primary-text {
+    color: var(--code-text-primary);
+}
+
+.code-border {
+    border-color: var(--code-outline);
+}
+
+.line-coord {
+    color: var(--code-outline);
+}
+
+.tab-primary {
+    background-color: var(--code-tab-primary);
+}
+
+.tab-secondary {
+    background-color: var(--code-tab-secondary);
+}

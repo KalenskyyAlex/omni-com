@@ -1,0 +1,104 @@
+.terminal-border {
+    border-color: var(--terminal-neutral);
+}
+
+.terminal-outlet-wrapper {
+    margin-top: 8px;
+    flex-grow: 1;
+    max-height: 84vh;
+    width: 100%;
+}
+
+#terminal-outlet {
+    width: 100%;
+    height: 100%;
+    word-break: break-all;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-y: auto;
+    /*padding-right: 80px;*/
+}
+
+.run-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--terminal-text-primary);
+
+    -webkit-mask-image: url("../icons/run.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/run.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.stop-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--terminal-text-primary);
+
+    -webkit-mask-image: url("../icons/stop.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/stop.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.stree-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--terminal-accent);
+
+    -webkit-mask-image: url("../icons/stree.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/stree.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.tokens-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--terminal-accent);
+
+    -webkit-mask-image: url("../icons/tokens.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/tokens.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.terminal-primary-text {
+    color: var(--terminal-text-primary);
+}
+
+.terminal {
+    font-family: Hack, sans-serif;
+    color: var(--terminal-text-primary);
+
+    display: flex;
+    padding: 8px;
+    border-radius: 10px;
+    min-width: 33%;
+    max-width: 33%;
+    min-height: 33%;
+    background-color: var(--terminal-background);
+}
+
+@media (max-width: 800px) {
+    .terminal-outlet-wrapper {
+        height: 0;
+    }
+
+    .terminal {
+        position: relative;
+        min-width: 98% !important;
+    }
+}

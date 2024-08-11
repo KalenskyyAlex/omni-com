@@ -31,6 +31,10 @@ const router = createBrowserRouter([
         path: "/profile",
         element: <Todo/>
     },
+    {
+        path: "/guidelines",
+        element: <Todo/>
+    }
 ]);
 
 document.documentElement.setAttribute("theme", "light");

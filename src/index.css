@@ -114,6 +114,15 @@ nav {
 
 nav > div {
     display: inline-block;
+    cursor: pointer;
+}
+
+a{
+    text-decoration: none;
+}
+
+a:visited{
+    color: unset;
 }
 
 .horizontal-group {
@@ -163,18 +172,6 @@ nav > div {
     color: var(--text-primary);
 }
 
-.code-secondary-text {
-    color: var(--code-text-secondary);
-}
-
-.code-primary-text {
-    color: var(--code-text-primary);
-}
-
-.terminal-primary-text {
-    color: var(--terminal-text-primary);
-}
-
 .theme-icon {
     background: url("icons/theme_switch_light.svg");
 }
@@ -192,7 +189,6 @@ nav > div {
     mask-repeat: no-repeat;
     mask-position: center;
 }
-
 
 .linked-in-icon {
     width: 24px;
