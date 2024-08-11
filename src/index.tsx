@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { createBrowserRouter, RouterProvider, Navigate} from "react-router-dom";
+import {createBrowserRouter, RouterProvider, Navigate} from "react-router-dom";
 
 import Sandbox from './Sandbox/Sandbox';
 import Todo from "./Todo";
@@ -9,7 +9,7 @@ import Todo from "./Todo";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Navigate to="/sandbox" replace />
+        element: <Navigate to="/sandbox" replace/>
     },
     {
         path: "/sandbox",
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
     },
 ]);
 
-document.documentElement.setAttribute("theme", "dark");
+document.documentElement.setAttribute("theme", "light");
 
 const reactRoot = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement

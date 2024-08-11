@@ -99,6 +99,7 @@ body {
 
 nav {
     font-weight: bold;
+    font-size: 1.2em;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -174,10 +175,11 @@ nav > div {
     color: var(--terminal-text-primary);
 }
 
-.theme-icon{
+.theme-icon {
     background: url("icons/theme_switch_light.svg");
 }
-.github-icon{
+
+.github-icon {
     width: 24px;
     height: 36px;
     background: var(--logo-primary);
@@ -192,7 +194,7 @@ nav > div {
 }
 
 
-.linked-in-icon{
+.linked-in-icon {
     width: 24px;
     height: 36px;
     background: var(--logo-primary);
@@ -206,7 +208,7 @@ nav > div {
     mask-position: center;
 }
 
-.telegram-icon{
+.telegram-icon {
     width: 24px;
     height: 36px;
     background: var(--logo-primary);
@@ -220,30 +222,6 @@ nav > div {
     mask-position: center;
 }
 
-.upload-icon{
-    width: 36px;
-    height: 36px;
-    background: var(--code-text-secondary);
-
-    -webkit-mask-image: url("icons/upload.svg");
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-
-    mask-image: url("icons/upload.svg");
-    mask-repeat: no-repeat;
-    mask-position: center;
-}
-
-.download-icon{
-    width: 36px;
-    height: 36px;
-    background: var(--code-text-secondary);
-
-    -webkit-mask-image: url("icons/upload.svg");
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-
-    mask-image: url("icons/upload.svg");
-    mask-repeat: no-repeat;
-    mask-position: center;
+[class*="icon"] {
+    cursor: pointer;
 }

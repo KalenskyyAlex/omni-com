@@ -86,6 +86,90 @@
     /*padding-right: 80px;*/
 }
 
+.upload-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--code-text-secondary);
+
+    -webkit-mask-image: url("../icons/upload.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/upload.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.download-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--code-text-secondary);
+
+    -webkit-mask-image: url("../icons/upload.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/upload.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.run-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--terminal-text-primary);
+
+    -webkit-mask-image: url("../icons/run.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/run.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.stop-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--terminal-text-primary);
+
+    -webkit-mask-image: url("../icons/stop.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/stop.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.stree-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--terminal-accent);
+
+    -webkit-mask-image: url("../icons/stree.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/stree.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+.tokens-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--terminal-accent);
+
+    -webkit-mask-image: url("../icons/tokens.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/tokens.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+
 @media (max-width: 800px) {
     .editor-container {
         flex-direction: column;
@@ -95,7 +179,7 @@
         height: 0;
     }
 
-    .terminal{
+    .terminal {
         position: relative;
         min-width: 98% !important;
     }
