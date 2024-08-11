@@ -39,6 +39,48 @@
     mask-position: center;
 }
 
+.close-tab-primary-icon {
+    width: 12px;
+    height: 12px;
+    background: var(--code-text-primary);
+
+    -webkit-mask-image: url("../icons/close_tab.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/close_tab.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.close-tab-secondary-icon {
+    width: 12px;
+    height: 12px;
+    background: var(--code-text-secondary);
+
+    -webkit-mask-image: url("../icons/close_tab.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/close_tab.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.add-tab-icon {
+    width: 16px;
+    height: 16px;
+    background: var(--code-text-secondary);
+
+    -webkit-mask-image: url("../icons/add_tab.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/add_tab.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
 .code-secondary-text {
     color: var(--code-text-secondary);
 }
