@@ -1,15 +1,18 @@
-import {useEffect, useState} from "react";
+import {ReactEventHandler, useEffect, useRef, useState} from "react";
 
 import '../index.css';
 import './Codespace.css';
 
 function Codespace() {
     const [activeTabIndex, setActiveTabIndex] = useState(0);
-    const [tabContents, setTabContent] = useState([""]);
+    const [tabContents, setTabContent] = useState(["Hello"]);
     const [tabNames, setTabNames] = useState([[0, "script1.min"]])
+    const currentTabContent = useRef("");
 
     const switchTabs = (index: number) => {
         setActiveTabIndex(index);
+
+        currentTabContent.current = tabContents[index];
     }
 
     const addNewTab = () => {
@@ -26,11 +29,10 @@ function Codespace() {
         let length = tabNames.length - 1;
 
         if (activeTabIndex === index) {
-            let newActiveTabIndex = (index + 1 >= length) ? (index - 1) : (index + 1);
-            setActiveTabIndex(newActiveTabIndex);
+            switchTabs((index + 1 >= length) ? (index - 1) : (index + 1));
         }
         else if (activeTabIndex > index) {
-            setActiveTabIndex(activeTabIndex - 1);
+            switchTabs(activeTabIndex - 1);
         }
 
         let newTabContents = [...tabContents.slice(0, index), ...tabContents.slice(index + 1)];
@@ -50,7 +52,7 @@ function Codespace() {
                             const tabName = pair[1];
                             if (index === activeTabIndex) {
                                 return (
-                                    <button className="text-button code-primary-text tab-primary horizontal-group center"
+                                    <button key={index} className="text-button code-primary-text tab-primary horizontal-group center"
                                             onClick={() => {switchTabs(index as number)}}>
                                         {tabName}
                                         <div className="close-tab-primary-icon"
@@ -62,7 +64,7 @@ function Codespace() {
                                 )
                             } else {
                                 return (
-                                    <button className="text-button code-secondary-text tab-secondary horizontal-group center"
+                                    <button key={index} className="text-button code-secondary-text tab-secondary horizontal-group center"
                                             onClick={() => {switchTabs(index as number)}}>
                                         {tabName}
                                         <div className="close-tab-secondary-icon"
@@ -94,6 +96,15 @@ function Codespace() {
                     </button>
                 </div>
             </div>
+
+            {/*<textarea id="code-input"*/}
+            {/*          value={currentTabContent.current}*/}
+            {/*          onChange={updateTabContent}/>*/}
+            {/*TODO div contenteditable*/}
+            <div id="code-input" contentEditable="true">
+                {currentTabContent.current}
+            </div>
+
             <div className="horizontal-group overline-group code-border" style={{
                 justifyContent: "flex-end"
             }}>

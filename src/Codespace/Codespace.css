@@ -5,6 +5,8 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 8px;
+
+    max-width: calc(66vw - 8px * 3);
     border-radius: 10px;
     flex-grow: 2;
     background-color: var(--code-background);
@@ -103,4 +105,35 @@
 
 .tab-secondary {
     background-color: var(--code-tab-secondary);
+}
+
+#code-input {
+    flex-grow: 1;
+
+    max-width: calc(64vw - 8px * 3);
+    /*word-break: break-all;*/
+    /*word-wrap: break-word;*/
+    /*overflow-wrap: ;*/
+    overflow-y: auto;
+    overflow-x: auto;
+
+    border: none;
+    resize: none;
+
+    max-height: 80vh;
+}
+
+#code-input:focus {
+    outline: none;
+}
+
+@media (max-width: 800px) {
+    .code-space {
+        position: relative;
+        min-width: calc(100% - 8px * 2) !important;
+    }
+
+    #code-input {
+        max-width: calc(100% - 8px * 2) !important;
+    }
 }

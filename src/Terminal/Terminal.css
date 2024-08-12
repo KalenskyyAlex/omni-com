@@ -16,7 +16,6 @@
     word-wrap: break-word;
     overflow-wrap: break-word;
     overflow-y: auto;
-    /*padding-right: 80px;*/
 }
 
 .run-icon {
@@ -99,6 +98,6 @@
 
     .terminal {
         position: relative;
-        min-width: 98% !important;
+        min-width: calc(100% - 8px * 2) !important;
     }
 }
