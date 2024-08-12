@@ -5,15 +5,30 @@ import './Codespace.css';
 
 function Codespace() {
     const [activeTabIndex, setActiveTabIndex] = useState(0);
-    const [tabContents, setTabContent] = useState(["Hello"]);
-    const [tabNames, setTabNames] = useState([[0, "script1.min"]])
-    const currentTabContent = useRef("");
+    const [tabContents, setTabContent] = useState(["Hello", "World"]);
+    const [tabNames, setTabNames] = useState([[0, "script1.min"], [1, "script2.min"]])
+    const currentTabContent = useRef(tabContents[activeTabIndex]);
 
     const switchTabs = (index: number) => {
-        setActiveTabIndex(index);
+        const codeInput = document.getElementById("code-input");
 
+        if (codeInput !== null){
+            let updatedTabContent = codeInput.innerHTML;
+            console.log("Updated input: " + updatedTabContent);
+
+            let newTabConents = [...tabContents.slice(0, activeTabIndex), updatedTabContent, ...tabContents.slice(activeTabIndex + 1)];
+
+            setTabContent(newTabConents);
+        }
+
+        setActiveTabIndex(index);
         currentTabContent.current = tabContents[index];
     }
+
+    useEffect(() => {
+        console.log(tabContents);
+        console.log(tabNames);
+    })
 
     const addNewTab = () => {
         let newTabIndex = tabNames.length;
@@ -22,7 +37,8 @@ function Codespace() {
         let newTabNames = [...tabNames, [newTabIndex, "new.min"]];
         setTabContent(newTabContents);
         setTabNames(newTabNames);
-        setActiveTabIndex(newTabIndex);
+
+        switchTabs(newTabIndex)
     }
 
     const closeTab = (index: number) => {
@@ -97,11 +113,9 @@ function Codespace() {
                 </div>
             </div>
 
-            {/*<textarea id="code-input"*/}
-            {/*          value={currentTabContent.current}*/}
-            {/*          onChange={updateTabContent}/>*/}
-            {/*TODO div contenteditable*/}
-            <div id="code-input" contentEditable="true">
+            {/*TODO lint*/}
+            <div id="code-input" contentEditable={true} spellCheck={true}
+                    suppressContentEditableWarning={true}>
                 {currentTabContent.current}
             </div>
 
