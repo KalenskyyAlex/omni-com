@@ -127,6 +127,16 @@
     outline: none;
 }
 
+.code-tabs-group {
+    overflow-x: scroll;
+
+    scrollbar-width: none;
+}
+
+.code-tabs-group::-webkit-scrollbar {
+    display: none;
+}
+
 @media (max-width: 800px) {
     .code-space {
         position: relative;

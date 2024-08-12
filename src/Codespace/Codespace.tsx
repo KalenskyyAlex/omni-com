@@ -25,6 +25,18 @@ function Codespace() {
         currentTabContent.current = tabContents[index];
     }
 
+    let tabGroup = document.getElementById("code-tabs-group-1");
+    tabGroup?.addEventListener("wheel", (event) => {
+        if (tabGroup !== null){
+            if (event.deltaY > 0) {
+                tabGroup.scrollLeft += 1;
+            }
+            else{
+                tabGroup.scrollLeft -= 1;
+            }
+        }
+    })
+
     useEffect(() => {
         console.log(tabContents);
         console.log(tabNames);
@@ -58,10 +70,12 @@ function Codespace() {
         setTabNames(newTabNames);
     }
 
+
+
     return (
         <div className="code-space">
             <div className="horizontal-group underline-group code-border">
-                <div className="horizontal-group">
+                <div id="code-tabs-group-1" className="code-tabs-group horizontal-group">
                     {
                         tabNames.map((pair) => {
                             const index = pair[0];
