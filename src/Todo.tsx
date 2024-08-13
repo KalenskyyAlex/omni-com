@@ -7,12 +7,13 @@ function Todo() {
             justifyContent: "center",
             gap: "24px"
         }}>
-            <div style={{
+            <h1 style={{
                 display: 'flex',
-                alignItems: 'center'
+                alignItems: 'center',
+                color: "var(--logo-quaternary)"
             }}>
                 This page is still in development
-            </div>
+            </h1>
             <Link to="/sandbox" style={{
                 display: 'flex',
                 alignItems: 'center',

@@ -2,6 +2,7 @@ import {ReactEventHandler, useEffect, useRef, useState} from "react";
 
 import '../index.css';
 import './Codespace.css';
+import Examples from "../Examples/Examples";
 
 function Codespace() {
     const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -12,7 +13,7 @@ function Codespace() {
     const switchTabs = (index: number) => {
         const codeInput = document.getElementById("code-input");
 
-        if (codeInput !== null){
+        if (codeInput !== null) {
             let updatedTabContent = codeInput.innerHTML;
             console.log("Updated input: " + updatedTabContent);
 
@@ -27,11 +28,11 @@ function Codespace() {
 
     let tabGroup = document.getElementById("code-tabs-group-1");
     tabGroup?.addEventListener("wheel", (event) => {
-        if (tabGroup !== null){
+        if (tabGroup !== null) {
+
             if (event.deltaY > 0) {
                 tabGroup.scrollLeft += 1;
-            }
-            else{
+            } else {
                 tabGroup.scrollLeft -= 1;
             }
         }
@@ -58,8 +59,7 @@ function Codespace() {
 
         if (activeTabIndex === index) {
             switchTabs((index + 1 >= length) ? (index - 1) : (index + 1));
-        }
-        else if (activeTabIndex > index) {
+        } else if (activeTabIndex > index) {
             switchTabs(activeTabIndex - 1);
         }
 
@@ -69,7 +69,6 @@ function Codespace() {
         setTabContent(newTabContents);
         setTabNames(newTabNames);
     }
-
 
 
     return (
@@ -82,26 +81,32 @@ function Codespace() {
                             const tabName = pair[1];
                             if (index === activeTabIndex) {
                                 return (
-                                    <button key={index} className="text-button code-primary-text tab-primary horizontal-group center"
-                                            onClick={() => {switchTabs(index as number)}}>
+                                    <button key={index}
+                                            className="text-button code-primary-text tab-primary horizontal-group center"
+                                            onClick={() => {
+                                                switchTabs(index as number)
+                                            }}>
                                         {tabName}
                                         <div className="close-tab-primary-icon"
-                                                onClick={(event) => {
-                                                    event.stopPropagation();
-                                                    closeTab(index as number)
-                                                }}/>
+                                             onClick={(event) => {
+                                                 event.stopPropagation();
+                                                 closeTab(index as number)
+                                             }}/>
                                     </button>
                                 )
                             } else {
                                 return (
-                                    <button key={index} className="text-button code-secondary-text tab-secondary horizontal-group center"
-                                            onClick={() => {switchTabs(index as number)}}>
+                                    <button key={index}
+                                            className="text-button code-secondary-text tab-secondary horizontal-group center"
+                                            onClick={() => {
+                                                switchTabs(index as number)
+                                            }}>
                                         {tabName}
                                         <div className="close-tab-secondary-icon"
-                                                onClick={(event) => {
-                                                    event.stopPropagation();
-                                                    closeTab(index as number);
-                                                }}/>
+                                             onClick={(event) => {
+                                                 event.stopPropagation();
+                                                 closeTab(index as number);
+                                             }}/>
                                     </button>
                                 )
                             }
@@ -129,7 +134,7 @@ function Codespace() {
 
             {/*TODO lint*/}
             <div id="code-input" contentEditable={true} spellCheck={true}
-                    suppressContentEditableWarning={true}>
+                 suppressContentEditableWarning={true}>
                 {currentTabContent.current}
             </div>
 

@@ -9,6 +9,7 @@ import logoDark from '../icons/logoDark.svg';
 import {Link} from "react-router-dom";
 import Codespace from "../Codespace/Codespace";
 import Terminal from "../Terminal/Terminal";
+import Examples from "../Examples/Examples";
 
 function Sandbox() {
 
@@ -37,6 +38,7 @@ function Sandbox() {
     return (
         <div className="vertical-group">
             <nav>
+                <Examples/>
                 <div className="horizontal-group center" style={{
                     gap: "32px"
                 }}>

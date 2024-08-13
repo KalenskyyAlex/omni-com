@@ -131,6 +131,8 @@
     overflow-x: scroll;
 
     max-width: 50vw;
+
+    scrollbar-width: none;
 }
 
 .code-tabs-group::-webkit-scrollbar {
@@ -144,15 +146,6 @@
         max-width: calc(60vw - 200px);
     }
 }
-
-@media (max-width: 1000px){
-    .code-tabs-group {
-        overflow-x: scroll;
-
-        max-width: calc(60vw - 200px);
-    }
-}
-
 
 @media (max-width: 800px) {
     .code-space {
