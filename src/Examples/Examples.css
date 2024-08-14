@@ -2,4 +2,31 @@
     justify-content: center;
     z-index: 10;
     background-color: #ffffff33;
+    backdrop-filter: blur(4px);
+}
+
+.examples-group {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+    background-color: var(--examples-background);
+    padding: 24px 24px 0 24px;
+    gap: 24px;
+    border-radius: 10px;
+    width: 60vw;
+    height: 60vh;
+    max-height: 60vh;
+}
+
+.code-panel {
+    border-radius: 10px;
+    flex-grow: 1;
+    font-size: 1rem;
+    padding: 8px;
+    max-width: calc(50% - 28px);
+    height: 20vh;
+    margin-bottom: 24px;
+    overflow: hidden;
+    background-color: var(--code-background);
 }

@@ -66,6 +66,8 @@ button {
     --logo-secondary: rgba(0, 0, 0, 0);
     --logo-tertiary: #FFFFFF;
     --logo-quaternary: #3655B3;
+
+    --examples-background: #1A2B59;
 }
 
 [theme="light"] {
@@ -83,6 +85,8 @@ button {
     --logo-secondary: #D3DEFF;
     --logo-tertiary: #FFFFFF;
     --logo-quaternary: #A6BCFF;
+
+    --examples-background: #E0E6F9;
 }
 
 body {
@@ -133,6 +137,10 @@ a:visited{
 
 .center {
     align-items: center;
+}
+
+.fill-container {
+    width: 100%;
 }
 
 .vertical-group {
