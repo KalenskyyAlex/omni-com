@@ -44,6 +44,14 @@ pre {
     margin: 0;
 }
 
+.hack {
+    font-family: Hack, sans-serif;
+}
+
+.kimberley {
+    font-family: Kimberley, sans-serif;
+}
+
 button {
     font-weight: bold;
     font-family: Kimberley, sans-serif;

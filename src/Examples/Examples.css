@@ -30,3 +30,14 @@
     overflow: hidden;
     background-color: var(--code-background);
 }
+
+@media (max-width: 900px) {
+    .examples-group-code {
+        flex-direction: column;
+        gap: 0px !important;
+    }
+
+    .examples-group-code > *{
+        max-width: 100%;
+    }
+}
