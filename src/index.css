@@ -40,6 +40,10 @@ code {
     font-family: Hack, sans-serif;
 }
 
+pre {
+    margin: 0;
+}
+
 button {
     font-weight: bold;
     font-family: Kimberley, sans-serif;

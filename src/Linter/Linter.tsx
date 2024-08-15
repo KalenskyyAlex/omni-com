@@ -12,8 +12,8 @@ function Linter(props: LinterProps) {
     const typeRegex = /\b(int|float|str|bool)/g;
     const stringLiteralRegex = /"([^"\\]|\\.)*"/g;
     const functionRegex = /([a-zA-Z0-9_]+)\s*(?=\|)/g;
-
-    console.log(props.content.match(functionRegex));
+    const libraryRegex = /(?<=\buse\s+)[a-zA-Z0-9_]+/g;
+    const variableRegex = /\b(?!__\w+)\w+\b/g;
 
     const lint = (text: string, regex: RegExp, format: string) => {
         let match;
@@ -31,13 +31,16 @@ function Linter(props: LinterProps) {
         return {text, positions};
     }
 
-    let keywords, operators, booleans, numerals, types, stringLiterals, functions;
+    let keywords, operators, booleans, numerals, types, stringLiterals, functions, libraries, variables;
 
     let result = lint(props.content, stringLiteralRegex, "strings");
     stringLiterals = result.positions;
 
     result = lint(result.text, functionRegex, "function");
     functions = result.positions;
+
+    result = lint(result.text, libraryRegex, "library");
+    libraries = result.positions;
 
     result = lint(result.text, keywordRegex, "keyword");
     keywords = result.positions;
@@ -53,6 +56,9 @@ function Linter(props: LinterProps) {
 
     result = lint(result.text, typeRegex, "type");
     types = result.positions;
+
+    result = lint(result.text, variableRegex, "variable");
+    variables = result.positions;
 
     let formattedContent = result.text;
 
@@ -84,8 +90,16 @@ function Linter(props: LinterProps) {
         formattedContent = formattedContent.replace("__function", '<code class="code-function">' + functions[i].match + '</code>');
     }
 
+    for(let i = 0; i < libraries.length; i++){
+        formattedContent = formattedContent.replace("__library", '<code class="code-library">' + libraries[i].match + '</code>');
+    }
+
+    for(let i = 0; i < variables.length; i++){
+        formattedContent = formattedContent.replace("__variable", '<code class="code-variable">' + variables[i].match + '</code>');
+    }
+
     return (
-        <div dangerouslySetInnerHTML={{__html: formattedContent.replaceAll('\n', '<br/>')}}></div>
+        <pre dangerouslySetInnerHTML={{__html: formattedContent}}></pre>
     )
 }
 
