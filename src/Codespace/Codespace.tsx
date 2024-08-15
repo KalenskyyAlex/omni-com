@@ -15,7 +15,6 @@ function Codespace() {
 
         if (codeInput !== null) {
             let updatedTabContent = codeInput.innerHTML;
-            console.log("Updated input: " + updatedTabContent);
 
             let newTabConents = [...tabContents.slice(0, activeTabIndex), updatedTabContent, ...tabContents.slice(activeTabIndex + 1)];
 
@@ -36,11 +35,6 @@ function Codespace() {
                 tabGroup.scrollLeft -= 1;
             }
         }
-    })
-
-    useEffect(() => {
-        console.log(tabContents);
-        console.log(tabNames);
     })
 
     const addNewTab = () => {

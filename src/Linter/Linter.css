@@ -1,0 +1,35 @@
+.code-function {
+    color: var(--code-function)
+}
+
+.code-keyword {
+    color: var(--code-keyword);
+}
+
+.code-operator {
+    color: var(--code-operator);
+}
+
+.code-boolean {
+    color: var(--code-operator);
+}
+
+.code-numeral {
+    color: var(--code-operator);
+}
+
+.code-string {
+    color: var(--code-string);
+}
+
+.code-type {
+    color: var(--code-operator);
+}
+
+.code-library {
+    color: var(--code-library);
+}
+
+.code-variable {
+    color: var(--code-variable);
+}
