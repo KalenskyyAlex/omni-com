@@ -4,6 +4,7 @@ import Linter from "../Linter/Linter";
 
 interface ExamplesProps {
     active: boolean;
+    callback: Function;
 }
 
 function Examples(props: ExamplesProps) {
@@ -215,7 +216,7 @@ function Examples(props: ExamplesProps) {
                         </div>
                     </div>
                 </div>
-                <div className="examples-close"></div>
+                <div className="examples-close" onClick={() => props.callback({examplesActive: false})}></div>
             </div>
         </div>
     );

@@ -4,7 +4,11 @@ import '../index.css';
 import './Codespace.css';
 import Examples from "../Examples/Examples";
 
-function Codespace() {
+interface CodespaceProps {
+    callback: Function;
+}
+
+function Codespace(props: CodespaceProps) {
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const [tabContents, setTabContent] = useState(["Hello", "World"]);
     const [tabNames, setTabNames] = useState([[0, "script1.min"], [1, "script2.min"]])
@@ -120,7 +124,8 @@ function Codespace() {
                     <button id="download" className="icon-button tab-secondary">
                         <div className="download-icon"></div>
                     </button>
-                    <button id="examples" className="text-button code-secondary-text tab-secondary">
+                    <button id="examples" className="text-button code-secondary-text tab-secondary"
+                        onClick={() => props.callback({examplesActive: true})}>
                         Examples
                     </button>
                 </div>

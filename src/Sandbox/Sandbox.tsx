@@ -11,11 +11,25 @@ import Codespace from "../Codespace/Codespace";
 import Terminal from "../Terminal/Terminal";
 import Examples from "../Examples/Examples";
 
+interface codespaceData {
+    examplesActive: boolean;
+}
+
 function Sandbox() {
     /*Theme storing TODO*/
     const [theme, setTheme] = useState("light");
     let currentThemeSwitch = useRef(themeSwitchLight);
     let currentLogo = useRef(logoLight);
+
+    const [codespaceData, setCodespaceData] = useState({examplesActive: false});
+
+    const codespaceCallback = (newData: codespaceData) => {
+        setCodespaceData(newData);
+    }
+
+    const examplesCallback = (newData: codespaceData) => {
+        setCodespaceData(newData);
+    }
 
     useEffect(() => {
         document.documentElement.setAttribute("theme", theme);
@@ -37,7 +51,7 @@ function Sandbox() {
     return (
         <div className="vertical-group">
             <nav>
-                <Examples active={false}/>
+                <Examples active={codespaceData.examplesActive} callback={examplesCallback}/>
                 <div className="horizontal-group center" style={{
                     gap: "32px"
                 }}>
@@ -68,7 +82,7 @@ function Sandbox() {
                 </div>
             </nav>
             <div className="editor-container">
-                <Codespace/>
+                <Codespace callback={codespaceCallback}/>
                 <Terminal/>
             </div>
         </div>
