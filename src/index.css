@@ -65,6 +65,7 @@ button {
 [theme="dark"] {
     --code-outline: #E0E6F9;
     --code-background: #101A36;
+    --code-background-transparent: #101A3600;
     --nav-background: #101A36;
     --code-text-primary: #101A36;
     --code-text-secondary: #3655B3;
@@ -79,11 +80,13 @@ button {
     --logo-quaternary: #3655B3;
 
     --examples-background: #1A2B59;
+    --examples-scrollbar: #3655B3;
 }
 
 [theme="light"] {
     --code-outline: #3655B3;
     --code-background: #FFFFFF;
+    --code-background-transparent: #FFFFFF00;
     --nav-background: #FFFFFF;
     --code-text-primary: #FFFFFF;
     --code-text-secondary: #3655B3;
@@ -98,6 +101,7 @@ button {
     --logo-quaternary: #A6BCFF;
 
     --examples-background: #E0E6F9;
+    --examples-scrollbar: #A6BCFF;
 }
 
 body {

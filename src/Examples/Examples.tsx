@@ -141,12 +141,9 @@ function Examples() {
         <div className="horizontal-group fullscreen center blur-background">
             <div className="examples-group vertical-group">
                 Try out existing scripts!
-                <div className="vertical-group" style={{
-                    width: "100%",
-                    overflow: "auto"
-                }}>
+                <div className="vertical-group examples-scrollbar">
                     <div className="horizontal-group fill-container examples-group-code" style={{
-                        gap: '24px'
+                        gap: '0px'
                     }}>
                         <div className="code-panel">
                             <div className="horizontal-group fill-container underline-group hack" style={{
@@ -155,6 +152,7 @@ function Examples() {
                                 HelloWorld.min
                             </div>
                             <Linter content={example1}/>
+                            <div className="code-fade"></div>
                         </div>
                         <div className="code-panel">
                             <div className="horizontal-group fill-container underline-group hack" style={{
@@ -163,10 +161,11 @@ function Examples() {
                                 FizzBuzz.min
                             </div>
                             <Linter content={example2}/>
+                            <div className="code-fade"></div>
                         </div>
                     </div>
                     <div className="horizontal-group fill-container examples-group-code" style={{
-                        gap: '24px'
+                        gap: '0px'
                     }}>
                         <div className="code-panel">
                             <div className="horizontal-group fill-container underline-group hack" style={{
@@ -175,6 +174,7 @@ function Examples() {
                                 Factorial.min
                             </div>
                             <Linter content={example3}/>
+                            <div className="code-fade"></div>
                         </div>
                         <div className="code-panel">
                             <div className="horizontal-group fill-container underline-group hack" style={{
@@ -183,10 +183,11 @@ function Examples() {
                                 CounterHello.min
                             </div>
                             <Linter content={example4}/>
+                            <div className="code-fade"></div>
                         </div>
                     </div>
                     <div className="horizontal-group fill-container examples-group-code" style={{
-                        gap: '24px'
+                        gap: '0px'
                     }}>
                         <div className="code-panel">
                             <div className="horizontal-group fill-container underline-group hack" style={{
@@ -195,6 +196,7 @@ function Examples() {
                                 SayHi.min
                             </div>
                             <Linter content={example5}/>
+                            <div className="code-fade"></div>
                         </div>
                         <div className="code-panel">
                             <div className="horizontal-group fill-container underline-group hack" style={{
@@ -203,6 +205,7 @@ function Examples() {
                                 Math.min
                             </div>
                             <Linter content={example6}/>
+                            <div className="code-fade"></div>
                         </div>
                     </div>
                 </div>
