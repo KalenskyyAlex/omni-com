@@ -2,7 +2,13 @@ import '../index.css';
 import './Examples.css';
 import Linter from "../Linter/Linter";
 
-function Examples() {
+interface ExamplesProps {
+    active: boolean;
+}
+
+function Examples(props: ExamplesProps) {
+    if (!props.active) return <div style={{display: "none"}}></div>;
+
     const example1 = "use io\n" +
         "\n" +
         "start main\n" +
@@ -209,6 +215,7 @@ function Examples() {
                         </div>
                     </div>
                 </div>
+                <div className="examples-close"></div>
             </div>
         </div>
     );

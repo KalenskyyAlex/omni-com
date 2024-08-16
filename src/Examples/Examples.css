@@ -7,6 +7,7 @@
 
 .examples-group {
     display: flex;
+    position: relative;
     justify-content: start;
     align-items: center;
 
@@ -45,6 +46,26 @@
     height: 35%;
     z-index: 101;
     background: linear-gradient(to bottom, var(--code-background-transparent), var(--code-background));
+}
+
+.examples-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 24px;
+    height: 24px;
+
+    background: var(--logo-primary);
+
+    -webkit-mask-image: url("../icons/close_tab.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: 16px;
+
+    mask-image: url("../icons/close_tab.svg");
+    mask-repeat: no-repeat;
+    mask-size: 16px;
+    mask-position: center;
 }
 
 @media (max-width: 900px) {

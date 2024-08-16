@@ -12,7 +12,6 @@ import Terminal from "../Terminal/Terminal";
 import Examples from "../Examples/Examples";
 
 function Sandbox() {
-
     /*Theme storing TODO*/
     const [theme, setTheme] = useState("light");
     let currentThemeSwitch = useRef(themeSwitchLight);
@@ -38,7 +37,7 @@ function Sandbox() {
     return (
         <div className="vertical-group">
             <nav>
-                <Examples/>
+                <Examples active={false}/>
                 <div className="horizontal-group center" style={{
                     gap: "32px"
                 }}>

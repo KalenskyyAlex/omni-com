@@ -16,9 +16,9 @@ function Codespace() {
         if (codeInput !== null) {
             let updatedTabContent = codeInput.innerHTML;
 
-            let newTabConents = [...tabContents.slice(0, activeTabIndex), updatedTabContent, ...tabContents.slice(activeTabIndex + 1)];
+            let newTabContents = [...tabContents.slice(0, activeTabIndex), updatedTabContent, ...tabContents.slice(activeTabIndex + 1)];
 
-            setTabContent(newTabConents);
+            setTabContent(newTabContents);
         }
 
         setActiveTabIndex(index);
