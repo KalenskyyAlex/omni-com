@@ -152,7 +152,15 @@ function Examples(props: ExamplesProps) {
                     <div className="horizontal-group fill-container examples-group-code" style={{
                         gap: '0px'
                     }}>
-                        <div className="code-panel">
+                        <div className="code-panel" onClick={() => {
+                            props.callback(
+                                {examplesActive: false},
+                                {
+                                    isExampleSelected: true,
+                                    exampleSelected: example1,
+                                    exampleSelectedTitle: 'HelloWorld.min'
+                                })
+                        }}>
                             <div className="horizontal-group fill-container underline-group hack" style={{
                                 justifyContent: "center"
                             }}>
@@ -161,7 +169,15 @@ function Examples(props: ExamplesProps) {
                             <Linter content={example1}/>
                             <div className="code-fade"></div>
                         </div>
-                        <div className="code-panel">
+                        <div className="code-panel" onClick={() => {
+                            props.callback(
+                                {examplesActive: false},
+                                {
+                                    isExampleSelected: true,
+                                    exampleSelected: example2,
+                                    exampleSelectedTitle: 'FizzBuzz.min'
+                                })
+                        }}>
                             <div className="horizontal-group fill-container underline-group hack" style={{
                                 justifyContent: "center"
                             }}>
@@ -174,7 +190,15 @@ function Examples(props: ExamplesProps) {
                     <div className="horizontal-group fill-container examples-group-code" style={{
                         gap: '0px'
                     }}>
-                        <div className="code-panel">
+                        <div className="code-panel" onClick={() => {
+                            props.callback(
+                                {examplesActive: false},
+                                {
+                                    isExampleSelected: true,
+                                    exampleSelected: example3,
+                                    exampleSelectedTitle: 'Factorial.min'
+                                })
+                        }}>
                             <div className="horizontal-group fill-container underline-group hack" style={{
                                 justifyContent: "center"
                             }}>
@@ -183,7 +207,15 @@ function Examples(props: ExamplesProps) {
                             <Linter content={example3}/>
                             <div className="code-fade"></div>
                         </div>
-                        <div className="code-panel">
+                        <div className="code-panel" onClick={() => {
+                            props.callback(
+                                {examplesActive: false},
+                                {
+                                    isExampleSelected: true,
+                                    exampleSelected: example4,
+                                    exampleSelectedTitle: 'CounterHello.min'
+                                })
+                        }}>
                             <div className="horizontal-group fill-container underline-group hack" style={{
                                 justifyContent: "center"
                             }}>
@@ -196,7 +228,15 @@ function Examples(props: ExamplesProps) {
                     <div className="horizontal-group fill-container examples-group-code" style={{
                         gap: '0px'
                     }}>
-                        <div className="code-panel">
+                        <div className="code-panel" onClick={() => {
+                            props.callback(
+                                {examplesActive: false},
+                                {
+                                    isExampleSelected: true,
+                                    exampleSelected: example5,
+                                    exampleSelectedTitle: 'SayHi.min'
+                                })
+                        }}>
                             <div className="horizontal-group fill-container underline-group hack" style={{
                                 justifyContent: "center"
                             }}>
@@ -205,7 +245,15 @@ function Examples(props: ExamplesProps) {
                             <Linter content={example5}/>
                             <div className="code-fade"></div>
                         </div>
-                        <div className="code-panel">
+                        <div className="code-panel" onClick={() => {
+                            props.callback(
+                                {examplesActive: false},
+                                {
+                                    isExampleSelected: true,
+                                    exampleSelected: example6,
+                                    exampleSelectedTitle: 'Math.min'
+                                })
+                        }}>
                             <div className="horizontal-group fill-container underline-group hack" style={{
                                 justifyContent: "center"
                             }}>
@@ -216,7 +264,7 @@ function Examples(props: ExamplesProps) {
                         </div>
                     </div>
                 </div>
-                <div className="examples-close" onClick={() => props.callback({examplesActive: false})}></div>
+                <div className="examples-close" onClick={() => props.callback({examplesActive: false}, null)}></div>
             </div>
         </div>
     );

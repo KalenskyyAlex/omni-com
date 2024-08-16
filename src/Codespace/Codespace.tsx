@@ -3,9 +3,11 @@ import {ReactEventHandler, useEffect, useRef, useState} from "react";
 import '../index.css';
 import './Codespace.css';
 import Examples from "../Examples/Examples";
+import Linter from "../Linter/Linter";
 
 interface CodespaceProps {
     callback: Function;
+    exampleCallback: Function;
 }
 
 function Codespace(props: CodespaceProps) {
@@ -29,6 +31,24 @@ function Codespace(props: CodespaceProps) {
         currentTabContent.current = tabContents[index];
     }
 
+    useEffect(() => {
+        let example;
+        if ((example = props.exampleCallback()) !== null) {
+            let newTabIndex = tabNames.length;
+
+            let newTabContents = [...tabContents, example[0]];
+            let newTabNames = [...tabNames, [newTabIndex, example[1]]];
+
+            console.log(newTabContents);
+
+            setTabContent(newTabContents);
+            setTabNames(newTabNames);
+            setActiveTabIndex(newTabIndex);
+
+            currentTabContent.current = newTabContents[newTabIndex];
+        }
+    }, [props]);
+
     let tabGroup = document.getElementById("code-tabs-group-1");
     tabGroup?.addEventListener("wheel", (event) => {
         if (tabGroup !== null) {
@@ -46,6 +66,7 @@ function Codespace(props: CodespaceProps) {
 
         let newTabContents = [...tabContents, ""];
         let newTabNames = [...tabNames, [newTabIndex, "new.min"]];
+
         setTabContent(newTabContents);
         setTabNames(newTabNames);
 
@@ -125,7 +146,7 @@ function Codespace(props: CodespaceProps) {
                         <div className="download-icon"></div>
                     </button>
                     <button id="examples" className="text-button code-secondary-text tab-secondary"
-                        onClick={() => props.callback({examplesActive: true})}>
+                            onClick={() => props.callback({examplesActive: true})}>
                         Examples
                     </button>
                 </div>
@@ -134,7 +155,7 @@ function Codespace(props: CodespaceProps) {
             {/*TODO lint*/}
             <div id="code-input" contentEditable={true} spellCheck={true}
                  suppressContentEditableWarning={true}>
-                {currentTabContent.current}
+                <Linter content={currentTabContent.current}></Linter>
             </div>
 
             <div className="horizontal-group overline-group code-border" style={{

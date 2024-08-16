@@ -15,6 +15,12 @@ interface codespaceData {
     examplesActive: boolean;
 }
 
+interface examplesData {
+    isExampleSelected: boolean;
+    exampleSelected: string;
+    exampleSelectedTitle: string;
+}
+
 function Sandbox() {
     /*Theme storing TODO*/
     const [theme, setTheme] = useState("light");
@@ -22,13 +28,23 @@ function Sandbox() {
     let currentLogo = useRef(logoLight);
 
     const [codespaceData, setCodespaceData] = useState({examplesActive: false});
+    const [examplesData, setExamplesData] = useState({isExampleSelected: false, exampleSelected: '', exampleSelectedTitle: ''});
 
     const codespaceCallback = (newData: codespaceData) => {
         setCodespaceData(newData);
     }
 
-    const examplesCallback = (newData: codespaceData) => {
-        setCodespaceData(newData);
+    const isExampleSelected = () => {
+        if (!examplesData.isExampleSelected) return null;
+
+        setExamplesData({isExampleSelected: false, exampleSelected: examplesData.exampleSelected, exampleSelectedTitle: examplesData.exampleSelectedTitle});
+
+        return [examplesData.exampleSelected, examplesData.exampleSelectedTitle];
+    }
+
+    const examplesCallback = (status: codespaceData, example: examplesData) => {
+        setCodespaceData(status);
+        setExamplesData(example);
     }
 
     useEffect(() => {
@@ -82,7 +98,7 @@ function Sandbox() {
                 </div>
             </nav>
             <div className="editor-container">
-                <Codespace callback={codespaceCallback}/>
+                <Codespace exampleCallback={isExampleSelected} callback={codespaceCallback}/>
                 <Terminal/>
             </div>
         </div>
