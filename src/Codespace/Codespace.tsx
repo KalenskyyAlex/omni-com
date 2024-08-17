@@ -23,12 +23,14 @@ function Codespace(props: CodespaceProps) {
             let updatedTabContent = getRaw(codeInput.innerHTML);
 
             let newTabContents = [...tabContents.slice(0, activeTabIndex), updatedTabContent, ...tabContents.slice(activeTabIndex + 1)];
+            console.log(newTabContents);
 
             setTabContent(newTabContents);
         }
 
         setActiveTabIndex(index);
         currentTabContent.current = tabContents[index];
+        console.log(currentTabContent.current);
     }
 
     useEffect(() => {
@@ -69,8 +71,9 @@ function Codespace(props: CodespaceProps) {
 
         setTabContent(newTabContents);
         setTabNames(newTabNames);
+        setActiveTabIndex(newTabIndex);
 
-        switchTabs(newTabIndex)
+        currentTabContent.current = newTabContents[newTabIndex];
     }
 
     const closeTab = (index: number) => {
@@ -152,7 +155,7 @@ function Codespace(props: CodespaceProps) {
             </div>
 
             {/*TODO lint*/}
-            <div id="code-input" contentEditable={true} spellCheck={true}
+            <div id="code-input" contentEditable={true} spellCheck={false}
                  suppressContentEditableWarning={true}>
                 <Linter content={currentTabContent.current}></Linter>
             </div>

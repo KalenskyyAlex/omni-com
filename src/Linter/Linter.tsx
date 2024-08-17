@@ -11,6 +11,8 @@ function getRaw(content: string){
 }
 
 function Linter(props: LinterProps) {
+    console.log(props.content);
+
     const keywordRegex = /\b(start|end|use|return|break|while|if|else|elif)\b/g;
     const operatorRegex = /(\+|-|\*|\/|%|\(|\)|is|and|not|>|<|<=|>=|==|!=|\||=)/g;
     const booleanRegex = /\b(true|false)\b/g;
@@ -103,8 +105,6 @@ function Linter(props: LinterProps) {
     for(let i = 0; i < variables.length; i++){
         formattedContent = formattedContent.replace("__variable", '<code class="code-variable">' + variables[i].match + '</code>');
     }
-
-    getRaw(formattedContent);
 
     return (
         <pre dangerouslySetInnerHTML={{__html: formattedContent}}></pre>
