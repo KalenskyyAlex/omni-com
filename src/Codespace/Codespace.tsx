@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {ChangeEvent, useEffect, useRef, useState} from "react";
 import Linter from "../Linter/Linter";
 import {getRaw} from "../Linter/Linter";
 
@@ -13,8 +13,58 @@ interface CodespaceProps {
 function Codespace(props: CodespaceProps) {
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const [tabContents, setTabContent] = useState(["Hello", "World"]);
-    const [tabNames, setTabNames] = useState([[0, "script1.min"], [1, "script2.min"]])
+    const [tabNames, setTabNames] = useState([[0, "script1.min"], [1, "script2.min"]]);
+    // const [linterStep, triggerLinterUpdate] = useState(0);
+
     const currentTabContent = useRef(tabContents[activeTabIndex]);
+    // const cursorPosition = useRef(0);
+    //
+    //
+    // const getCursorPosition = () => {
+    //     const input = document.getElementById("code-input");
+    //     if (input === null) return;
+    //
+    //     const selection = window.getSelection();
+    //     if (selection === null) return;
+    //
+    //     const range = selection.getRangeAt(0);
+    //     const preCaretRange = range.cloneRange();
+    //     preCaretRange?.selectNodeContents(input);
+    //     preCaretRange?.setEnd(range.endContainer, range.endOffset);
+    //     cursorPosition.current = preCaretRange.toString().length;
+    // };
+    //
+    // const setCursorPosition = (position: number) => {
+    //     const input = document.getElementById("code-input");
+    //     if (input === null) return;
+    //
+    //     const selection = window.getSelection();
+    //     if (selection === null) return;
+    //
+    //     const range = document.createRange();
+    //     let charCount = 0;
+    //
+    //     for (const node of input.childNodes) {
+    //         if (node.nodeType === Node.TEXT_NODE) {
+    //             if(node.textContent !== null) {
+    //                 const nextCharCount = charCount + node.textContent.length;
+    //                 if (position <= nextCharCount) {
+    //                     range.setStart(node, position - charCount);
+    //                     range.collapse(true);
+    //                     break;
+    //                 }
+    //                 charCount = nextCharCount;
+    //             }
+    //         } else {
+    //             if(node.textContent !== null)
+    //                 charCount += node.textContent.length;
+    //         }
+    //     }
+    //
+    //     selection.removeAllRanges();
+    //     selection.addRange(range);
+    // };
+
 
     const switchTabs = (index: number) => {
         const codeInput = document.getElementById("code-input");
@@ -23,14 +73,38 @@ function Codespace(props: CodespaceProps) {
             let updatedTabContent = getRaw(codeInput.innerHTML);
 
             let newTabContents = [...tabContents.slice(0, activeTabIndex), updatedTabContent, ...tabContents.slice(activeTabIndex + 1)];
-            console.log(newTabContents);
 
             setTabContent(newTabContents);
         }
 
         setActiveTabIndex(index);
         currentTabContent.current = tabContents[index];
-        console.log(currentTabContent.current);
+        codeInput?.focus();
+    }
+
+    const downloadCurrent = () => {
+        const codeInput = document.getElementById("code-input");
+        if (codeInput === null) return;
+
+        const fileContent = getRaw(codeInput.innerHTML);
+
+        // Create a blob from the file content
+        const blob = new Blob([fileContent], { type: 'text/min' });
+
+        // Create an object URL for the blob
+        const url = URL.createObjectURL(blob);
+
+        // Create an anchor element and trigger the download
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = tabNames[activeTabIndex][1].toString(); // Set the file name
+        document.body.appendChild(a);
+        a.click();
+
+        // Clean up
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     }
 
     useEffect(() => {
@@ -41,8 +115,6 @@ function Codespace(props: CodespaceProps) {
             let newTabContents = [...tabContents, example[0]];
             let newTabNames = [...tabNames, [newTabIndex, example[1]]];
 
-            console.log(newTabContents);
-
             setTabContent(newTabContents);
             setTabNames(newTabNames);
             setActiveTabIndex(newTabIndex);
@@ -50,6 +122,11 @@ function Codespace(props: CodespaceProps) {
             currentTabContent.current = newTabContents[newTabIndex];
         }
     }, [props]);
+
+    // useEffect(() => {
+    // setCursorPosition(cursorPosition.current);
+
+    // }, [linterStep]);
 
     let tabGroup = document.getElementById("code-tabs-group-1");
     tabGroup?.addEventListener("wheel", (event) => {
@@ -90,6 +167,24 @@ function Codespace(props: CodespaceProps) {
 
         setTabContent(newTabContents);
         setTabNames(newTabNames);
+    }
+
+    const onFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+        const target = event.target as HTMLInputElement;
+        if (target.files !== null) {
+            const file = target.files[0];
+
+            let newTabIndex = tabNames.length;
+
+            let newTabContents = [...tabContents, await file.text()];
+            let newTabNames = [...tabNames, [newTabIndex, file.name]];
+
+            setTabContent(newTabContents);
+            setTabNames(newTabNames);
+            setActiveTabIndex(newTabIndex);
+
+            currentTabContent.current = newTabContents[newTabIndex];
+        }
     }
 
     return (
@@ -141,10 +236,13 @@ function Codespace(props: CodespaceProps) {
                     {/*Todo*/}
                 </div>
                 <div className="horizontal-group">
-                    <button id="upload" className="icon-button tab-secondary">
+                    <input id="upload-input" type="file" onChange={onFileChange} style={{display: 'none'}}/>
+                    <button id="upload" className="icon-button tab-secondary"
+                            onClick={() => document.getElementById('upload-input')?.click()}>
                         <div className="upload-icon"></div>
                     </button>
-                    <button id="download" className="icon-button tab-secondary">
+                    <button id="download" className="icon-button tab-secondary"
+                            onClick={downloadCurrent}>
                         <div className="download-icon"></div>
                     </button>
                     <button id="examples" className="text-button code-secondary-text tab-secondary"
@@ -156,7 +254,12 @@ function Codespace(props: CodespaceProps) {
 
             {/*TODO lint*/}
             <div id="code-input" contentEditable={true} spellCheck={false}
-                 suppressContentEditableWarning={true}>
+                 suppressContentEditableWarning={true}
+                 onInput={() => {
+                     // getCursorPosition();
+                     // triggerLinterUpdate(linterStep + 1);
+                     // switchTabs(activeTabIndex);
+                 }}>
                 <Linter content={currentTabContent.current}></Linter>
             </div>
 

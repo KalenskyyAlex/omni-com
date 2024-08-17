@@ -42,6 +42,7 @@ code {
 
 pre {
     height: 100%;
+    overflow: auto;
     font-family: Hack, sans-serif;
     margin: 0;
 }

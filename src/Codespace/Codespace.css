@@ -32,11 +32,11 @@
     height: 36px;
     background: var(--code-text-secondary);
 
-    -webkit-mask-image: url("../icons/upload.svg");
+    -webkit-mask-image: url("../icons/download.svg");
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
 
-    mask-image: url("../icons/upload.svg");
+    mask-image: url("../icons/download.svg");
     mask-repeat: no-repeat;
     mask-position: center;
 }
@@ -161,5 +161,6 @@
 
     #code-input {
         max-width: calc(100% - 8px * 2) !important;
+        max-height: 46vh;
     }
 }

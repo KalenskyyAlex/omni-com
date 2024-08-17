@@ -11,8 +11,6 @@ function getRaw(content: string){
 }
 
 function Linter(props: LinterProps) {
-    console.log(props.content);
-
     const keywordRegex = /\b(start|end|use|return|break|while|if|else|elif)\b/g;
     const operatorRegex = /(\+|-|\*|\/|%|\(|\)|is|and|not|>|<|<=|>=|==|!=|\||=)/g;
     const booleanRegex = /\b(true|false)\b/g;
