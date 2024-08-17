@@ -4,6 +4,12 @@ interface LinterProps {
     content: string;
 }
 
+function getRaw(content: string){
+    const tagRegex = /(<code class=[^>]*>)|(<\/code>)|(<\/?pre>)/g;
+
+    return content.replaceAll(tagRegex, '').replaceAll(/<\/?br>/g, '\n');
+}
+
 function Linter(props: LinterProps) {
     const keywordRegex = /\b(start|end|use|return|break|while|if|else|elif)\b/g;
     const operatorRegex = /(\+|-|\*|\/|%|\(|\)|is|and|not|>|<|<=|>=|==|!=|\||=)/g;
@@ -98,9 +104,13 @@ function Linter(props: LinterProps) {
         formattedContent = formattedContent.replace("__variable", '<code class="code-variable">' + variables[i].match + '</code>');
     }
 
+    getRaw(formattedContent);
+
     return (
         <pre dangerouslySetInnerHTML={{__html: formattedContent}}></pre>
     )
 }
 
+
+export {getRaw};
 export default Linter;

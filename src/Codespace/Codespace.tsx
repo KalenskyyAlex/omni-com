@@ -1,9 +1,9 @@
-import {ReactEventHandler, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
+import Linter from "../Linter/Linter";
+import {getRaw} from "../Linter/Linter";
 
 import '../index.css';
 import './Codespace.css';
-import Examples from "../Examples/Examples";
-import Linter from "../Linter/Linter";
 
 interface CodespaceProps {
     callback: Function;
@@ -20,7 +20,7 @@ function Codespace(props: CodespaceProps) {
         const codeInput = document.getElementById("code-input");
 
         if (codeInput !== null) {
-            let updatedTabContent = codeInput.innerHTML;
+            let updatedTabContent = getRaw(codeInput.innerHTML);
 
             let newTabContents = [...tabContents.slice(0, activeTabIndex), updatedTabContent, ...tabContents.slice(activeTabIndex + 1)];
 
@@ -88,7 +88,6 @@ function Codespace(props: CodespaceProps) {
         setTabContent(newTabContents);
         setTabNames(newTabNames);
     }
-
 
     return (
         <div className="code-space">
