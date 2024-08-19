@@ -22,6 +22,6 @@
   },
   "include": [
     "src",
-    "src/custom.d.ts"
+    "frontend/src/custom.d.ts"
   ]
 }
