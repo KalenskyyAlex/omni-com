@@ -12,12 +12,7 @@ import java.io.File;
 public class BackendApplication {
 
     public static void main(String[] args) {
-        TerminalService t = new TerminalServiceDocker();
-        OutputResponse response = t.getOutput("use io\nstart main\nout | \"Hello\"\nend\n".getBytes(), "-c");
-
-        System.out.println(response);
-
-//        SpringApplication.run(BackendApplication.class, args);
+        SpringApplication.run(BackendApplication.class, args);
     }
 
 }

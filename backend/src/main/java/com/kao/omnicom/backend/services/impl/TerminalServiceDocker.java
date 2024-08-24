@@ -10,10 +10,12 @@ import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
 
+import com.google.common.annotations.Beta;
 import com.kao.omnicom.backend.entity.OutputResponse;
 import com.kao.omnicom.backend.services.TerminalService;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.springframework.context.annotation.Bean;
 
 import java.io.*;
 
@@ -72,7 +74,7 @@ public class TerminalServiceDocker implements TerminalService {
                     br = new BufferedReader(new InputStreamReader(tar));
                     String line;
                     while ((line = br.readLine()) != null) {
-                        sb.append(line);
+                        sb.append(line + '\n');
                     }
                     currentEntry = tar.getNextTarEntry();
                 }
@@ -92,6 +94,10 @@ public class TerminalServiceDocker implements TerminalService {
             throw new RuntimeException(e);
         }
 
+        client.removeContainerCmd(container.getId())
+                .withRemoveVolumes(true)
+                .withForce(true)
+                .exec();
         return response;
     }
 }
