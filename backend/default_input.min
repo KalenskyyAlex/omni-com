@@ -1,0 +1,4 @@
+use io
+start main
+out | "Hello"
+end

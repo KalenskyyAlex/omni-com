@@ -2,22 +2,20 @@ package com.kao.omnicom.backend.services.impl;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.model.Bind;
+import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
 
+import com.kao.omnicom.backend.entity.OutputResponse;
 import com.kao.omnicom.backend.services.TerminalService;
-import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
-import org.aspectj.util.FileUtil;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class TerminalServiceDocker implements TerminalService {
     private final DockerClientConfig defaultConfig = DefaultDockerClientConfig.createDefaultConfigBuilder().build();
@@ -28,14 +26,28 @@ public class TerminalServiceDocker implements TerminalService {
             .build();
 
     @Override
-    public void getOutput(File input) {
+    public OutputResponse getOutput(byte[] input, String flags) {
+        OutputResponse response = new OutputResponse();
+
         DockerClient client = DockerClientImpl.getInstance(defaultConfig, httpClient);
+
+        String containerPath = "/omnicom/docker/default_input.min";
+        String filePath = "default_input.min";
+
+        try (FileOutputStream fos = new FileOutputStream(filePath)) {
+            fos.write(input);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        Bind bind = Bind.parse(new File(filePath).getAbsolutePath() + ":" + containerPath);
 
         CreateContainerResponse container = client.createContainerCmd("minimum:1.0.3")
                 .withAttachStderr(true)
                 .withAttachStdout(true)
                 .withTty(true)
-//                .withEnv("FLAGS=-c -l -p")
+                .withHostConfig(new HostConfig().withBinds(bind))
+                .withEnv("FLAGS=" + flags)
                 .exec();
 
         client.startContainerCmd(container.getId()).exec();
@@ -54,16 +66,18 @@ public class TerminalServiceDocker implements TerminalService {
 
                 TarArchiveInputStream tar = new TarArchiveInputStream(archive);
                 TarArchiveEntry currentEntry = tar.getNextTarEntry();
-                BufferedReader br = null;
+                BufferedReader br;
                 StringBuilder sb = new StringBuilder();
                 while (currentEntry != null) {
-                    br = new BufferedReader(new InputStreamReader(tar)); // Read directly from tarInput
+                    br = new BufferedReader(new InputStreamReader(tar));
                     String line;
                     while ((line = br.readLine()) != null) {
-                        System.out.println(line);
+                        sb.append(line);
                     }
-                    currentEntry = tar.getNextTarEntry(); // You forgot to iterate to the next file
+                    currentEntry = tar.getNextTarEntry();
                 }
+
+                response.setOutput(sb.toString());
             } catch (IOException e) {
                 System.out.println(e.getMessage());
                 throw new RuntimeException(e);
@@ -77,5 +91,7 @@ public class TerminalServiceDocker implements TerminalService {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        return response;
     }
 }
