@@ -6,4 +6,7 @@ public interface TerminalService {
 
     OutputResponse getOutput(byte[] input, String flags);
 
+    OutputResponse provideInput(String containerId, String userInput);
+
+    OutputResponse interrupt(String containerId);
 }

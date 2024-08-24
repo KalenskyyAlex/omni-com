@@ -9,29 +9,78 @@ import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
-
-import com.google.common.annotations.Beta;
-import com.kao.omnicom.backend.entity.OutputResponse;
-import com.kao.omnicom.backend.services.TerminalService;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.springframework.context.annotation.Bean;
+
+import com.kao.omnicom.backend.entity.OutputResponse;
+import com.kao.omnicom.backend.services.TerminalService;
 
 import java.io.*;
 
 public class TerminalServiceDocker implements TerminalService {
+
     private final DockerClientConfig defaultConfig = DefaultDockerClientConfig.createDefaultConfigBuilder().build();
     private final DockerHttpClient httpClient = new ApacheDockerHttpClient.Builder()
             .dockerHost(defaultConfig.getDockerHost())
             .sslConfig(defaultConfig.getSSLConfig())
             .maxConnections(100)
             .build();
+    private final DockerClient client = DockerClientImpl.getInstance(defaultConfig, httpClient);
+
+    private String readContainerFile(String containerId, String path){
+        try {
+            InputStream archive = client.copyArchiveFromContainerCmd(containerId, path).exec();
+
+            TarArchiveInputStream tar = new TarArchiveInputStream(archive);
+            TarArchiveEntry currentEntry = tar.getNextTarEntry();
+            BufferedReader br;
+            StringBuilder sb = new StringBuilder();
+            while (currentEntry != null) {
+                br = new BufferedReader(new InputStreamReader(tar));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + '\n');
+                }
+                currentEntry = tar.getNextTarEntry();
+            }
+
+            return sb.toString();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    private OutputResponse readContainerOutput(String containerId) {
+        OutputResponse response = new OutputResponse();
+        response.setContainerId(null);
+        response.setWaitingForInput(false);
+
+        while (client.inspectContainerCmd(containerId).exec().getState().getRunning()) {
+            try {
+                Thread.sleep(500);
+                boolean isWaitingForInput = false;
+//                boolean isWaitingForInput = !readContainerFile(containerId, "/omnicom/input_needed.txt").isEmpty(); TODO
+                if (isWaitingForInput) {
+                    response.setContainerId(containerId);
+                    response.setWaitingForInput(true);
+
+                    break;
+                }
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        response.setOutput(readContainerFile(containerId, "/omnicom/output.txt"));
+
+        return response;
+    }
 
     @Override
     public OutputResponse getOutput(byte[] input, String flags) {
         OutputResponse response = new OutputResponse();
 
-        DockerClient client = DockerClientImpl.getInstance(defaultConfig, httpClient);
 
         String containerPath = "/omnicom/docker/default_input.min";
         String filePath = "default_input.min";
@@ -55,35 +104,7 @@ public class TerminalServiceDocker implements TerminalService {
         client.startContainerCmd(container.getId()).exec();
 
         Thread t = new Thread(() -> {
-            while (client.inspectContainerCmd(container.getId()).exec().getState().getRunning()) {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-
-            try {
-                InputStream archive = client.copyArchiveFromContainerCmd(container.getId(), "/omnicom/output.txt").exec();
-
-                TarArchiveInputStream tar = new TarArchiveInputStream(archive);
-                TarArchiveEntry currentEntry = tar.getNextTarEntry();
-                BufferedReader br;
-                StringBuilder sb = new StringBuilder();
-                while (currentEntry != null) {
-                    br = new BufferedReader(new InputStreamReader(tar));
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        sb.append(line + '\n');
-                    }
-                    currentEntry = tar.getNextTarEntry();
-                }
-
-                response.setOutput(sb.toString());
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-                throw new RuntimeException(e);
-            }
+            response.copy(readContainerOutput(container.getId()));
         });
 
         t.start();
@@ -100,4 +121,21 @@ public class TerminalServiceDocker implements TerminalService {
                 .exec();
         return response;
     }
+
+    @Override
+    public OutputResponse provideInput(String containerId, String userInput) {
+        // TODO
+        OutputResponse response = new OutputResponse();
+        response.setOutput("TODO");
+        return response;
+    }
+
+    @Override
+    public OutputResponse interrupt(String containerId) {
+        // TODO
+        OutputResponse response = new OutputResponse();
+        response.setOutput("TODO");
+        return response;
+    }
+
 }

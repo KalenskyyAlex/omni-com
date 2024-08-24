@@ -1,9 +1,6 @@
 package com.kao.omnicom.backend.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -17,6 +14,10 @@ public class TerminalInput {
 
     private String userInput;
 
-    private boolean isUserInputUpdated;
+    private String containerId;
+
+    private boolean userInputUpdated;
+
+    private boolean interruptNeeded;
 
 }
