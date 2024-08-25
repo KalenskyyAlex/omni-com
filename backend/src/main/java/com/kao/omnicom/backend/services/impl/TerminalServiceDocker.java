@@ -1,12 +1,16 @@
 package com.kao.omnicom.backend.services.impl;
 
 import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.async.ResultCallback;
+import com.github.dockerjava.api.command.AttachContainerCmd;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Bind;
+import com.github.dockerjava.api.model.Frame;
 import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
+import com.github.dockerjava.core.command.AttachContainerResultCallback;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
@@ -16,6 +20,7 @@ import com.kao.omnicom.backend.entity.OutputResponse;
 import com.kao.omnicom.backend.services.TerminalService;
 
 import java.io.*;
+import java.util.concurrent.TimeUnit;
 
 public class TerminalServiceDocker implements TerminalService {
 
@@ -27,7 +32,7 @@ public class TerminalServiceDocker implements TerminalService {
             .build();
     private final DockerClient client = DockerClientImpl.getInstance(defaultConfig, httpClient);
 
-    private String readContainerFile(String containerId, String path){
+    private String readContainerFile(String containerId, String path) {
         try {
             InputStream archive = client.copyArchiveFromContainerCmd(containerId, path).exec();
 
@@ -59,12 +64,11 @@ public class TerminalServiceDocker implements TerminalService {
         while (client.inspectContainerCmd(containerId).exec().getState().getRunning()) {
             try {
                 Thread.sleep(500);
-                boolean isWaitingForInput = false;
-//                boolean isWaitingForInput = !readContainerFile(containerId, "/omnicom/input_needed.txt").isEmpty(); TODO
+
+                boolean isWaitingForInput = !readContainerFile(containerId, "/omnicom/input_needed").isEmpty();
                 if (isWaitingForInput) {
                     response.setContainerId(containerId);
                     response.setWaitingForInput(true);
-
                     break;
                 }
             } catch (InterruptedException e) {
@@ -93,9 +97,10 @@ public class TerminalServiceDocker implements TerminalService {
 
         Bind bind = Bind.parse(new File(filePath).getAbsolutePath() + ":" + containerPath);
 
-        CreateContainerResponse container = client.createContainerCmd("minimum:1.0.3")
+        CreateContainerResponse container = client.createContainerCmd("minimum:1.0.4")
                 .withAttachStderr(true)
                 .withAttachStdout(true)
+                .withStdinOpen(true)
                 .withTty(true)
                 .withHostConfig(new HostConfig().withBinds(bind))
                 .withEnv("FLAGS=" + flags)
@@ -115,18 +120,43 @@ public class TerminalServiceDocker implements TerminalService {
             throw new RuntimeException(e);
         }
 
-        client.removeContainerCmd(container.getId())
-                .withRemoveVolumes(true)
-                .withForce(true)
-                .exec();
+        if (!response.isWaitingForInput()) {
+            client.removeContainerCmd(container.getId())
+                    .withRemoveVolumes(true)
+                    .withForce(true)
+                    .exec();
+        }
         return response;
     }
 
     @Override
     public OutputResponse provideInput(String containerId, String userInput) {
-        // TODO
-        OutputResponse response = new OutputResponse();
-        response.setOutput("TODO");
+        AttachContainerResultCallback callback = new AttachContainerResultCallback();
+
+        try (
+                PipedOutputStream out = new PipedOutputStream();
+                PipedInputStream in = new PipedInputStream(out)
+        ) {
+            client.attachContainerCmd(containerId)
+                    .withStdErr(true)
+                    .withStdOut(true)
+                    .withFollowStream(true)
+                    .withStdIn(in)
+                    .exec(callback);
+
+            out.write((userInput + "\n").getBytes());
+            out.flush();
+
+            callback.awaitCompletion(5, TimeUnit.SECONDS);
+            callback.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        OutputResponse response = readContainerOutput(containerId);
+
         return response;
     }
 
