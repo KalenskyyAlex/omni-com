@@ -27,8 +27,10 @@ function Sandbox() {
     let currentThemeSwitch = useRef(themeSwitchLight);
     let currentLogo = useRef(logoLight);
 
+    const [refresher, setRefresher] = useState(0);
     const [codespaceData, setCodespaceData] = useState({examplesActive: false});
     const [examplesData, setExamplesData] = useState({isExampleSelected: false, exampleSelected: '', exampleSelectedTitle: ''});
+    let code = useRef("");
 
     const codespaceCallback = (newData: codespaceData) => {
         setCodespaceData(newData);
@@ -45,6 +47,14 @@ function Sandbox() {
     const examplesCallback = (status: codespaceData, example: examplesData) => {
         setCodespaceData(status);
         setExamplesData(example);
+    }
+
+    const updateCodeCallback = (newCode: string) => {
+        code.current = newCode;
+    }
+
+    const terminalInvokeUpdateCallback = () => {
+        setRefresher(refresher + 1);
     }
 
     useEffect(() => {
@@ -98,8 +108,8 @@ function Sandbox() {
                 </div>
             </nav>
             <div className="editor-container">
-                <Codespace exampleCallback={isExampleSelected} callback={codespaceCallback}/>
-                <Terminal/>
+                <Codespace exampleCallback={isExampleSelected} codeDataCallback={codespaceCallback} updateCodeCallback={updateCodeCallback} />
+                <Terminal terminalCallback={() => code.current}/>
             </div>
         </div>
     );

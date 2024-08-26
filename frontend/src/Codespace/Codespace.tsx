@@ -6,8 +6,9 @@ import '../index.css';
 import './Codespace.css';
 
 interface CodespaceProps {
-    callback: Function;
+    codeDataCallback: Function;
     exampleCallback: Function;
+    updateCodeCallback: Function;
 }
 
 function Codespace(props: CodespaceProps) {
@@ -17,54 +18,6 @@ function Codespace(props: CodespaceProps) {
     // const [linterStep, triggerLinterUpdate] = useState(0);
 
     const currentTabContent = useRef(tabContents[activeTabIndex]);
-    // const cursorPosition = useRef(0);
-    //
-    //
-    // const getCursorPosition = () => {
-    //     const input = document.getElementById("code-input");
-    //     if (input === null) return;
-    //
-    //     const selection = window.getSelection();
-    //     if (selection === null) return;
-    //
-    //     const range = selection.getRangeAt(0);
-    //     const preCaretRange = range.cloneRange();
-    //     preCaretRange?.selectNodeContents(input);
-    //     preCaretRange?.setEnd(range.endContainer, range.endOffset);
-    //     cursorPosition.current = preCaretRange.toString().length;
-    // };
-    //
-    // const setCursorPosition = (position: number) => {
-    //     const input = document.getElementById("code-input");
-    //     if (input === null) return;
-    //
-    //     const selection = window.getSelection();
-    //     if (selection === null) return;
-    //
-    //     const range = document.createRange();
-    //     let charCount = 0;
-    //
-    //     for (const node of input.childNodes) {
-    //         if (node.nodeType === Node.TEXT_NODE) {
-    //             if(node.textContent !== null) {
-    //                 const nextCharCount = charCount + node.textContent.length;
-    //                 if (position <= nextCharCount) {
-    //                     range.setStart(node, position - charCount);
-    //                     range.collapse(true);
-    //                     break;
-    //                 }
-    //                 charCount = nextCharCount;
-    //             }
-    //         } else {
-    //             if(node.textContent !== null)
-    //                 charCount += node.textContent.length;
-    //         }
-    //     }
-    //
-    //     selection.removeAllRanges();
-    //     selection.addRange(range);
-    // };
-
 
     const switchTabs = (index: number) => {
         const codeInput = document.getElementById("code-input");
@@ -73,6 +26,7 @@ function Codespace(props: CodespaceProps) {
             let updatedTabContent = getRaw(codeInput.innerHTML);
 
             let newTabContents = [...tabContents.slice(0, activeTabIndex), updatedTabContent, ...tabContents.slice(activeTabIndex + 1)];
+            props.updateCodeCallback(newTabContents[index]);
 
             setTabContent(newTabContents);
         }
@@ -89,7 +43,7 @@ function Codespace(props: CodespaceProps) {
         const fileContent = getRaw(codeInput.innerHTML);
 
         // Create a blob from the file content
-        const blob = new Blob([fileContent], { type: 'text/min' });
+        const blob = new Blob([fileContent], {type: 'text/min'});
 
         // Create an object URL for the blob
         const url = URL.createObjectURL(blob);
@@ -123,11 +77,6 @@ function Codespace(props: CodespaceProps) {
         }
     }, [props]);
 
-    // useEffect(() => {
-    // setCursorPosition(cursorPosition.current);
-
-    // }, [linterStep]);
-
     let tabGroup = document.getElementById("code-tabs-group-1");
     tabGroup?.addEventListener("wheel", (event) => {
         if (tabGroup !== null) {
@@ -151,6 +100,7 @@ function Codespace(props: CodespaceProps) {
         setActiveTabIndex(newTabIndex);
 
         currentTabContent.current = newTabContents[newTabIndex];
+        props.updateCodeCallback(newTabContents[newTabIndex]);
     }
 
     const closeTab = (index: number) => {
@@ -187,47 +137,47 @@ function Codespace(props: CodespaceProps) {
         }
     }
 
+    const displayTabs = tabNames.map((pair) => {
+        const index = pair[0];
+        const tabName = pair[1];
+        if (index === activeTabIndex) {
+            return (
+                <button key={index}
+                        className="text-button code-primary-text tab-primary horizontal-group center"
+                        onClick={() => {
+                            switchTabs(index as number)
+                        }}>
+                    {tabName}
+                    <div className="close-tab-primary-icon"
+                         onClick={(event) => {
+                             event.stopPropagation();
+                             closeTab(index as number)
+                         }}/>
+                </button>
+            )
+        } else {
+            return (
+                <button key={index}
+                        className="text-button code-secondary-text tab-secondary horizontal-group center"
+                        onClick={() => {
+                            switchTabs(index as number)
+                        }}>
+                    {tabName}
+                    <div className="close-tab-secondary-icon"
+                         onClick={(event) => {
+                             event.stopPropagation();
+                             closeTab(index as number);
+                         }}/>
+                </button>
+            )
+        }
+    })
+
     return (
         <div className="code-space">
             <div className="horizontal-group underline-group code-border">
                 <div id="code-tabs-group-1" className="code-tabs-group horizontal-group">
-                    {
-                        tabNames.map((pair) => {
-                            const index = pair[0];
-                            const tabName = pair[1];
-                            if (index === activeTabIndex) {
-                                return (
-                                    <button key={index}
-                                            className="text-button code-primary-text tab-primary horizontal-group center"
-                                            onClick={() => {
-                                                switchTabs(index as number)
-                                            }}>
-                                        {tabName}
-                                        <div className="close-tab-primary-icon"
-                                             onClick={(event) => {
-                                                 event.stopPropagation();
-                                                 closeTab(index as number)
-                                             }}/>
-                                    </button>
-                                )
-                            } else {
-                                return (
-                                    <button key={index}
-                                            className="text-button code-secondary-text tab-secondary horizontal-group center"
-                                            onClick={() => {
-                                                switchTabs(index as number)
-                                            }}>
-                                        {tabName}
-                                        <div className="close-tab-secondary-icon"
-                                             onClick={(event) => {
-                                                 event.stopPropagation();
-                                                 closeTab(index as number);
-                                             }}/>
-                                    </button>
-                                )
-                            }
-                        })
-                    }
+                    {displayTabs}
                     <button className="text-button code-secondary-text tab-secondary horizontal-group center"
                             onClick={addNewTab}>
                         new
@@ -246,7 +196,7 @@ function Codespace(props: CodespaceProps) {
                         <div className="download-icon"></div>
                     </button>
                     <button id="examples" className="text-button code-secondary-text tab-secondary"
-                            onClick={() => props.callback({examplesActive: true})}>
+                            onClick={() => props.codeDataCallback({examplesActive: true})}>
                         Examples
                     </button>
                 </div>
@@ -254,12 +204,14 @@ function Codespace(props: CodespaceProps) {
 
             {/*TODO lint*/}
             <div id="code-input" contentEditable={true} spellCheck={false}
-                 suppressContentEditableWarning={true}
-                 onInput={() => {
-                     // getCursorPosition();
-                     // triggerLinterUpdate(linterStep + 1);
-                     // switchTabs(activeTabIndex);
-                 }}>
+                 suppressContentEditableWarning={true} onInput={() => {
+                const codeInput = document.getElementById("code-input");
+
+                if (codeInput !== null) {
+                    let updatedTabContent = getRaw(codeInput.innerHTML);
+                    props.updateCodeCallback(updatedTabContent);
+                }
+            }}>
                 <Linter content={currentTabContent.current}></Linter>
             </div>
 
