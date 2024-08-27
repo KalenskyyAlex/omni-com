@@ -1,11 +1,8 @@
 package com.kao.omnicom.backend.services.impl;
 
 import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.async.ResultCallback;
-import com.github.dockerjava.api.command.AttachContainerCmd;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.Bind;
-import com.github.dockerjava.api.model.Frame;
 import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
@@ -161,11 +158,12 @@ public class TerminalServiceDocker implements TerminalService {
     }
 
     @Override
-    public OutputResponse interrupt(String containerId) {
+    public String interrupt(String containerId) {
         // TODO
         OutputResponse response = new OutputResponse();
         response.setOutput("TODO");
-        return response;
+
+        return "OK";
     }
 
 }

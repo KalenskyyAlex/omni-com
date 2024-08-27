@@ -44,7 +44,9 @@ public class TerminalREST {
         OutputResponse response = new OutputResponse();
 
         if (input.isInterruptNeeded()){
-            return terminalService.interrupt(input.getContainerId());
+            response.setOutput("TEST");
+            return response;
+//            return terminalService.interrupt(input.getContainerId());
         }
 
         response.setOutput("Wrong API call: no interruption needed, but interrupt called");

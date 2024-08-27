@@ -26,6 +26,7 @@ function Terminal(props: TerminalProps) {
                 "Access-Control-Allow-Methods": "*",
                 "Access-Control-Allow-Credentials": "true",
                 "Content-Type": "application/json",
+                "Cache-Control": "no-cache",
                 "Access-Control-Allow-Headers": "Content-Type, Authorization",
                 "Access-Control-Max-Age": "3600"
             },
@@ -33,7 +34,11 @@ function Terminal(props: TerminalProps) {
                 "code": code
             })
         })
-            .then(console.log)
+            // .then(console.log)
+            .then((response: Response) => {
+                response.json()
+                    .then((apiResponse: APIResponse) => setTerminalOutput(apiResponse.output))
+            })
             // .then((response: Response) => setTerminalOutput((response.json() as unknown as APIResponse).output))
             .catch(console.error);
     }
@@ -55,9 +60,9 @@ function Terminal(props: TerminalProps) {
                 </button>
             </div>
             <div className="terminal-outlet-wrapper">
-                <div id="terminal-outlet">
+                <pre id="terminal-outlet">
                     {terminalOutput}
-                </div>
+                </pre>
             </div>
         </div>
     )
