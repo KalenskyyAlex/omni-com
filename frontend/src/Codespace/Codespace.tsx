@@ -74,6 +74,7 @@ function Codespace(props: CodespaceProps) {
             setActiveTabIndex(newTabIndex);
 
             currentTabContent.current = newTabContents[newTabIndex];
+            props.updateCodeCallback(newTabContents[newTabIndex]);
         }
     }, [props]);
 
@@ -134,6 +135,7 @@ function Codespace(props: CodespaceProps) {
             setActiveTabIndex(newTabIndex);
 
             currentTabContent.current = newTabContents[newTabIndex];
+            props.updateCodeCallback(newTabContents[newTabIndex]);
         }
     }
 
