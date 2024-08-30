@@ -24,10 +24,7 @@ interface examplesData {
 function Sandbox() {
     /*Theme storing TODO*/
     const [theme, setTheme] = useState("light");
-    let currentThemeSwitch = useRef(themeSwitchLight);
-    let currentLogo = useRef(logoLight);
 
-    const [refresher, setRefresher] = useState(0);
     const [codespaceData, setCodespaceData] = useState({examplesActive: false});
     const [examplesData, setExamplesData] = useState({isExampleSelected: false, exampleSelected: '', exampleSelectedTitle: ''});
     let code = useRef("");
@@ -53,23 +50,15 @@ function Sandbox() {
         code.current = newCode;
     }
 
-    const terminalInvokeUpdateCallback = () => {
-        setRefresher(refresher + 1);
-    }
-
     useEffect(() => {
         document.documentElement.setAttribute("theme", theme);
     }, [theme]);
 
     const changeTheme = () => {
         if (theme === "dark") {
-            currentThemeSwitch.current = themeSwitchLight;
-            currentLogo.current = logoLight;
             setTheme("light");
         }
         else {
-            currentThemeSwitch.current = themeSwitchDark;
-            currentLogo.current = logoDark;
             setTheme("dark");
         }
     }
@@ -81,15 +70,14 @@ function Sandbox() {
                 <div className="horizontal-group center" style={{
                     gap: "32px"
                 }}>
-                    <img src={currentLogo.current} alt="OMNI.COM"/>
+                    <img className="logo-container" alt="OMNI.COM"></img>
                     <Link to="/guidelines">Guidelines</Link>
                 </div>
                 <div className="horizontal-group center" style={{
                     gap: "32px",
                 }}>
-                    <div className="horizontal-group center" onClick={changeTheme}>
-                        Theme
-                        <img src={currentThemeSwitch.current} alt=""/>
+                    <div className="horizontal-group center theme-container" onClick={changeTheme}>
+                        Theme <img alt=""/>
                     </div>
                     <strong>|</strong>
                     <div className="horizontal-group center" style={{

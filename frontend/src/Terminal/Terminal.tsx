@@ -17,7 +17,6 @@ function Terminal(props: TerminalProps) {
 
     const terminalInit = () => {
         const code = props.terminalCallback();
-        console.log(code);
         const api_root = process.env["REACT_APP_OMNICOM_API_LOCAL"];
         fetch(api_root + "/terminal/init", {
             method: "POST",
@@ -34,12 +33,10 @@ function Terminal(props: TerminalProps) {
                 "code": code
             })
         })
-            // .then(console.log)
             .then((response: Response) => {
                 response.json()
                     .then((apiResponse: APIResponse) => setTerminalOutput(apiResponse.output))
             })
-            // .then((response: Response) => setTerminalOutput((response.json() as unknown as APIResponse).output))
             .catch(console.error);
     }
 
