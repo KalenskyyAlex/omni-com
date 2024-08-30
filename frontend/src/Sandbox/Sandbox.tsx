@@ -1,12 +1,7 @@
 import '../index.css';
 import './Sandbox.css';
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
 
-import themeSwitchLight from '../icons/theme_switch_light.svg';
-import themeSwitchDark from '../icons/theme_switch_dark.svg';
-import logoLight from '../icons/logoLight.svg';
-import logoDark from '../icons/logoDark.svg';
-import {Link} from "react-router-dom";
 import Codespace from "../Codespace/Codespace";
 import Terminal from "../Terminal/Terminal";
 import Examples from "../Examples/Examples";
@@ -23,9 +18,6 @@ interface examplesData {
 }
 
 function Sandbox() {
-    /*Theme storing TODO*/
-    const [theme, setTheme] = useState("light");
-
     const [codespaceData, setCodespaceData] = useState({examplesActive: false});
     const [examplesData, setExamplesData] = useState({isExampleSelected: false, exampleSelected: '', exampleSelectedTitle: ''});
     let code = useRef("");
@@ -51,23 +43,10 @@ function Sandbox() {
         code.current = newCode;
     }
 
-    useEffect(() => {
-        document.documentElement.setAttribute("theme", theme);
-    }, [theme]);
-
-    const changeTheme = () => {
-        if (theme === "dark") {
-            setTheme("light");
-        }
-        else {
-            setTheme("dark");
-        }
-    }
-
     return (
         <div className="vertical-group">
             <Examples active={codespaceData.examplesActive} callback={examplesCallback}/>
-            <Navbar changeTheme={changeTheme}/>
+            <Navbar/>
             <div className="editor-container">
                 <Codespace exampleCallback={isExampleSelected} codeDataCallback={codespaceCallback} updateCodeCallback={updateCodeCallback} />
                 <Terminal terminalCallback={() => code.current}/>

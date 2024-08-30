@@ -1,13 +1,31 @@
 import '../index.css'
 import "./Navbar.css"
 import {Link} from "react-router-dom";
-import {MouseEventHandler} from "react";
+import {useEffect, useState} from "react";
 
-interface NavbarProps {
-    changeTheme: MouseEventHandler<HTMLDivElement>;
-}
+function Todo() {
+    let storedTheme = localStorage.getItem("theme");
+    if (storedTheme === undefined || storedTheme === null) {
+        storedTheme = "light";
+    }
 
-function Todo(props: NavbarProps) {
+    const [theme, setTheme] = useState(storedTheme);
+
+    useEffect(() => {
+        document.documentElement.setAttribute("theme", theme);
+    }, [theme]);
+
+    const changeTheme = () => {
+        if (theme === "dark") {
+            localStorage.setItem("theme", "light");
+            setTheme("light");
+        }
+        else {
+            localStorage.setItem("theme", "dark");
+            setTheme("dark");
+        }
+    }
+
     return (
         <nav>
             <div className="horizontal-group center" style={{
@@ -19,7 +37,7 @@ function Todo(props: NavbarProps) {
             <div className="horizontal-group center" style={{
                 gap: "32px",
             }}>
-                <div className="horizontal-group center theme-container" onClick={props.changeTheme}>
+                <div className="horizontal-group center theme-container" onClick={changeTheme}>
                     Theme <img alt=""/>
                 </div>
                 <strong>|</strong>
