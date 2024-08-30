@@ -23,36 +23,8 @@
     background-color: var(--code-tab-primary);
 }
 
-[theme="dark"] .logo-container{
-    content: url("../icons/logoDark.svg");
-}
-
-[theme="light"] .logo-container{
-    content: url("../icons/logoLight.svg");
-}
-
-[theme="dark"] .theme-container > img{
-    content: url("../icons/theme_switch_dark.svg");
-}
-
-[theme="light"] .theme-container > img{
-    content: url("../icons/theme_switch_light.svg");
-}
-
 @media (max-width: 800px) {
     .editor-container {
         flex-direction: column;
-    }
-
-    [theme="dark"] .logo-container{
-        content: url("../icons/logoDark_mini.svg");
-    }
-
-    [theme="light"] .logo-container{
-        content: url("../icons/logoLight_mini.svg");
-    }
-
-    .theme-container{
-        font-size: 0;
     }
 }
