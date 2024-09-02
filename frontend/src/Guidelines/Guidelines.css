@@ -20,6 +20,9 @@
 .code-inline {
     display: inline-flex;
     justify-content: center;
+    background-color: var(--guidelines-code-background);
+    border-radius: 5px;
+    padding: 4px 8px;
 }
 
 .code-inline * {

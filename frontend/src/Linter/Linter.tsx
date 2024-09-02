@@ -12,14 +12,15 @@ function getRaw(content: string){
 
 function Linter(props: LinterProps) {
     const keywordRegex = /\b(start|end|use|return|break|while|if|else|elif)\b/g;
-    const operatorRegex = /(\+|-|\*|\/|%|\(|\)|is|and|not|>|<|<=|>=|==|!=|\||=)/g;
+    const operatorRegex = /(\+|-|\*|\/|%|\(|\)|\bis\b|\band\b|\bnot\b|>|<|<=|>=|==|!=|\||=)/g;
     const booleanRegex = /\b(true|false)\b/g;
     const numeralRegex = /\b\d+\b/g;
     const typeRegex = /\b(int|float|str|bool)/g;
     const stringLiteralRegex = /"([^"\\]|\\.)*"/g;
-    const functionRegex = /([a-zA-Z0-9_]+)\s*(?=\|)/g;
+    const functionRegex = /(([a-zA-Z0-9_]+)\s*(?=\|)|(?<=\bstart\s+)[a-zA-Z0-9_]+)/g;
     const libraryRegex = /(?<=\buse\s+)[a-zA-Z0-9_]+/g;
     const variableRegex = /\b(?!__\w+)\w+\b/g;
+    const commentRegex = /~(?=(?:[^"]*"[^"]*")*[^"]*$).*/g;
 
     const lint = (text: string, regex: RegExp, format: string) => {
         let match;
@@ -30,16 +31,18 @@ function Linter(props: LinterProps) {
         }
 
         for (let i = positions.length - 1; i >= 0; i--) {
-            // text = text.slice(0, positions[i].index) + '<code className={' + format + '}>' + positions[i].match + '</code>' + text.slice(positions[i].index + positions[i].match.length);
             text = text.slice(0, positions[i].index) + '__' + format + text.slice(positions[i].index + positions[i].match.length);
         }
 
         return {text, positions};
     }
 
-    let keywords, operators, booleans, numerals, types, stringLiterals, functions, libraries, variables;
+    let keywords, operators, booleans, numerals, types, stringLiterals, functions, libraries, variables, comments;
 
-    let result = lint(props.content, stringLiteralRegex, "strings");
+    let result = lint(props.content, commentRegex, "comment");
+    comments = result.positions;
+
+    result = lint(result.text, stringLiteralRegex, "strings");
     stringLiterals = result.positions;
 
     result = lint(result.text, functionRegex, "function");
@@ -67,6 +70,10 @@ function Linter(props: LinterProps) {
     variables = result.positions;
 
     let formattedContent = result.text;
+
+    for(let i = 0; i < comments.length; i++){
+        formattedContent = formattedContent.replace("__comment", '<code class="code-comment">' + comments[i].match + '</code>');
+    }
 
     for(let i = 0; i < stringLiterals.length; i++){
         formattedContent = formattedContent.replace("__strings", '<code class="code-string">' + stringLiterals[i].match + '</code>');

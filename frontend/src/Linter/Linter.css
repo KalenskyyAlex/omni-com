@@ -30,6 +30,10 @@
     color: var(--code-library);
 }
 
+.code-comment {
+    color: var(--code-comment);
+}
+
 .code-variable {
     color: var(--code-variable);
 }
