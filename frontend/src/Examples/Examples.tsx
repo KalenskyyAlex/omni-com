@@ -161,7 +161,7 @@ function Examples(props: ExamplesProps) {
                                     exampleSelectedTitle: 'HelloWorld.min'
                                 })
                         }}>
-                            <div className="horizontal-group fill-container underline-group hack" style={{
+                            <div className="horizontal-group fill-container underline-group hack code-keyword" style={{
                                 justifyContent: "center"
                             }}>
                                 HelloWorld.min
@@ -178,7 +178,7 @@ function Examples(props: ExamplesProps) {
                                     exampleSelectedTitle: 'FizzBuzz.min'
                                 })
                         }}>
-                            <div className="horizontal-group fill-container underline-group hack" style={{
+                            <div className="horizontal-group fill-container underline-group hack code-keyword" style={{
                                 justifyContent: "center"
                             }}>
                                 FizzBuzz.min
@@ -199,7 +199,7 @@ function Examples(props: ExamplesProps) {
                                     exampleSelectedTitle: 'Factorial.min'
                                 })
                         }}>
-                            <div className="horizontal-group fill-container underline-group hack" style={{
+                            <div className="horizontal-group fill-container underline-group hack code-keyword" style={{
                                 justifyContent: "center"
                             }}>
                                 Factorial.min
@@ -216,7 +216,7 @@ function Examples(props: ExamplesProps) {
                                     exampleSelectedTitle: 'CounterHello.min'
                                 })
                         }}>
-                            <div className="horizontal-group fill-container underline-group hack" style={{
+                            <div className="horizontal-group fill-container underline-group hack code-keyword" style={{
                                 justifyContent: "center"
                             }}>
                                 CounterHello.min
@@ -237,7 +237,7 @@ function Examples(props: ExamplesProps) {
                                     exampleSelectedTitle: 'SayHi.min'
                                 })
                         }}>
-                            <div className="horizontal-group fill-container underline-group hack" style={{
+                            <div className="horizontal-group fill-container underline-group hack code-keyword" style={{
                                 justifyContent: "center"
                             }}>
                                 SayHi.min
@@ -254,7 +254,7 @@ function Examples(props: ExamplesProps) {
                                     exampleSelectedTitle: 'Math.min'
                                 })
                         }}>
-                            <div className="horizontal-group fill-container underline-group hack" style={{
+                            <div className="horizontal-group fill-container underline-group hack code-keyword" style={{
                                 justifyContent: "center"
                             }}>
                                 Math.min

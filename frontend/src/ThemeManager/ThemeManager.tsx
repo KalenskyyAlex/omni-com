@@ -4,6 +4,7 @@ import {createBrowserRouter, RouterProvider, Navigate} from "react-router-dom";
 
 import Sandbox from '../Sandbox/Sandbox';
 import Todo from "../Todo";
+import Guidelines from "../Guidelines/Guidelines";
 
 const router = createBrowserRouter([
     {
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/guidelines",
-        element: <Todo/>
+        element: <Guidelines/>
     }
 ]);
 

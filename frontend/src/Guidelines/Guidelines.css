@@ -1,0 +1,19 @@
+.code-panel-guidelines {
+    margin: 8px;
+    border-radius: 10px;
+    flex-grow: 1;
+    font-size: 1rem;
+    padding: 8px;
+    max-width: 100%;
+    overflow: hidden;
+    background-color: var(--code-background);
+}
+
+.code-inline {
+    display: inline-flex;
+    justify-content: center;
+}
+
+.code-inline * {
+    display: inline-block;
+}
