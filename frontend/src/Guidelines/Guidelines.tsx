@@ -54,7 +54,7 @@ function Guidelines() {
 
     return <div>
         <Navbar/>
-        <div>
+        <div className="guidelines-container">
             <h2>Intro</h2>
             <p>Interpreter(and language therefore) supports</p>
             <ul>

@@ -1,3 +1,11 @@
+.guidelines-container {
+    border-radius: 10px;
+    background-color: var(--code-background);
+    margin: 8px;
+    padding: 8px;
+    color: var(--guidelines-text)
+}
+
 .code-panel-guidelines {
     margin: 8px;
     border-radius: 10px;
@@ -6,7 +14,7 @@
     padding: 8px;
     max-width: 100%;
     overflow: hidden;
-    background-color: var(--code-background);
+    background-color: var(--guidelines-code-background);
 }
 
 .code-inline {

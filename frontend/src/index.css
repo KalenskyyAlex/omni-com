@@ -84,6 +84,9 @@ button {
 
     --examples-background: #1A2B59;
     --examples-scrollbar: #3655B3;
+
+    --guidelines-code-background: #31303C;
+    --guidelines-text: #E0E6F9;
 }
 
 [theme="light"] {
@@ -105,6 +108,9 @@ button {
 
     --examples-background: #E0E6F9;
     --examples-scrollbar: #A6BCFF;
+
+    --guidelines-code-background: #EBEFF9;
+    --guidelines-text: black;
 }
 
 body {
