@@ -4,17 +4,23 @@ import com.kao.omnicom.backend.entity.OutputResponse;
 import com.kao.omnicom.backend.entity.TerminalInput;
 import com.kao.omnicom.backend.services.TerminalService;
 import com.kao.omnicom.backend.services.impl.TerminalServiceDocker;
+import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/terminal")
 @CrossOrigin
 public class TerminalREST {
 
-    TerminalService terminalService = new TerminalServiceDocker();
+    private final TerminalService terminalService = new TerminalServiceDocker();
+    private final Logger logger = Logger.getLogger("TerminalREST");
 
     @PostMapping("/init")
     public OutputResponse getOutput(@RequestBody TerminalInput input) {
+        logger.log(Level.INFO, input.toString());
         OutputResponse response = new OutputResponse();
 
         if (!input.isUserInputUpdated()){
@@ -28,6 +34,7 @@ public class TerminalREST {
 
     @PostMapping("/provide-input")
     public OutputResponse provideInput(@RequestBody TerminalInput input) {
+        logger.log(Level.INFO, input.toString());
         OutputResponse response = new OutputResponse();
 
         if (input.isUserInputUpdated()){
@@ -41,6 +48,7 @@ public class TerminalREST {
 
     @PostMapping("/interrupt")
     public OutputResponse interrupt(@RequestBody TerminalInput input) {
+        logger.log(Level.INFO, input.toString());
         OutputResponse response = new OutputResponse();
 
         if (input.isInterruptNeeded()){

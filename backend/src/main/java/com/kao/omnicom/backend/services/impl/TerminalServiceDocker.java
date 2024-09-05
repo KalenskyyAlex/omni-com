@@ -74,6 +74,7 @@ public class TerminalServiceDocker implements TerminalService {
         }
 
         response.setOutput(readContainerFile(containerId, "/omnicom/output.txt"));
+        response.setError(readContainerFile(containerId, "/omnicom/error.txt"));
 
         return response;
     }
@@ -94,7 +95,7 @@ public class TerminalServiceDocker implements TerminalService {
 
         Bind bind = Bind.parse(new File(filePath).getAbsolutePath() + ":" + containerPath);
 
-        CreateContainerResponse container = client.createContainerCmd("minimum:1.0.4")
+        CreateContainerResponse container = client.createContainerCmd("minimum:1.0.5")
                 .withAttachStderr(true)
                 .withAttachStdout(true)
                 .withStdinOpen(true)
