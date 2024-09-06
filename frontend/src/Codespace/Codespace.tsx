@@ -12,9 +12,15 @@ interface CodespaceProps {
 }
 
 function Codespace(props: CodespaceProps) {
+    const example1 = "use io\n" +
+        "\n" +
+        "start main\n" +
+        "\tout | \"Hello, world!\\n\"\n" +
+        "end";
+
     const [activeTabIndex, setActiveTabIndex] = useState(0);
-    const [tabContents, setTabContent] = useState(["Hello", "World"]);
-    const [tabNames, setTabNames] = useState([[0, "script1.min"], [1, "script2.min"]]);
+    const [tabContents, setTabContent] = useState([example1]);
+    const [tabNames, setTabNames] = useState([[0, "HelloWorld.min"]]);
     // const [linterStep, triggerLinterUpdate] = useState(0);
 
     const currentTabContent = useRef(tabContents[activeTabIndex]);
@@ -107,17 +113,15 @@ function Codespace(props: CodespaceProps) {
     const closeTab = (index: number) => {
         let length = tabNames.length - 1;
 
-        if (activeTabIndex === index) {
-            switchTabs((index + 1 >= length) ? (index - 1) : (index + 1));
-        } else if (activeTabIndex > index) {
-            switchTabs(activeTabIndex - 1);
-        }
-
         let newTabContents = [...tabContents.slice(0, index), ...tabContents.slice(index + 1)];
         let newTabNames = [...tabNames.slice(0, index), ...tabNames.slice(index + 1).map((pair) => [pair[0] as number - 1, pair[1]])];
 
         setTabContent(newTabContents);
         setTabNames(newTabNames);
+
+        let newIndex = (index - 1) % length;
+        setActiveTabIndex(newIndex);
+        currentTabContent.current = newTabContents[newIndex];
     }
 
     const onFileChange = async (event: ChangeEvent<HTMLInputElement>) => {

@@ -264,7 +264,11 @@ function Examples(props: ExamplesProps) {
                         </div>
                     </div>
                 </div>
-                <div className="examples-close" onClick={() => props.callback({examplesActive: false}, null)}></div>
+                <div className="examples-close" onClick={() => props.callback({examplesActive: false}, {
+                    isExampleSelected: false,
+                    exampleSelected: null,
+                    exampleSelectedTitle: null
+                })}></div>
             </div>
         </div>
     );

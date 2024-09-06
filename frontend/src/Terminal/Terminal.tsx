@@ -8,6 +8,7 @@ interface TerminalProps {
 
 interface APIResponse {
     "output": string;
+    "error": string;
     "containerId": string;
     "waitingForInput": boolean;
 }
@@ -20,55 +21,68 @@ const defaultResponse: APIResponse = {
         "If you are testing in local environment,\n" +
         "make sure server is running on localhost:8080",
     containerId: "",
+    error: "",
     waitingForInput: false
 };
 
-function init(code: string) : APIResponse {
+async function init(code: string): Promise<APIResponse> {
     let result: APIResponse = defaultResponse;
 
     const api_root = process.env["REACT_APP_OMNICOM_API_LOCAL"];
-    fetch(api_root + "/terminal/init", {
-        method: "POST",
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "*",
-            "Access-Control-Allow-Credentials": "true",
-            "Content-Type": "application/json",
-            "Cache-Control": "no-cache",
-            "Access-Control-Allow-Headers": "Content-Type, Authorization",
-            "Access-Control-Max-Age": "3600"
-        },
-        body: JSON.stringify({
-            "code": code
-        })
-    })
-        .then((response: Response) => {
-            response.json()
-                .then((apiResponse: APIResponse) => result = apiResponse)
-        })
-        .catch(console.error);
+
+    try {
+        const response = await fetch(api_root + "/terminal/init", {
+            method: "POST",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "*",
+                "Access-Control-Allow-Credentials": "true",
+                "Content-Type": "application/json",
+                "Cache-Control": "no-cache",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization",
+                "Access-Control-Max-Age": "3600"
+            },
+            body: JSON.stringify({
+                "code": code
+            })
+        });
+
+        if (response.ok) {
+            result = await response.json();
+        }
+        else {
+            console.error(response);
+        }
+    }
+    catch (error) {
+        console.error(error);
+    }
 
     return result;
 }
 
-function provide_input(userInput: string, containerId: string): APIResponse {
+function provide_input(userInput: string, containerId: string): Promise<APIResponse> {
     let result: APIResponse = defaultResponse;
     // TODO
-    return result;
+    return Promise.resolve(result);
 }
 
-function terminate(containerId: string): APIResponse {
+function terminate(containerId: string): Promise<APIResponse> {
     let result: APIResponse = defaultResponse;
     // TODO
-    return result;
+    return Promise.resolve(result);
 }
 
 function Terminal(props: TerminalProps) {
     const [terminalOutput, setTerminalOutput] = useState("");
+    const [terminalError, setTerminalError] = useState("");
 
     const terminalInit = () => {
         const code = props.terminalCallback();
-        setTerminalOutput(init(code).output);
+        init(code).then((result) => {
+            setTerminalOutput(result.output);
+            setTerminalError(result.error);
+        })
     }
 
     return (
@@ -89,7 +103,8 @@ function Terminal(props: TerminalProps) {
             </div>
             <div className="terminal-outlet-wrapper">
                 <pre id="terminal-outlet">
-                    {terminalOutput}
+                    <code className="terminal-primary-text">{terminalOutput}</code>
+                    <code className="terminal-error-text">{terminalError}</code>
                 </pre>
             </div>
         </div>

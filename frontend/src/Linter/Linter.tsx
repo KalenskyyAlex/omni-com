@@ -79,8 +79,6 @@ function Linter(props: LinterProps) {
     result = lint(result.text, typeRegex, codes.type);
     types = result.positions;
 
-    console.log(result.text);
-
     result = lint(result.text, variableRegex, codes.variable);
     variables = result.positions;
 
