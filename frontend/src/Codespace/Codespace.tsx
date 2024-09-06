@@ -99,15 +99,21 @@ function Codespace(props: CodespaceProps) {
     const addNewTab = () => {
         let newTabIndex = tabNames.length;
 
-        let newTabContents = [...tabContents, ""];
-        let newTabNames = [...tabNames, [newTabIndex, "new.min"]];
+        const codeInput = document.getElementById("code-input");
 
-        setTabContent(newTabContents);
-        setTabNames(newTabNames);
-        setActiveTabIndex(newTabIndex);
+        if (codeInput !== null) {
+            let updatedTabContent = getRaw(codeInput.innerHTML);
 
-        currentTabContent.current = newTabContents[newTabIndex];
-        props.updateCodeCallback(newTabContents[newTabIndex]);
+            let newTabContents = [...tabContents.slice(0, activeTabIndex), updatedTabContent, ...tabContents.slice(activeTabIndex + 1), ""];
+            let newTabNames = [...tabNames, [newTabIndex, "new.min"]];
+
+            setTabContent(newTabContents);
+            setTabNames(newTabNames);
+            setActiveTabIndex(newTabIndex);
+
+            currentTabContent.current = "";
+            props.updateCodeCallback("");
+        }
     }
 
     const closeTab = (index: number) => {
