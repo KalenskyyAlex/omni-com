@@ -156,6 +156,10 @@ a:visited{
     color: unset;
 }
 
+a:-webkit-any-link{
+    color: unset;
+}
+
 .horizontal-group {
     display: flex;
     justify-content: space-between;
