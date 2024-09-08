@@ -8,5 +8,5 @@ public interface TerminalService {
 
     OutputResponse provideInput(String containerId, String userInput);
 
-    String interrupt(String containerId);
+    OutputResponse interrupt(String containerId);
 }

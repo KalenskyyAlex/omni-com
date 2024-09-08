@@ -2,6 +2,7 @@ package com.kao.omnicom.backend.services.impl;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.exception.ConflictException;
 import com.github.dockerjava.api.model.Bind;
 import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.core.DockerClientConfig;
@@ -18,6 +19,8 @@ import com.kao.omnicom.backend.services.TerminalService;
 
 import java.io.*;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TerminalServiceDocker implements TerminalService {
 
@@ -28,6 +31,8 @@ public class TerminalServiceDocker implements TerminalService {
             .maxConnections(100)
             .build();
     private final DockerClient client = DockerClientImpl.getInstance(defaultConfig, httpClient);
+
+    private final Logger logger = Logger.getLogger("TerminalServiceDocker");
 
     private String readContainerFile(String containerId, String path) {
         try {
@@ -41,7 +46,7 @@ public class TerminalServiceDocker implements TerminalService {
                 br = new BufferedReader(new InputStreamReader(tar));
                 String line;
                 while ((line = br.readLine()) != null) {
-                    sb.append(line + '\n');
+                    sb.append(line).append('\n');
                 }
                 currentEntry = tar.getNextTarEntry();
             }
@@ -106,9 +111,7 @@ public class TerminalServiceDocker implements TerminalService {
 
         client.startContainerCmd(container.getId()).exec();
 
-        Thread t = new Thread(() -> {
-            response.copy(readContainerOutput(container.getId()));
-        });
+        Thread t = new Thread(() -> response.copy(readContainerOutput(container.getId())));
 
         t.start();
 
@@ -147,24 +150,30 @@ public class TerminalServiceDocker implements TerminalService {
 
             callback.awaitCompletion(5, TimeUnit.SECONDS);
             callback.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
 
-        OutputResponse response = readContainerOutput(containerId);
-
-        return response;
+        return readContainerOutput(containerId);
     }
 
     @Override
-    public String interrupt(String containerId) {
-        // TODO
+    public OutputResponse interrupt(String containerId) {
         OutputResponse response = new OutputResponse();
-        response.setOutput("TODO");
 
-        return "OK";
+        try {
+            client.stopContainerCmd(containerId).exec();
+
+            client.removeContainerCmd(containerId)
+                    .withRemoveVolumes(true)
+                    .withForce(true)
+                    .exec();
+        }
+        catch (ConflictException e){
+            logger.log(Level.WARNING, "container " + containerId.substring(0, 5) + "... already deleted");
+        }
+
+        return response;
     }
 
 }

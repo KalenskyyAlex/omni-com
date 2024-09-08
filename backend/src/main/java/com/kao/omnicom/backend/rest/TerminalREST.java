@@ -37,6 +37,12 @@ public class TerminalREST {
         logger.log(Level.INFO, input.toString());
         OutputResponse response = new OutputResponse();
 
+        if (input.getContainerId() == null) {
+            response.setOutput("Wrong API call: provide output called, no containerId specified");
+            response.setWaitingForInput(false);
+            return response;
+        }
+
         if (input.isUserInputUpdated()){
             return terminalService.provideInput(input.getContainerId(), input.getUserInput());
         }
@@ -51,10 +57,14 @@ public class TerminalREST {
         logger.log(Level.INFO, input.toString());
         OutputResponse response = new OutputResponse();
 
-        if (input.isInterruptNeeded()){
-            response.setOutput("TEST");
+        if (input.getContainerId() == null) {
+            response.setOutput("Wrong API call: interrupt called, no containerId specified");
+            response.setWaitingForInput(false);
             return response;
-//            return terminalService.interrupt(input.getContainerId());
+        }
+
+        if (input.isInterruptNeeded()){
+            return terminalService.interrupt(input.getContainerId());
         }
 
         response.setOutput("Wrong API call: no interruption needed, but interrupt called");
