@@ -71,7 +71,7 @@ public class TerminalServiceDocker implements TerminalService {
         final int maxRetries = 5;
         final int sleepDelta = 100;
 
-        for (int i = 0; i < maxRetries && readContainerFile(containerId, "/omnicom/finished.txt").isEmpty(); i++) {
+        for (int i = 0; i < maxRetries && readContainerFile(containerId, "/omnicom/finished").isEmpty(); i++) {
             try {
                 Thread.sleep(sleepDelta);
 
@@ -108,7 +108,7 @@ public class TerminalServiceDocker implements TerminalService {
         Thread nonBlocking = new Thread(() -> {
             Bind bind = Bind.parse(new File(filePath).getAbsolutePath() + ":" + containerPath);
 
-            CreateContainerResponse container = client.createContainerCmd("minimum:1.0.5")
+            CreateContainerResponse container = client.createContainerCmd("minimum:1.0.6")
                     .withAttachStderr(true)
                     .withAttachStdout(true)
                     .withStdinOpen(true)
