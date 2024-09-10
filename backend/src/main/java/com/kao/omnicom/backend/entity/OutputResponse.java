@@ -15,6 +15,8 @@ public class OutputResponse {
 
     private boolean isWaitingForInput = false;
 
+    private boolean retry = false;
+
     private String containerId = ""; // container that is responsible for executing this concrete code;
     // needed for providing user input
 

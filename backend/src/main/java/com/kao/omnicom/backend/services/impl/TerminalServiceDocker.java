@@ -3,6 +3,7 @@ package com.kao.omnicom.backend.services.impl;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.exception.ConflictException;
+import com.github.dockerjava.api.exception.NotFoundException;
 import com.github.dockerjava.api.model.Bind;
 import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.core.DockerClientConfig;
@@ -11,6 +12,7 @@ import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.core.command.AttachContainerResultCallback;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 
@@ -22,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Slf4j
 public class TerminalServiceDocker implements TerminalService {
 
     private final DockerClientConfig defaultConfig = DefaultDockerClientConfig.createDefaultConfigBuilder().build();
@@ -52,8 +55,11 @@ public class TerminalServiceDocker implements TerminalService {
             }
 
             return sb.toString();
+        } catch (NotFoundException e) {
+            logger.log(Level.WARNING, "File " + path + " not found in container");
+            return "";
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.log(Level.WARNING, e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -62,10 +68,12 @@ public class TerminalServiceDocker implements TerminalService {
         OutputResponse response = new OutputResponse();
         response.setContainerId(null);
         response.setWaitingForInput(false);
+        final int maxRetries = 5;
+        final int sleepDelta = 100;
 
-        while (client.inspectContainerCmd(containerId).exec().getState().getRunning()) {
+        for (int i = 0; i < maxRetries && readContainerFile(containerId, "/omnicom/finished.txt").isEmpty(); i++) {
             try {
-                Thread.sleep(500);
+                Thread.sleep(sleepDelta);
 
                 boolean isWaitingForInput = !readContainerFile(containerId, "/omnicom/input_needed").isEmpty();
                 if (isWaitingForInput) {
@@ -74,7 +82,7 @@ public class TerminalServiceDocker implements TerminalService {
                     break;
                 }
             } catch (InterruptedException e) {
-                System.out.println(e.getMessage());
+                logger.log(Level.WARNING, e.getMessage());
             }
         }
 
@@ -88,7 +96,6 @@ public class TerminalServiceDocker implements TerminalService {
     public OutputResponse getOutput(byte[] input, String flags) {
         OutputResponse response = new OutputResponse();
 
-
         String containerPath = "/omnicom/docker/default_input.min";
         String filePath = "default_input.min";
 
@@ -98,35 +105,45 @@ public class TerminalServiceDocker implements TerminalService {
             System.out.println(e.getMessage());
         }
 
-        Bind bind = Bind.parse(new File(filePath).getAbsolutePath() + ":" + containerPath);
+        Thread nonBlocking = new Thread(() -> {
+            Bind bind = Bind.parse(new File(filePath).getAbsolutePath() + ":" + containerPath);
 
-        CreateContainerResponse container = client.createContainerCmd("minimum:1.0.5")
-                .withAttachStderr(true)
-                .withAttachStdout(true)
-                .withStdinOpen(true)
-                .withTty(true)
-                .withHostConfig(new HostConfig().withBinds(bind))
-                .withEnv("FLAGS=" + flags)
-                .exec();
+            CreateContainerResponse container = client.createContainerCmd("minimum:1.0.5")
+                    .withAttachStderr(true)
+                    .withAttachStdout(true)
+                    .withStdinOpen(true)
+                    .withTty(true)
+                    .withHostConfig(new HostConfig().withBinds(bind))
+                    .withEnv("FLAGS=" + flags)
+                    .exec();
 
-        client.startContainerCmd(container.getId()).exec();
+            client.startContainerCmd(container.getId()).exec();
 
-        Thread t = new Thread(() -> response.copy(readContainerOutput(container.getId())));
+            response.copy(readContainerOutput(container.getId()));
 
-        t.start();
+            if (!response.isWaitingForInput()) {
+                client.removeContainerCmd(container.getId())
+                        .withRemoveVolumes(true)
+                        .withForce(true)
+                        .exec();
+            }
+        });
 
         try {
-            t.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            nonBlocking.start();
+            nonBlocking.join(2000);
+        }
+        catch (InterruptedException e){
+            response.setRetry(true);
+            logger.log(Level.WARNING, "Thread got interrupted");
         }
 
-        if (!response.isWaitingForInput()) {
-            client.removeContainerCmd(container.getId())
-                    .withRemoveVolumes(true)
-                    .withForce(true)
-                    .exec();
+        if (nonBlocking.isAlive()){
+            response.setRetry(true);
+            logger.log(Level.WARNING, "Request did not finished successfully");
+            nonBlocking.interrupt();
         }
+
         return response;
     }
 

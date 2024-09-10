@@ -20,7 +20,7 @@ public class TerminalREST {
 
     @PostMapping("/init")
     public OutputResponse getOutput(@RequestBody TerminalInput input) {
-        logger.log(Level.INFO, input.toString());
+        logger.log(Level.INFO, "Get Output request was called");
         OutputResponse response = new OutputResponse();
 
         if (!input.isUserInputUpdated()){
@@ -34,7 +34,7 @@ public class TerminalREST {
 
     @PostMapping("/provide-input")
     public OutputResponse provideInput(@RequestBody TerminalInput input) {
-        logger.log(Level.INFO, input.toString());
+        logger.log(Level.INFO, "Provide Input request was called");
         OutputResponse response = new OutputResponse();
 
         if (input.getContainerId() == null) {
@@ -54,7 +54,7 @@ public class TerminalREST {
 
     @PostMapping("/interrupt")
     public OutputResponse interrupt(@RequestBody TerminalInput input) {
-        logger.log(Level.INFO, input.toString());
+        logger.log(Level.INFO, "Interrupt request was called");
         OutputResponse response = new OutputResponse();
 
         if (input.getContainerId() == null) {
