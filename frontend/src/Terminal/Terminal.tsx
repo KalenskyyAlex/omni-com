@@ -1,16 +1,17 @@
 import '../index.css';
 import './Terminal.css';
-import {useState} from "react";
+import {useRef, useState} from "react";
 
 interface TerminalProps {
     terminalCallback: Function;
 }
 
 interface APIResponse {
-    "output": string;
-    "error": string;
-    "containerId": string;
-    "waitingForInput": boolean;
+    output: string;
+    error: string;
+    containerId: string;
+    waitingForInput: boolean;
+    retry: boolean;
 }
 
 const defaultResponse: APIResponse = {
@@ -22,6 +23,7 @@ const defaultResponse: APIResponse = {
         "make sure server is running on localhost:8080",
     containerId: "",
     error: "",
+    retry: false,
     waitingForInput: false
 };
 
@@ -49,12 +51,13 @@ async function init(code: string): Promise<APIResponse> {
 
         if (response.ok) {
             result = await response.json();
-        }
-        else {
+            if (result.retry) {
+                result = await init(code);
+            }
+        } else {
             console.error(response);
         }
-    }
-    catch (error) {
+    } catch (error) {
         console.error(error);
     }
 
@@ -67,22 +70,62 @@ function provide_input(userInput: string, containerId: string): Promise<APIRespo
     return Promise.resolve(result);
 }
 
-function terminate(containerId: string): Promise<APIResponse> {
+async function terminate(containerId: string): Promise<APIResponse> {
     let result: APIResponse = defaultResponse;
-    // TODO
-    return Promise.resolve(result);
+
+    const api_root = process.env["REACT_APP_OMNICOM_API_LOCAL"];
+
+    try {
+        const response = await fetch(api_root + "/terminal/interrupt", {
+            method: "POST",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "*",
+                "Access-Control-Allow-Credentials": "true",
+                "Content-Type": "application/json",
+                "Cache-Control": "no-cache",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization",
+                "Access-Control-Max-Age": "3600"
+            },
+            body: JSON.stringify({
+                "containerId": containerId,
+                "interruptNeeded": true
+            })
+        });
+
+        if (response.ok) {
+            result = await response.json();
+        } else {
+            console.error(response);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+
+    return result;
 }
 
 function Terminal(props: TerminalProps) {
     const [terminalOutput, setTerminalOutput] = useState("");
     const [terminalError, setTerminalError] = useState("");
+    const containerId = useRef<string | null>(null);
 
     const terminalInit = () => {
         const code = props.terminalCallback();
         init(code).then((result) => {
-            setTerminalOutput(result.output);
+            let processFinished = result.waitingForInput ? "" : "\n\nProcess finished";
+            setTerminalOutput(result.output + processFinished);
             setTerminalError(result.error);
-        })
+            containerId.current = result.containerId;
+        });
+    }
+
+    const terminalInterrupt = () => {
+        if (containerId.current !== null) {
+            terminate(containerId.current).then(() => {
+                setTerminalError("\nProcess terminated");
+            });
+        }
     }
 
     return (
@@ -91,7 +134,7 @@ function Terminal(props: TerminalProps) {
                 <button id="run" className="icon-button green" onClick={terminalInit}>
                     <div className="run-icon"></div>
                 </button>
-                <button id="stop" className="icon-button red">
+                <button id="stop" className="icon-button red" onClick={terminalInterrupt}>
                     <div className="stop-icon"></div>
                 </button>
                 <button id="stree" className="icon-button neutral">
