@@ -8,7 +8,6 @@ function getRaw(content: string){
     const tagRegex = /(<code class=[^>]*>)|(<\/code>)|(<\/?pre>)/g;
 
     return content.replaceAll(tagRegex, '').replaceAll(/<\/?br>/g, '\n').replaceAll(/&lt;/g, '<').replaceAll(/&gt;/g, '>');
-    // .replaceAll();
 }
 
 function Linter(props: LinterProps) {

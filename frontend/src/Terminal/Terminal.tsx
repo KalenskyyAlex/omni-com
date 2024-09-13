@@ -1,6 +1,7 @@
 import '../index.css';
 import './Terminal.css';
 import {useRef, useState} from "react";
+import UserInput from "../UserInput/UserInput";
 
 interface TerminalProps {
     terminalCallback: Function;
@@ -64,10 +65,40 @@ async function init(code: string): Promise<APIResponse> {
     return result;
 }
 
-function provide_input(userInput: string, containerId: string): Promise<APIResponse> {
+async function provide_input(userInput: string, containerId: string | null): Promise<APIResponse> {
     let result: APIResponse = defaultResponse;
-    // TODO
-    return Promise.resolve(result);
+
+    const api_root = process.env["REACT_APP_OMNICOM_API_LOCAL"];
+
+    try {
+        const response = await fetch(api_root + "/terminal/provide-input", {
+            method: "POST",
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "*",
+                "Access-Control-Allow-Credentials": "true",
+                "Content-Type": "application/json",
+                "Cache-Control": "no-cache",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization",
+                "Access-Control-Max-Age": "3600"
+            },
+            body: JSON.stringify({
+                "containerId": containerId,
+                "userInput": userInput,
+                "userInputUpdated": true
+            })
+        });
+
+        if (response.ok) {
+            result = await response.json();
+        } else {
+            console.error(response);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+
+    return result;
 }
 
 async function terminate(containerId: string): Promise<APIResponse> {
@@ -109,6 +140,7 @@ function Terminal(props: TerminalProps) {
     const [terminalOutput, setTerminalOutput] = useState("");
     const [terminalError, setTerminalError] = useState("");
     const containerId = useRef<string | null>(null);
+    const insertUserInput = useRef<boolean>(false);
 
     const terminalInit = () => {
         const code = props.terminalCallback();
@@ -117,6 +149,23 @@ function Terminal(props: TerminalProps) {
             setTerminalOutput(result.output + processFinished);
             setTerminalError(result.error);
             containerId.current = result.containerId;
+
+            if(result.waitingForInput) {
+                insertUserInput.current = true;
+            }
+        });
+    }
+
+    const terminalProvideInput = (userInput: string) => {
+        provide_input(userInput, containerId.current).then((result) => {
+            let processFinished = result.waitingForInput ? "" : "\n\nProcess finished";
+            setTerminalOutput(result.output + processFinished);
+            setTerminalError(result.error);
+            containerId.current = result.containerId;
+
+            if(result.waitingForInput) {
+                insertUserInput.current = true;
+            }
         });
     }
 
@@ -146,7 +195,10 @@ function Terminal(props: TerminalProps) {
             </div>
             <div className="terminal-outlet-wrapper">
                 <pre id="terminal-outlet">
-                    <code className="terminal-primary-text">{terminalOutput}</code>
+                    <code className="terminal-primary-text">
+                        {terminalOutput}
+                        {insertUserInput.current ? <UserInput returnInputCallback={terminalProvideInput}/> : null}
+                    </code>
                     <code className="terminal-error-text">{terminalError}</code>
                 </pre>
             </div>

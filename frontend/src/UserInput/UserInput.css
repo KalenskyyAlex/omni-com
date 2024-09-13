@@ -1,0 +1,28 @@
+input {
+    border: none;
+    background: none;
+    font-size: inherit;
+    padding: 0;
+    display: inline;
+    caret-color: var(--terminal-text-primary);
+}
+
+input:focus {
+    outline: none;
+}
+
+input::before {
+    content: '';
+    position: absolute;
+    width: 8px; /* Width of the caret */
+    height: 1.2em;
+    background: white; /* Caret color */
+    animation: blink 1s steps(1) infinite; /* Blinking caret */
+}
+
+/* Blinking effect */
+@keyframes blink {
+    50% {
+        background: transparent;
+    }
+}
