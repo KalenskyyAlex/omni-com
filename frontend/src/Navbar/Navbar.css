@@ -1,4 +1,11 @@
-
+.login-button {
+    height: 40px;
+    font-size: 1.2rem;
+    font-weight: normal;
+    background-color: var(--logo-primary);
+    padding: 8px;
+    color: var(--code-text-primary);
+}
 
 [theme="dark"] .logo-container{
     content: url("../icons/logoDark.svg");

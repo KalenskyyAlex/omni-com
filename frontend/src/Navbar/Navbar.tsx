@@ -44,14 +44,10 @@ function Todo() {
                 <div className="horizontal-group center" style={{
                     gap: "32px",
                 }}>
-                    <Link target="_blank" to="https://github.com/KalenskyyAlex/omni-com">
-                        <div className="github-icon"/>
-                    </Link>
-                    <Link target="_blank" to="https://www.linkedin.com/in/o-kalenskyy">
-                        <div className="linked-in-icon"/>
-                    </Link>
-                    <Link target="_blank" to="https://t.me/kalenskyj">
-                        <div className="telegram-icon"/>
+                    <Link to="/login">
+                        <button className="login-button hack">
+                            Login
+                        </button>
                     </Link>
                 </div>
             </div>

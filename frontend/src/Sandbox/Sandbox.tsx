@@ -6,6 +6,7 @@ import Codespace from "../Codespace/Codespace";
 import Terminal from "../Terminal/Terminal";
 import Examples from "../Examples/Examples";
 import Navbar from "../Navbar/Navbar";
+import Socials from "../Socials/Socials";
 
 interface codespaceData {
     examplesActive: boolean;
@@ -45,6 +46,7 @@ function Sandbox() {
 
     return (
         <div className="vertical-group">
+            <Socials></Socials>
             <Examples active={codespaceData.examplesActive} callback={examplesCallback}/>
             <Navbar/>
             <div className="editor-container">

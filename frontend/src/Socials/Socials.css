@@ -1,0 +1,36 @@
+@keyframes socialsRotation {
+    0% {
+        background-image: url("../icons/github.svg");
+    }
+    33% {
+        background-image: url("../icons/linked_in.svg");
+    }
+    66% {
+        background-image: url("../icons/telegram.svg");
+    }
+    100% {
+        background-image: url("../icons/github.svg");
+    }
+}
+
+.floating-button {
+    background-repeat: no-repeat;
+    background-position: center;
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    background-color: var(--socials-background);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: height 0.3s ease;
+    animation: socialsRotation 4s steps(1) infinite;
+    z-index: 200;
+}
+
+.floating-button:hover {
+    height: 120px;
+}
+

@@ -18,13 +18,12 @@ html {
     --terminal-background: #31303C;
     --terminal-text-primary: #E0E6F9;
 
-    --code-keyword: #3655B3;
-    --code-library: #3655B3;
     --code-comment: #76728D;
-    --code-operator: #3655B3;
     --code-function: #FB902E;
     --code-string: #11D181;
     --code-variable: #F04343;
+
+    --socials-background: #FFFFFF;
 }
 
 #root {
@@ -88,6 +87,10 @@ button {
 
     --guidelines-code-background: #31303C;
     --guidelines-text: #E0E6F9;
+
+    --code-keyword: #A6BCFF;
+    --code-library: #A6BCFF;
+    --code-operator: #A6BCFF;
 }
 
 [theme="light"] {
@@ -112,6 +115,10 @@ button {
 
     --guidelines-code-background: #EBEFF9;
     --guidelines-text: black;
+
+    --code-keyword: #3655B3;
+    --code-library: #3655B3;
+    --code-operator: #3655B3;
 }
 
 body {
@@ -136,7 +143,7 @@ nav {
     align-items: center;
 
     border-radius: 0 0 10px 10px;
-    padding: 0 24px 0 24px;
+    padding: 0 8px 0 8px;
     margin: 0 8px 0 8px;
     background-color: var(--nav-background);
     min-height: 64px;
