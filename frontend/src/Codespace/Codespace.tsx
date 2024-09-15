@@ -95,6 +95,7 @@ function Codespace(props: CodespaceProps) {
             }
         }
     })
+    props.updateCodeCallback(example1);
 
     const addNewTab = () => {
         let newTabIndex = tabNames.length;
