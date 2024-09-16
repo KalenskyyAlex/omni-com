@@ -91,6 +91,14 @@ button {
     --code-keyword: #A6BCFF;
     --code-library: #A6BCFF;
     --code-operator: #A6BCFF;
+
+    --login-background: #101A36;
+    --login-background-border: #E0E6F9;
+    --login-button: #E0E6F9;
+    --login-button-text: #101A36;
+    --login-text: #E0E6F9;
+    --login-input-border: #E0E6F9;
+    --login-link: #A6BCFF;
 }
 
 [theme="light"] {
@@ -119,6 +127,14 @@ button {
     --code-keyword: #3655B3;
     --code-library: #3655B3;
     --code-operator: #3655B3;
+
+    --login-background: #FFFFFF;
+    --login-background-border: #FFFFFF;
+    --login-button: #3655B3;
+    --login-button-text: #FFFFFF;
+    --login-text: #101A36;
+    --login-input-border: #3655B3;
+    --login-link: #3655B3;
 }
 
 body {
@@ -270,6 +286,22 @@ a:-webkit-any-link{
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
+}
+
+.gap8 {
+    gap: 8px;
+}
+
+.gap16 {
+    gap: 16px;
+}
+
+.gap24 {
+    gap: 24px;
+}
+
+.gap32 {
+    gap: 32px;
 }
 
 [class*="icon"] {

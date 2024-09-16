@@ -1,0 +1,59 @@
+.login{
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    padding: 8px;
+    background-color: var(--login-background);
+    border-radius: 10px;
+    border: 1px solid var(--login-background-border);
+    margin: auto;
+    width: fit-content;
+    min-width: 350px;
+}
+
+.login > * {
+    color: var(--login-text);
+}
+
+.login input {
+    border: 2px solid var(--login-input-border);
+    background-color: var(--login-background);
+    color: var(--login-text);
+    border-radius: 10px;
+    min-height: 40px;
+    font-size: 1.2rem;
+    padding: 0 8px 0 8px;
+}
+
+.login input:focus {
+    outline: 1px solid var(--login-input-border);
+}
+
+.login label {
+    display: block;
+    color: var(--login-text);
+    font-size: 1rem;
+}
+
+.login .link{
+    color: var(--login-link);
+}
+
+.login button {
+    width: 100%;
+    height: 48px;
+}
+
+.google-icon {
+    width: 24px;
+    height: 24px;
+    background: var(--login-button-text);
+
+    -webkit-mask-image: url("../icons/google.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    mask-image: url("../icons/google.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+}

@@ -5,6 +5,7 @@ import {createBrowserRouter, RouterProvider, Navigate} from "react-router-dom";
 import Sandbox from '../Sandbox/Sandbox';
 import Todo from "../Todo";
 import Guidelines from "../Guidelines/Guidelines";
+import Login from "../Login/Login";
 
 const router = createBrowserRouter([
     {
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/login",
-        element: <Todo/>
+        element: <Login/>
     },
     {
         path: "/signup",

@@ -1,4 +1,4 @@
-input {
+.terminal input {
     border: none;
     background: none;
     font-size: inherit;
@@ -7,11 +7,11 @@ input {
     caret-color: var(--terminal-text-primary);
 }
 
-input:focus {
+.terminal input:focus {
     outline: none;
 }
 
-input::before {
+.terminal input::before {
     content: '';
     position: absolute;
     width: 8px; /* Width of the caret */

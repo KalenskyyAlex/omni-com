@@ -46,7 +46,7 @@ function Sandbox() {
 
     return (
         <div className="vertical-group">
-            <Socials></Socials>
+            <Socials/>
             <Examples active={codespaceData.examplesActive} callback={examplesCallback}/>
             <Navbar/>
             <div className="editor-container">
