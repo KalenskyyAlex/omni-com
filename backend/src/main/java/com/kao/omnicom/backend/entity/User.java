@@ -34,7 +34,6 @@ public class User {
     private String password;
 
     @NotNull
-    @Column(name="roles", nullable=false)
     @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "role_id")
     private Role roles;

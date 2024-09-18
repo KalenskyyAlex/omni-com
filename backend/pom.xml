@@ -81,6 +81,12 @@
             <artifactId>httpcore5-h2</artifactId>
             <version>5.2.5</version>
         </dependency>
+
+        <!-- mailing -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
