@@ -33,3 +33,5 @@ build/
 .vscode/
 
 default_input.min
+
+src/main/resources/application-dev.properties

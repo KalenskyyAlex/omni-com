@@ -1,6 +1,6 @@
-package com.kao.omnicom.backend.converter;
+package com.kao.omnicom.backend.jpa.converter;
 
-import com.kao.omnicom.backend.enumeration.Authorities;
+import com.kao.omnicom.backend.util.enumeration.Authorities;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

@@ -1,10 +1,9 @@
 package com.kao.omnicom.backend.rest;
 
-import com.kao.omnicom.backend.entity.OutputResponse;
-import com.kao.omnicom.backend.entity.TerminalInput;
+import com.kao.omnicom.backend.domain.OutputResponse;
+import com.kao.omnicom.backend.domain.TerminalInput;
 import com.kao.omnicom.backend.services.TerminalService;
 import com.kao.omnicom.backend.services.impl.TerminalServiceDocker;
-import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Level;

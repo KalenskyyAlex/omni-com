@@ -1,4 +1,4 @@
-package com.kao.omnicom.backend.constants;
+package com.kao.omnicom.backend.util.constants;
 
 public class Constants {
 

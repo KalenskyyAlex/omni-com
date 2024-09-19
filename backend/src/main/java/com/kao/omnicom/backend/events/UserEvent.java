@@ -1,7 +1,7 @@
 package com.kao.omnicom.backend.events;
 
-import com.kao.omnicom.backend.entity.User;
-import com.kao.omnicom.backend.enumeration.Events;
+import com.kao.omnicom.backend.jpa.entity.User;
+import com.kao.omnicom.backend.util.enumeration.Events;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

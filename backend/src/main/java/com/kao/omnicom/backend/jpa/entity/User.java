@@ -1,4 +1,4 @@
-package com.kao.omnicom.backend.entity;
+package com.kao.omnicom.backend.jpa.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

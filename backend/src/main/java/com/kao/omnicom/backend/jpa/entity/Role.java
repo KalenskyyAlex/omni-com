@@ -1,6 +1,6 @@
-package com.kao.omnicom.backend.entity;
+package com.kao.omnicom.backend.jpa.entity;
 
-import com.kao.omnicom.backend.enumeration.Authorities;
+import com.kao.omnicom.backend.util.enumeration.Authorities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -12,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "users")
+@Table(name = "roles")
 public class Role {
 
     @Id
