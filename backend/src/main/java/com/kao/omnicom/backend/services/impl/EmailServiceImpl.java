@@ -19,11 +19,10 @@ public class EmailServiceImpl implements EmailService {
     private final Logger logger = Logger.getLogger("EmailServiceImpl");
     private static final String NEW_USER_ACCOUNT_SUBJ = "New User Account Verification";
     private static final String RESET_PASSWORD_SUBJ = "Reset Password Request";
-    private static final String SENDER_EMAIL = "noreply@omni.com";
 
     private final JavaMailSender sender;
 
-    @Value("${spring.mail.verify.host}")
+    @Value("${spring.mail.host}")
     private String host;
 
     @Value("${spring.mail.username}")
@@ -55,7 +54,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject(NEW_USER_ACCOUNT_SUBJ);
-            message.setFrom(SENDER_EMAIL);
+            message.setFrom(fromEmail);
             message.setTo(to);
             message.setText(getNewUserEmailMessage(name, host, token));
             sender.send(message);
@@ -71,7 +70,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject(RESET_PASSWORD_SUBJ);
-            message.setFrom(SENDER_EMAIL);
+            message.setFrom(fromEmail);
             message.setTo(to);
             message.setText(getResetEmailMessage(name, host, token));
             sender.send(message);

@@ -15,6 +15,7 @@ public class SpringSecutiryConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .authorizeHttpRequests(registry -> {
+                    registry.requestMatchers("/api/user/register").permitAll();
                     registry.requestMatchers("/api/terminal/**").permitAll();
                     registry.requestMatchers("/api/login/**").permitAll();
                     registry.anyRequest().authenticated();
