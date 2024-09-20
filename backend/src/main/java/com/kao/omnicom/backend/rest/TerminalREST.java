@@ -1,7 +1,7 @@
 package com.kao.omnicom.backend.rest;
 
 import com.kao.omnicom.backend.domain.OutputResponse;
-import com.kao.omnicom.backend.domain.TerminalInput;
+import com.kao.omnicom.backend.domain.TerminalRequest;
 import com.kao.omnicom.backend.services.TerminalService;
 import com.kao.omnicom.backend.services.impl.TerminalServiceDocker;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ public class TerminalREST {
     private final Logger logger = Logger.getLogger("TerminalREST");
 
     @PostMapping("/init")
-    public OutputResponse getOutput(@RequestBody TerminalInput input) {
+    public OutputResponse getOutput(@RequestBody TerminalRequest input) {
         logger.log(Level.INFO, "Get Output request was called");
         OutputResponse response = new OutputResponse();
 
@@ -32,7 +32,7 @@ public class TerminalREST {
     }
 
     @PostMapping("/provide-input")
-    public OutputResponse provideInput(@RequestBody TerminalInput input) {
+    public OutputResponse provideInput(@RequestBody TerminalRequest input) {
         logger.log(Level.INFO, "Provide Input request was called");
         OutputResponse response = new OutputResponse();
 
@@ -52,7 +52,7 @@ public class TerminalREST {
     }
 
     @PostMapping("/interrupt")
-    public OutputResponse interrupt(@RequestBody TerminalInput input) {
+    public OutputResponse interrupt(@RequestBody TerminalRequest input) {
         logger.log(Level.INFO, "Interrupt request was called");
         OutputResponse response = new OutputResponse();
 

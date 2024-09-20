@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class TerminalInput {
+public class TerminalRequest {
 
     private String code;
 
