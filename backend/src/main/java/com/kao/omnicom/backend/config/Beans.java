@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.servlet.support.RequestContext;
 
 @Configuration
 public class Beans {
@@ -42,9 +41,15 @@ public class Beans {
                     .authorities(Authorities.MASTER_ADMIN)
                     .build();
 
-            roleRepository.save(userRole);
-            roleRepository.save(adminRole);
-            roleRepository.save(masterAdminRole);
+            if(!roleRepository.existsByName(Authorities.USER.name())) {
+                roleRepository.save(userRole);
+            }
+            if(!roleRepository.existsByName(Authorities.ADMIN.name())) {
+                roleRepository.save(adminRole);
+            }
+            if(!roleRepository.existsByName(Authorities.MASTER_ADMIN.name())) {
+                roleRepository.save(masterAdminRole);
+            }
         };
     }
 
