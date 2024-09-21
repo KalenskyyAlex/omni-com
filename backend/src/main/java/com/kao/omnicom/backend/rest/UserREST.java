@@ -1,14 +1,10 @@
 package com.kao.omnicom.backend.rest;
 
 import com.kao.omnicom.backend.domain.UserRequest;
-import com.kao.omnicom.backend.jpa.entity.User;
 import com.kao.omnicom.backend.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +18,17 @@ public class UserREST {
         userService.createUser(user.getUsername(), user.getEmail(), user.getPassword());
 
         return ResponseEntity.ok("Account created successfully. Check your email to enable your account");
+    }
+
+    @GetMapping("/account/verify")
+    public ResponseEntity<String> verifyAccount(@RequestParam("token") String token){
+        boolean validatedSuccessful = userService.validateAccount(token);
+
+        if (validatedSuccessful){
+            return ResponseEntity.ok("Account verified successfully. You can close this page");
+        }
+
+        return ResponseEntity.ok("An error occurred. Contact support");
     }
 
 }

@@ -22,7 +22,7 @@ public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender sender;
 
-    @Value("${spring.mail.host}")
+    @Value("${spring.mail.verify.host}")
     private String host;
 
     @Value("${spring.mail.username}")

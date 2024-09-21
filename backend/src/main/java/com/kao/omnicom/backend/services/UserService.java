@@ -8,4 +8,7 @@ public interface UserService {
     void createUser(String username, String email, String password);
 
     Role getRole(String name);
+
+    boolean validateAccount(String token);
+
 }

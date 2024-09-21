@@ -38,4 +38,8 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role roles;
 
+    @NotNull
+    @Column(name="email_verified", nullable = false)
+    private boolean emailVerified = false;
+
 }
