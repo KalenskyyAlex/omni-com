@@ -80,14 +80,13 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
-
         VerificationToken verificationToken = verificationTokenOptional.get();
 
         User user = verificationToken.getUser();
         user.setEmailVerified(true);
 
         userRepository.save(user);
-        verificationTokenRepository.deleteById(verificationToken.getId()); // token no more active
+        verificationTokenRepository.delete(verificationToken); // token no more active
 
         logger.log(Level.FINE, "Verification for user {0} was successful", user.getUsername());
 

@@ -29,15 +29,15 @@ public class EmailServiceImpl implements EmailService {
     private String fromEmail;
 
     private String getVerificationURL(String host, String token) {
-        return host + "verify/account?token=" + token;
+        return host + "account/verify?token=" + token;
     }
 
     private String getResetURL(String host, String token) {
-        return host + "verify/password?token=" + token;
+        return host + "account/password-reset?token=" + token;
     }
 
     private String getNewUserEmailMessage(String name, String host, String token) {
-        return "Hello " + name + ", \n\n. Your new account on OMNICOM is about to be created. " +
+        return "Hello " + name + ".\n\nYour new account on OMNICOM is about to be created. " +
                 "Please, click on the link below to verify your account.\n\n" + getVerificationURL(host, token)
                 + "\n\n If you haven't signed up on OMNICOM, ignore this email";
     }
@@ -50,7 +50,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Async
-    public void sendNewAccoutEmail(String name, String to, String token) {
+    public void sendNewAccountEmail(String name, String to, String token) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject(NEW_USER_ACCOUNT_SUBJ);

@@ -16,7 +16,7 @@ public class UserEventListener {
     public void onUserEvent(UserEvent event) {
         switch (event.getType()) {
             case NEW_ACCOUNT_VERIFICATION ->
-                    emailService.sendNewAccoutEmail(event.getUser().getUsername(), event.getUser().getEmail(), (String) event.getData().get("key"));
+                    emailService.sendNewAccountEmail(event.getUser().getUsername(), event.getUser().getEmail(), (String) event.getData().get("key"));
             case PASSWORD_RESET ->
                     emailService.sendPasswordResetEmail(event.getUser().getUsername(), event.getUser().getEmail(), (String) event.getData().get("key"));
             default -> {/* TODO */}

@@ -4,6 +4,7 @@ import com.kao.omnicom.backend.jpa.entity.Role;
 import com.kao.omnicom.backend.jpa.repository.RoleRepository;
 import com.kao.omnicom.backend.util.enumeration.Authorities;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,11 +13,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class Beans {
 
     @Bean
+    @ConditionalOnMissingBean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public CommandLineRunner commandLineRunner(RoleRepository roleRepository) {
         return args -> {
             Role userRole = Role.builder()
