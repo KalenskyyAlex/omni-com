@@ -24,6 +24,8 @@ html {
     --code-variable: #F04343;
 
     --socials-background: #FFFFFF;
+    --socials-background-darken: #F2F2F2;
+
 }
 
 #root {
@@ -286,6 +288,11 @@ a:-webkit-any-link{
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
+
+}
+
+.gap0 {
+    gap: 0;
 }
 
 .gap8 {

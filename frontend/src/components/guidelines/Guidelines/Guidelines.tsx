@@ -2,6 +2,7 @@ import '../../../index.css';
 import './Guidelines.css';
 import Linter from "../../common/Linter/Linter";
 import Navbar from "../../common/Navbar/Navbar";
+import Socials from "../../common/Socials/Socials";
 
 function Guidelines() {
     const var_example = "var1 is int ~ declaring\n" +
@@ -54,6 +55,7 @@ function Guidelines() {
 
     return <div>
         <Navbar/>
+        <Socials darken={true}/>
         <div className="guidelines-container">
             <div>
                 <h2 className="underline-group">Intro</h2>

@@ -1,0 +1,40 @@
+[theme="dark"] {
+    --text-color: #E0E6F9;
+    --link-color: #A6BCFF;
+}
+
+[theme="light"] {
+    --text-color: #101A36;
+    --link-color: #3655B3;
+}
+
+.error-code {
+    line-height: 3.2rem;
+    color: var(--text-color);
+    font-size: 3.2rem;
+    font-weight: 900;
+    margin: 0;
+}
+
+.error-header {
+    color: var(--text-color);
+    line-height: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin: 0;
+}
+
+.error-description {
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: 100;
+    margin: 0;
+}
+
+.link{
+    color: var(--link-color);
+}
+
+.link:visited {
+    color: var(--link-color);
+}

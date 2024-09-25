@@ -6,6 +6,7 @@ import Sandbox from '../../editor/Sandbox/Sandbox';
 import Todo from "../../../Todo";
 import Guidelines from "../../guidelines/Guidelines/Guidelines";
 import Login from "../../auth/Login/Login";
+import NotFound404 from "../../error/NotFound404/NotFound404";
 
 const router = createBrowserRouter([
     {
@@ -25,6 +26,14 @@ const router = createBrowserRouter([
         element: <Todo/>
     },
     {
+        path: "/verify/account",
+        element: <Todo/>
+    },
+    {
+        path: "/verify/password",
+        element: <Todo/>
+    },
+    {
         path: "/signup",
         element: <Todo/>
     },
@@ -39,6 +48,10 @@ const router = createBrowserRouter([
     {
         path: "/guidelines",
         element: <Guidelines/>
+    },
+    {
+        path: "*",
+        element: <NotFound404/>
     }
 ]);
 

@@ -34,3 +34,7 @@
     height: 120px;
 }
 
+.socials-darken {
+    background-color: var(--socials-background-darken);
+}
+

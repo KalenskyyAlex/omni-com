@@ -3,7 +3,7 @@ import "./Navbar.css"
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 
-function Todo() {
+function Navbar() {
     let storedTheme = localStorage.getItem("theme");
     if (storedTheme === undefined || storedTheme === null) {
         storedTheme = "light";
@@ -55,4 +55,4 @@ function Todo() {
     )
 }
 
-export default Todo;
+export default Navbar;

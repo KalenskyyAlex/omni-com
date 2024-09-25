@@ -6,7 +6,7 @@ import github from "../../../icons/github.svg";
 import linkedIn from "../../../icons/linked_in.svg";
 import telegram from "../../../icons/telegram.svg";
 
-function Socials() {
+function Socials({ darken = false }) {
     const [isHovered, setHovered] = useState(false);
     const socialsButton = useRef<HTMLButtonElement | null>(null);
 
@@ -22,7 +22,7 @@ function Socials() {
                     socialsButton.current!.style.animationPlayState = 'running';
                     socialsButton.current!.style.backgroundSize = '24px';
                 }}
-                className="floating-button">
+                className={"floating-button" + (darken ? " socials-darken" : "")}>
             {
                 isHovered ? <div className="vertical-group" style={{
                     justifyContent: 'space-between',
