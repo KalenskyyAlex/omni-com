@@ -1,10 +1,10 @@
-import '../index.css';
+import '../../../index.css';
 import './Socials.css';
 import {useRef, useState} from "react";
 import {Link} from "react-router-dom";
-import github from "../icons/github.svg";
-import linkedIn from "../icons/linked_in.svg";
-import telegram from "../icons/telegram.svg";
+import github from "../../../icons/github.svg";
+import linkedIn from "../../../icons/linked_in.svg";
+import telegram from "../../../icons/telegram.svg";
 
 function Socials() {
     const [isHovered, setHovered] = useState(false);

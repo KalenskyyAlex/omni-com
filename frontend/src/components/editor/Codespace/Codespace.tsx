@@ -1,8 +1,8 @@
 import {ChangeEvent, useEffect, useRef, useState} from "react";
-import Linter from "../Linter/Linter";
-import {getRaw} from "../Linter/Linter";
+import Linter from "../../common/Linter/Linter";
+import {getRaw} from "../../common/Linter/Linter";
 
-import '../index.css';
+import '../../../index.css';
 import './Codespace.css';
 
 interface CodespaceProps {

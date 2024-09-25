@@ -1,12 +1,12 @@
-import '../index.css';
+import '../../../index.css';
 import './Sandbox.css';
 import {useRef, useState} from "react";
 
 import Codespace from "../Codespace/Codespace";
 import Terminal from "../Terminal/Terminal";
 import Examples from "../Examples/Examples";
-import Navbar from "../Navbar/Navbar";
-import Socials from "../Socials/Socials";
+import Navbar from "../../common/Navbar/Navbar";
+import Socials from "../../common/Socials/Socials";
 
 interface codespaceData {
     examplesActive: boolean;

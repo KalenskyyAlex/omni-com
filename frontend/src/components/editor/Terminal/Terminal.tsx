@@ -1,4 +1,4 @@
-import '../index.css';
+import '../../../index.css';
 import './Terminal.css';
 import {useRef, useState} from "react";
 import UserInput from "../UserInput/UserInput";

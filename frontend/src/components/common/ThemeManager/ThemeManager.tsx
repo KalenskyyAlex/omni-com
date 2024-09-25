@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
-import '../index.css';
+import '../../../index.css';
 import {createBrowserRouter, RouterProvider, Navigate} from "react-router-dom";
 
-import Sandbox from '../Sandbox/Sandbox';
-import Todo from "../Todo";
-import Guidelines from "../Guidelines/Guidelines";
-import Login from "../Login/Login";
+import Sandbox from '../../editor/Sandbox/Sandbox';
+import Todo from "../../../Todo";
+import Guidelines from "../../guidelines/Guidelines/Guidelines";
+import Login from "../../auth/Login/Login";
 
 const router = createBrowserRouter([
     {

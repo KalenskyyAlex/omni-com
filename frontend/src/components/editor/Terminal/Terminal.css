@@ -32,11 +32,11 @@
     height: 36px;
     background: var(--terminal-text-primary);
 
-    -webkit-mask-image: url("../icons/run.svg");
+    -webkit-mask-image: url("../../../icons/run.svg");
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
 
-    mask-image: url("../icons/run.svg");
+    mask-image: url("../../../icons/run.svg");
     mask-repeat: no-repeat;
     mask-position: center;
 }
@@ -46,11 +46,11 @@
     height: 36px;
     background: var(--terminal-text-primary);
 
-    -webkit-mask-image: url("../icons/stop.svg");
+    -webkit-mask-image: url("../../../icons/stop.svg");
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
 
-    mask-image: url("../icons/stop.svg");
+    mask-image: url("../../../icons/stop.svg");
     mask-repeat: no-repeat;
     mask-position: center;
 }
@@ -60,11 +60,11 @@
     height: 36px;
     background: var(--terminal-accent);
 
-    -webkit-mask-image: url("../icons/stree.svg");
+    -webkit-mask-image: url("../../../icons/stree.svg");
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
 
-    mask-image: url("../icons/stree.svg");
+    mask-image: url("../../../icons/stree.svg");
     mask-repeat: no-repeat;
     mask-position: center;
 }
@@ -74,11 +74,11 @@
     height: 36px;
     background: var(--terminal-accent);
 
-    -webkit-mask-image: url("../icons/tokens.svg");
+    -webkit-mask-image: url("../../../icons/tokens.svg");
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
 
-    mask-image: url("../icons/tokens.svg");
+    mask-image: url("../../../icons/tokens.svg");
     mask-repeat: no-repeat;
     mask-position: center;
 }

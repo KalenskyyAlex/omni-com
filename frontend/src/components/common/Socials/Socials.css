@@ -1,15 +1,15 @@
 @keyframes socialsRotation {
     0% {
-        background-image: url("../icons/github.svg");
+        background-image: url("../../../icons/github.svg");
     }
     33% {
-        background-image: url("../icons/linked_in.svg");
+        background-image: url("../../../icons/linked_in.svg");
     }
     66% {
-        background-image: url("../icons/telegram.svg");
+        background-image: url("../../../icons/telegram.svg");
     }
     100% {
-        background-image: url("../icons/github.svg");
+        background-image: url("../../../icons/github.svg");
     }
 }
 

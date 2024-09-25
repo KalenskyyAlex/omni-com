@@ -1,6 +1,6 @@
-import '../index.css';
+import '../../../index.css';
 import './Examples.css';
-import Linter from "../Linter/Linter";
+import Linter from "../../common/Linter/Linter";
 
 interface ExamplesProps {
     active: boolean;

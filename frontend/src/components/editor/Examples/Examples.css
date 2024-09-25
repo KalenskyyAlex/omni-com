@@ -57,12 +57,12 @@
 
     background: var(--logo-primary);
 
-    -webkit-mask-image: url("../icons/close_tab.svg");
+    -webkit-mask-image: url("../../../icons/close_tab.svg");
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
     -webkit-mask-size: 16px;
 
-    mask-image: url("../icons/close_tab.svg");
+    mask-image: url("../../../icons/close_tab.svg");
     mask-repeat: no-repeat;
     mask-size: 16px;
     mask-position: center;

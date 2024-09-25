@@ -49,11 +49,11 @@
     height: 24px;
     background: var(--login-button-text);
 
-    -webkit-mask-image: url("../icons/google.svg");
+    -webkit-mask-image: url("../../../icons/google.svg");
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
 
-    mask-image: url("../icons/google.svg");
+    mask-image: url("../../../icons/google.svg");
     mask-repeat: no-repeat;
     mask-position: center;
 }

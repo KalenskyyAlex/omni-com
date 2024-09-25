@@ -1,7 +1,7 @@
-import '../index.css';
+import '../../../index.css';
 import './Guidelines.css';
-import Linter from "../Linter/Linter";
-import Navbar from "../Navbar/Navbar";
+import Linter from "../../common/Linter/Linter";
+import Navbar from "../../common/Navbar/Navbar";
 
 function Guidelines() {
     const var_example = "var1 is int ~ declaring\n" +

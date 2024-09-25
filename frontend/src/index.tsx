@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
-import ThemeManager from "./ThemeManager/ThemeManager";
+import ThemeManager from "./components/common/ThemeManager/ThemeManager";
 
 const reactRoot = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement

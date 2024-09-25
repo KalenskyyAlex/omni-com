@@ -1,7 +1,7 @@
-import '../index.css';
+import '../../../index.css';
 import './Login.css';
-import Navbar from "../Navbar/Navbar";
-import Socials from "../Socials/Socials";
+import Navbar from "../../common/Navbar/Navbar";
+import Socials from "../../common/Socials/Socials";
 import {Link} from "react-router-dom";
 
 function Login() {

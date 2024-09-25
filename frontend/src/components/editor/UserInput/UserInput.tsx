@@ -1,4 +1,4 @@
-import '../index.css';
+import '../../../index.css';
 import './UserInput.css';
 import React, {useRef, useState} from "react";
 
