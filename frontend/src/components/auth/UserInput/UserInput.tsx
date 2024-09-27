@@ -18,7 +18,7 @@ function UserInput(props: UserInputProps) {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
 
-        const [isError, errorMessage] = props.errorCallback(value);
+        const [isError, errorMessage] = props.errorCallback(value, props.label);
 
         setInvalidInput(isError);
         setErrorMessage(errorMessage);

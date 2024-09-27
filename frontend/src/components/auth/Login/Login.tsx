@@ -4,17 +4,9 @@ import Navbar from "../../common/Navbar/Navbar";
 import Socials from "../../common/Socials/Socials";
 import {Link} from "react-router-dom";
 import UserInput from "../UserInput/UserInput";
+import {emptyError} from "../validators";
 
 function Login() {
-    const emptyError = (value: string) => {
-        if (value.length === 0) {
-            return [true, "Input cannot be empty"];
-        }
-        else {
-            return [false, ""];
-        }
-    }
-
     return <div className="vertical-group">
         <Navbar/>
         <Socials/>
