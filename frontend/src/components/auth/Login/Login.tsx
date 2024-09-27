@@ -1,26 +1,30 @@
 import '../../../index.css';
-import './Login.css';
+import '../auth.css';
 import Navbar from "../../common/Navbar/Navbar";
 import Socials from "../../common/Socials/Socials";
 import {Link} from "react-router-dom";
+import UserInput from "../UserInput/UserInput";
 
 function Login() {
+    const emptyError = (value: string) => {
+        if (value.length === 0) {
+            return [true, "Input cannot be empty"];
+        }
+        else {
+            return [false, ""];
+        }
+    }
+
     return <div className="vertical-group">
         <Navbar/>
         <Socials/>
-        <div className="login hack">
+        <div className="input-container hack">
             <div className="vertical-group gap24">
-                <div className="vertical-group gap8">
-                    <label htmlFor="username">Username</label>
-                    <input type="text"/>
-                </div>
-                <div className="vertical-group gap8">
-                    <label htmlFor="password">Password</label>
-                    <input type="password"/>
-                </div>
+                <UserInput label="Username" type="text" for="username" inputCallback={() => {}} errorCallback={emptyError}/>
+                <UserInput label="Password" type="password" for="password" inputCallback={() => {}} errorCallback={emptyError}/>
             </div>
             <div className="vertical-group gap16 center">
-                <Link className="link" to="/signup">Forgot password?</Link>
+                <Link className="link" to="/reset">Forgot password?</Link>
                 <Link className="link" to="/signup">I dont have an account</Link>
                 <button className="login-button hack">Log in</button>
                 <div>Or</div>

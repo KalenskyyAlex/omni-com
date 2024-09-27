@@ -1,4 +1,4 @@
-.login{
+.input-container{
     display: flex;
     flex-direction: column;
     gap: 80px;
@@ -11,11 +11,11 @@
     min-width: 350px;
 }
 
-.login > * {
+.input-container > * {
     color: var(--login-text);
 }
 
-.login input {
+.input-container input {
     border: 2px solid var(--login-input-border);
     background-color: var(--login-background);
     color: var(--login-text);
@@ -25,21 +25,33 @@
     padding: 0 8px 0 8px;
 }
 
-.login input:focus {
+.input-container input.error {
+    border: 3px solid var(--login-input-border-error);
+}
+
+.input-container input:focus {
     outline: 1px solid var(--login-input-border);
 }
 
-.login label {
+.input-container input.error:focus {
+    outline: 1px solid var(--login-input-border-error);
+}
+
+.input-container label {
     display: block;
     color: var(--login-text);
     font-size: 1rem;
 }
 
-.login .link{
+.input-container label.error {
+    color: var(--login-input-border-error);
+}
+
+.input-container .link{
     color: var(--login-link);
 }
 
-.login button {
+.input-container button {
     width: 100%;
     height: 48px;
 }
@@ -49,11 +61,12 @@
     height: 24px;
     background: var(--login-button-text);
 
-    -webkit-mask-image: url("../../../icons/google.svg");
+    -webkit-mask-image: url("../../icons/google.svg");
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
 
-    mask-image: url("../../../icons/google.svg");
+    mask-image: url("../../icons/google.svg");
     mask-repeat: no-repeat;
     mask-position: center;
 }
+

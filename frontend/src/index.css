@@ -26,6 +26,7 @@ html {
     --socials-background: #FFFFFF;
     --socials-background-darken: #F2F2F2;
 
+    --login-input-border-error: #F04343;
 }
 
 #root {
