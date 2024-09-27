@@ -7,7 +7,7 @@
     border-radius: 10px;
     border: 1px solid var(--login-background-border);
     margin: auto;
-    width: fit-content;
+    width: 350px;
     min-width: 350px;
 }
 
@@ -58,6 +58,7 @@
 
 .input-container .link{
     color: var(--login-link);
+    text-align: center;
 }
 
 .input-container button {
@@ -107,3 +108,7 @@
     mask-position: center;
 }
 
+.input-container-message {
+    word-break: break-all;
+    text-align: center;
+}
