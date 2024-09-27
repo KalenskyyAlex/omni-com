@@ -4,16 +4,26 @@ import Navbar from "../../common/Navbar/Navbar";
 import Socials from "../../common/Socials/Socials";
 import {Link} from "react-router-dom";
 import UserInput from "../UserInput/UserInput";
-import {emptyError} from "../validators";
+import {emptyError, invalidEmailError} from "../validators";
 
 function Login() {
+
+
     return <div className="vertical-group">
         <Navbar/>
         <Socials/>
         <div className="input-container hack">
             <div className="vertical-group gap24">
-                <UserInput label="Username" type="text" for="username" inputCallback={() => {}} errorCallback={emptyError}/>
-                <UserInput label="Password" type="password" for="password" inputCallback={() => {}} errorCallback={emptyError}/>
+                <UserInput
+                    label="Username"
+                    type="text"
+                    for="username" inputCallback={() => {}}
+                    errorCallback={emptyError}/>
+                <UserInput
+                    label="Password"
+                    type="password" for="password"
+                    inputCallback={() => {}}
+                    errorCallback={emptyError}/>
             </div>
             <div className="vertical-group gap16 center">
                 <Link className="link" to="/reset">Forgot password?</Link>

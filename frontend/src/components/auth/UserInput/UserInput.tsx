@@ -12,7 +12,7 @@ interface UserInputProps {
 
 function UserInput(props: UserInputProps) {
     const [invalidInput, setInvalidInput] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState([]);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +44,12 @@ function UserInput(props: UserInputProps) {
                    onChange={handleChange}
                    onBlur={handleBlur}
                    onKeyDown={handleKeyDown}/>
-            {errorMessage.length > 0 ? <label className="error" htmlFor={props.for}>{errorMessage}</label> : null}
+            {errorMessage.length > 0 ?
+                errorMessage.map((message) => <label className="error horizontal-group center" htmlFor={props.for}>
+                    <div className="input-error-icon"></div>
+                    <div>{message}</div>
+                </label>)
+                : null}
         </div>
     )
 }

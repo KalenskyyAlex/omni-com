@@ -7,6 +7,7 @@ import Todo from "../../../Todo";
 import Guidelines from "../../guidelines/Guidelines/Guidelines";
 import Login from "../../auth/Login/Login";
 import NotFound404 from "../../error/NotFound404/NotFound404";
+import Signup from "../../auth/Signup/Signup";
 
 const router = createBrowserRouter([
     {
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/signup",
-        element: <Todo/>
+        element: <Signup/>
     },
     {
         path: "/home",
