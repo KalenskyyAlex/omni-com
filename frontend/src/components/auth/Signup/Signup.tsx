@@ -4,22 +4,12 @@ import Navbar from "../../common/Navbar/Navbar";
 import Socials from "../../common/Socials/Socials";
 import {Link} from "react-router-dom";
 import UserInput from "../UserInput/UserInput";
-import {emptyError, invalidEmailError} from "../validators";
+import {emailValidator, emptyError, invalidEmailError} from "../validators";
 import CreatePassword from "../CreatePassword/CreatePassword";
 import {useState} from "react";
 
 function Signup() {
     const [signUpPressed, setSignUpPressed] = useState(false);
-
-    const emailValidator = (value: string, name: string) => {
-        const [error1, message1] = emptyError(value, name);
-        const [error2, message2] = invalidEmailError(value, name);
-
-        const error = error1 || error2;
-        const message = [...message1, ...message2];
-
-        return [error, message]
-    }
 
     return <div className="vertical-group">
         <Navbar/>

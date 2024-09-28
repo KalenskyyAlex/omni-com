@@ -8,7 +8,9 @@ import Guidelines from "../../guidelines/Guidelines/Guidelines";
 import Login from "../../auth/Login/Login";
 import NotFound404 from "../../error/NotFound404/NotFound404";
 import Signup from "../../auth/Signup/Signup";
-import ResetPassword from "../../auth/ResetPassword/ResetPassword";
+import SendResetPassword from "../../auth/SendResetPassword/SendResetPassword";
+import ResetPassword from "../../auth/Verify/ResetPassword";
+import ActivateAccount from "../../auth/Verify/ActivateAccount";
 
 const router = createBrowserRouter([
     {
@@ -25,15 +27,15 @@ const router = createBrowserRouter([
     },
     {
         path: "/reset",
-        element: <ResetPassword/>
+        element: <SendResetPassword/>
     },
     {
         path: "/verify/account",
-        element: <Todo/>
+        element: <ActivateAccount/>
     },
     {
         path: "/verify/password",
-        element: <Todo/>
+        element: <ResetPassword/>
     },
     {
         path: "/signup",

@@ -53,4 +53,14 @@ function noError (value: string, name: string, length: number): [boolean, string
     return [false, []];
 }
 
-export {emptyError, noCapitalError, lengthError, noSpecialSymbolError, invalidEmailError, noError, matchError}
+function emailValidator (value: string, name: string) {
+    const [error1, message1] = emptyError(value, name);
+    const [error2, message2] = invalidEmailError(value, name);
+
+    const error = error1 || error2;
+    const message = [...message1, ...message2];
+
+    return [error, message];
+}
+
+export {emptyError, noCapitalError, lengthError, noSpecialSymbolError, invalidEmailError, noError, matchError, emailValidator}

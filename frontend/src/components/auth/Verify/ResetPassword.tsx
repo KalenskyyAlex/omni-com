@@ -8,7 +8,7 @@ import {useState} from "react";
 
 function ResetPassword() {
     const [signUpPressed, setsignUpPressed] = useState(false);
-    
+
     return <div className="vertical-group">
         <Navbar/>
         <Socials/>
