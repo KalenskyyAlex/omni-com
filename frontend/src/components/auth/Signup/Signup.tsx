@@ -52,7 +52,6 @@ function Signup() {
                             <CreatePassword/>
                         </div>
                 }
-
             </div>
             <div className="vertical-group gap16 center">
                 {
@@ -68,7 +67,6 @@ function Signup() {
                     signUpPressed ? null :
                     <button className="login-button hack" onClick={() => {
                         setSignUpPressed(true);
-                        console.log("A");
                     }}>
                         Sign up
                     </button>

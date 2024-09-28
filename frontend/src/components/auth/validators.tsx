@@ -43,7 +43,6 @@ function lengthError (value: string, name: string, length: number): [boolean, st
 
 function matchError (value: string, name: string, match: string): [boolean, string[]] {
     if (value !== match) {
-        console.log(value, match);
         return [true, [name + " do not match"]];
     }
 

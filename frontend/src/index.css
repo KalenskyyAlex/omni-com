@@ -316,3 +316,11 @@ a:-webkit-any-link{
 [class*="icon"] {
     cursor: pointer;
 }
+
+button {
+    transition: filter 0.3s ease;
+}
+
+button:hover {
+    filter: brightness(0.9); /* Darken by 10% */
+}

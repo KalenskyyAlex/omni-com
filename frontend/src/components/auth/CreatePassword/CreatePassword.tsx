@@ -2,9 +2,9 @@ import '../../../index.css';
 import '../auth.css';
 import UserInput from "../UserInput/UserInput";
 import {lengthError, matchError, noCapitalError, noError, noSpecialSymbolError} from "../validators";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 
-function CreatePassword() {
+function CreatePassword({name = "Password"}) {
     const [passwordValid, setPasswordValid] = useState(false);
     const [password, setPassword] = useState("");
 
@@ -26,7 +26,7 @@ function CreatePassword() {
 
     return <div className={"vertical-group" + (passwordValid ? " gap24" : " gap16")}>
         <UserInput
-            label="Password"
+            label={name}
             type="password"
             for="password"
             inputCallback={() => {}}
@@ -34,7 +34,7 @@ function CreatePassword() {
         {
             passwordValid ?
                 <UserInput
-                    label="Confirm Password"
+                    label={"Confirm " + name}
                     type="password"
                     for="password"
                     inputCallback={() => {}}

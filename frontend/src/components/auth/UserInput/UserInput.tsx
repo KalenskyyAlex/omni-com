@@ -44,12 +44,14 @@ function UserInput(props: UserInputProps) {
                    onChange={handleChange}
                    onBlur={handleBlur}
                    onKeyDown={handleKeyDown}/>
-            {errorMessage.length > 0 ?
-                errorMessage.map((message) => <label className="error horizontal-group center" htmlFor={props.for}>
-                    <div className="input-error-icon"></div>
-                    <div>{message}</div>
-                </label>)
-                : null}
+            <div className="vertical-group gap0">
+                {errorMessage.length > 0 ?
+                    errorMessage.map((message) => <label className="error horizontal-group center" htmlFor={props.for}>
+                        <div className="input-error-icon"></div>
+                        <div>{message}</div>
+                    </label>)
+                    : null}
+            </div>
         </div>
     )
 }
