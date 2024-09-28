@@ -7,7 +7,15 @@ import UserInput from "../UserInput/UserInput";
 import {emptyError, invalidEmailError} from "../validators";
 
 function Login() {
+    const emailValidator = (value: string, name: string) => {
+        const [error1, message1] = emptyError(value, name);
+        const [error2, message2] = invalidEmailError(value, name);
 
+        const error = error1 || error2;
+        const message = [...message1, ...message2];
+
+        return [error, message]
+    }
 
     return <div className="vertical-group">
         <Navbar/>
@@ -15,10 +23,10 @@ function Login() {
         <div className="input-container hack">
             <div className="vertical-group gap24">
                 <UserInput
-                    label="Username"
+                    label="Email"
                     type="text"
-                    for="username" inputCallback={() => {}}
-                    errorCallback={emptyError}/>
+                    for="email" inputCallback={() => {}}
+                    errorCallback={emailValidator}/>
                 <UserInput
                     label="Password"
                     type="password" for="password"
