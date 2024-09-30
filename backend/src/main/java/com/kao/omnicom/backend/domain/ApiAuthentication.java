@@ -1,9 +1,7 @@
 package com.kao.omnicom.backend.domain;
 
 import com.kao.omnicom.backend.dto.User;
-import com.kao.omnicom.backend.util.enumeration.Authorities;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -27,7 +25,7 @@ public class ApiAuthentication extends AbstractAuthenticationToken {
         super.setAuthenticated(isAuthenticated);
     }
 
-    public ApiAuthentication(User user, Collection<? extends GrantedAuthority> authorities) {
+    private ApiAuthentication(User user, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
 
         this.user = user;
@@ -36,7 +34,7 @@ public class ApiAuthentication extends AbstractAuthenticationToken {
         this.authenticated = true;
     }
 
-    public ApiAuthentication(String email, String password) {
+    private ApiAuthentication(String email, String password) {
         super(AuthorityUtils.NO_AUTHORITIES);
 
         this.email = email;
