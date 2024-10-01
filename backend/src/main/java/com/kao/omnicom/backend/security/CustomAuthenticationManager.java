@@ -6,10 +6,12 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.stereotype.Component;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Component
 @RequiredArgsConstructor
 public class CustomAuthenticationManager implements AuthenticationManager {
 
@@ -19,6 +21,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
     @Override
     public Authentication authenticate(Authentication authentication) {
+        logger.log(Level.INFO, "Custom auth manager invoked");
         try {
             if (provider.supports(authentication.getClass())) {
                 return provider.authenticate(authentication);

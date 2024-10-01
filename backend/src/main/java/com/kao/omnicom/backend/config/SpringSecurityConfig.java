@@ -27,8 +27,9 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SpringSecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, CustomAuthenticationManager customAuthenticationManager) throws Exception {
         return httpSecurity
+                .authenticationManager(customAuthenticationManager)
                 .authorizeHttpRequests(registry -> {
 //                    registry.requestMatchers("/api/user/**").permitAll();
                     registry.requestMatchers("/api/terminal/**").permitAll();
@@ -40,18 +41,19 @@ public class SpringSecurityConfig {
                 .build();
     }
 
-//    @Bean
-//    public AuthenticationProvider authenticationProvider(BCryptPasswordEncoder bCryptPasswordEncoder) {
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//        provider.setPasswordEncoder(bCryptPasswordEncoder);
-//        provider.setUserDetailsService(new InMemoryUserDetailsManager());
-//        return provider;
-//    }
-//
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationProvider provider) throws Exception {
-//        return new CustomAuthenticationManager(provider);
-//    }
+    @Bean
+    public AuthenticationProvider authenticationProvider(BCryptPasswordEncoder bCryptPasswordEncoder,
+                                                         InMemoryUserDetailsManager inMemoryUserDetailsManager) {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(bCryptPasswordEncoder);
+        provider.setUserDetailsService(inMemoryUserDetailsManager);
+        return provider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationProvider provider){
+        return new CustomAuthenticationManager(provider);
+    }
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService(BCryptPasswordEncoder passwordEncoder) {
