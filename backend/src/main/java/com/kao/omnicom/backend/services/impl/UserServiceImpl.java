@@ -1,5 +1,6 @@
 package com.kao.omnicom.backend.services.impl;
 
+import com.kao.omnicom.backend.cache.CacheStore;
 import com.kao.omnicom.backend.events.UserEvent;
 import com.kao.omnicom.backend.exception.APIException;
 import com.kao.omnicom.backend.jpa.entity.Role;
@@ -11,6 +12,7 @@ import com.kao.omnicom.backend.jpa.repository.VerificationTokenRepository;
 import com.kao.omnicom.backend.services.UserService;
 import com.kao.omnicom.backend.util.enumeration.Authorities;
 import com.kao.omnicom.backend.util.enumeration.Events;
+import com.kao.omnicom.backend.util.enumeration.LoginType;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -36,6 +38,8 @@ public class UserServiceImpl implements UserService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ApplicationEventPublisher publisher;
+    private final CacheStore<String, Integer> userCacheStore;
+    private final int MAX_LOGIN_ATTEMPTS = 6;
 
     @Override
     public void createUser(String username, String email, String password) {
@@ -91,6 +95,39 @@ public class UserServiceImpl implements UserService {
         logger.log(Level.FINE, "Verification for user {0} was successful", user.getUsername());
 
         return true;
+    }
+
+    @Override
+    public void updateLoginAttempt(String email, LoginType loginType) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> {
+            logger.log(Level.SEVERE, "User with email {0} could not be found", email);
+            return new APIException();
+        });
+
+        switch (loginType) {
+            case LOGIN_ATTEMPT -> {
+                if(userCacheStore.get(email) == null) {
+                    user.setLoginAttempts(0);
+                    user.setAccountLocked(false);
+                }
+
+                user.setLoginAttempts(user.getLoginAttempts() + 1);
+                userCacheStore.put(user.getEmail(), user.getLoginAttempts());
+
+                if(userCacheStore.get(user.getEmail()) >= MAX_LOGIN_ATTEMPTS) {
+                    user.setAccountLocked(true);
+                }
+            }
+            case LOGIN_SUCCESS -> {
+                if(userCacheStore.get(user.getEmail()) == null) {
+                    user.setLoginAttempts(0);
+                    user.setAccountLocked(false);
+                    userCacheStore.remove(user.getEmail());
+                }
+            }
+        }
+
+        userRepository.save(user);
     }
 
 }

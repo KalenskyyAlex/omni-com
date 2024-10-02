@@ -1,6 +1,6 @@
 package com.kao.omnicom.backend.services;
 
-import com.kao.omnicom.backend.domain.OutputResponse;
+import com.kao.omnicom.backend.dto.OutputResponse;
 
 public interface TerminalService {
 

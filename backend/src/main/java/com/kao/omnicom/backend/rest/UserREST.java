@@ -1,6 +1,6 @@
 package com.kao.omnicom.backend.rest;
 
-import com.kao.omnicom.backend.domain.UserRequest;
+import com.kao.omnicom.backend.dto.UserRequest;
 import com.kao.omnicom.backend.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

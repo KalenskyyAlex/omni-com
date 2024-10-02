@@ -21,7 +21,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
     @Override
     public Authentication authenticate(Authentication authentication) {
-        logger.log(Level.INFO, "Custom auth manager invoked");
+        logger.log(Level.INFO, "CustomAuthenticationManager invoked");
         try {
             if (provider.supports(authentication.getClass())) {
                 return provider.authenticate(authentication);

@@ -1,7 +1,7 @@
 package com.kao.omnicom.backend.rest;
 
-import com.kao.omnicom.backend.domain.OutputResponse;
-import com.kao.omnicom.backend.domain.TerminalRequest;
+import com.kao.omnicom.backend.dto.OutputResponse;
+import com.kao.omnicom.backend.dto.TerminalRequest;
 import com.kao.omnicom.backend.services.TerminalService;
 import com.kao.omnicom.backend.services.impl.TerminalServiceDocker;
 import org.springframework.web.bind.annotation.*;

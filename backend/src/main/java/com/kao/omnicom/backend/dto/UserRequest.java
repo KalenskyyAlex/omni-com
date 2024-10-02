@@ -1,4 +1,4 @@
-package com.kao.omnicom.backend.domain;
+package com.kao.omnicom.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;

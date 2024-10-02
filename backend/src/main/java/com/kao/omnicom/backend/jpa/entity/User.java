@@ -42,4 +42,12 @@ public class User {
     @Column(name="email_verified", nullable = false)
     private boolean emailVerified = false;
 
+    @NotNull
+    @Column(name="login_attempts", nullable = false)
+    private int loginAttempts = 0;
+
+    @NotNull
+    @Column(name="account_locked", nullable = false)
+    private boolean accountLocked = false;
+
 }
