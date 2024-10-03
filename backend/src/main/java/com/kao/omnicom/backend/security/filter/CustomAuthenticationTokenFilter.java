@@ -1,12 +1,16 @@
 package com.kao.omnicom.backend.security.filter;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kao.omnicom.backend.dto.LoginRequest;
+import com.kao.omnicom.backend.security.CustomAuthenticationToken;
+import com.kao.omnicom.backend.services.JwtService;
 import com.kao.omnicom.backend.services.UserService;
 import com.kao.omnicom.backend.util.enumeration.LoginType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.jboss.logging.Logger;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -14,6 +18,8 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static org.springframework.http.HttpMethod.POST;
 
@@ -31,11 +37,26 @@ public class CustomAuthenticationTokenFilter extends AbstractAuthenticationProce
         this.userService = userService;
     }
 
+//    private void handleErrorResponse(HttpServletRequest request, HttpServletResponse response, Exception exception){
+//
+//    }
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        userService.updateLoginAttempt("TODO", LoginType.LOGIN_ATTEMPT);
+        try {
+            LoginRequest user = new ObjectMapper()
+                    .configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true)
+                    .readValue(request.getInputStream(), LoginRequest.class);
+            userService.updateLoginAttempt(user.getEmail(), LoginType.LOGIN_ATTEMPT);
 
-        return null;
+            Authentication auth = CustomAuthenticationToken.unauthenticated(user.getEmail(), user.getPassword());
+
+            return getAuthenticationManager().authenticate(auth);
+        } catch (Exception exception) {
+            logger.log(Level.SEVERE, exception.getMessage());
+//            handleErrorResponse(request, response, exception);
+            return null;
+        }
     }
 
     @Override

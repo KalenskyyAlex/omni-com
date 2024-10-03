@@ -1,5 +1,6 @@
 package com.kao.omnicom.backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 @Getter
@@ -7,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TerminalRequest {
 
     private String code;

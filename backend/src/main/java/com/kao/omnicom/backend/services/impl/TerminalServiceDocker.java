@@ -18,6 +18,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 
 import com.kao.omnicom.backend.dto.OutputResponse;
 import com.kao.omnicom.backend.services.TerminalService;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.util.concurrent.TimeUnit;
@@ -25,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Slf4j
+@Service
 public class TerminalServiceDocker implements TerminalService {
 
     private final DockerClientConfig defaultConfig = DefaultDockerClientConfig.createDefaultConfigBuilder().build();
