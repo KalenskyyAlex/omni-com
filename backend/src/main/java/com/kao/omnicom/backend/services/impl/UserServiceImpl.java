@@ -130,4 +130,12 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
+    public User getUserByUserId(String userId) {
+        return userRepository.findById(userId).orElseThrow(() -> {
+            logger.log(Level.SEVERE, "User with id {0} could not be found", userId);
+            return new APIException();
+        });
+    }
+
 }

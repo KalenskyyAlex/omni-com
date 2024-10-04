@@ -18,6 +18,8 @@ public interface JwtService {
 
     void addCookie(HttpServletResponse response, User user, TokenType type);
 
-    <T> T getTokenDate(String token, Function<TokenData, T> tokenFunction);
+    <T> T getTokenData(String token, Function<TokenData, T> tokenFunction);
+
+    void removeCookie(HttpServletRequest request, HttpServletResponse response, String cookieName);
 
 }

@@ -14,4 +14,6 @@ public interface UserService {
 
     void updateLoginAttempt(String email, LoginType loginType);
 
+    User getUserByUserId(String userId);
+
 }

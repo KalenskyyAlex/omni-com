@@ -7,6 +7,9 @@ public class Constants {
     public final static String ROLE_PREFIX = "ROLE_";
     public final static String ROLE = "role";
 
+    public final static String EMPTY_COOKIE = "emptyCookie";
+    public final static String AUDIENCE = "OMNICOM";
+
     public final static String USER_AUTHORITIES = "script:create,script:read,script:update,script:delete,own:update";
     public final static String ADMIN_AUTHORITIES = "script:delete,user:read,user:update,own:update";
     public final static String MASTER_ADMIN_AUTHORITIES = "script:delete,user:create,user:read,user:update,user:delete,own:update";
