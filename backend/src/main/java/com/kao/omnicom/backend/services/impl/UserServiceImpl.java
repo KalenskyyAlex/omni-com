@@ -39,7 +39,6 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ApplicationEventPublisher publisher;
     private final CacheStore<String, Integer> userCacheStore;
-    private final int MAX_LOGIN_ATTEMPTS = 6;
 
     @Override
     public void createUser(String username, String email, String password) {
@@ -99,6 +98,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateLoginAttempt(String email, LoginType loginType) {
+        int MAX_LOGIN_ATTEMPTS = 6;
+
         User user = userRepository.findByEmail(email).orElseThrow(() -> {
             logger.log(Level.SEVERE, "User with email {0} could not be found", email);
             return new APIException();
@@ -134,6 +135,14 @@ public class UserServiceImpl implements UserService {
     public User getUserByUserId(String userId) {
         return userRepository.findById(userId).orElseThrow(() -> {
             logger.log(Level.SEVERE, "User with id {0} could not be found", userId);
+            return new APIException();
+        });
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> {
+            logger.log(Level.SEVERE, "User with email {0} could not be found", email);
             return new APIException();
         });
     }

@@ -15,6 +15,7 @@ public class User {
     private String email;
     private String password;
     private boolean emailVerified = false;
+    private boolean accountLocked = false;
 
     private String role;
     private String authorities;

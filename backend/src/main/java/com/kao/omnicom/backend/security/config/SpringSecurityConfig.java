@@ -39,14 +39,14 @@ public class SpringSecurityConfig {
                 .build();
     }
 
-    @Bean
-    public AuthenticationProvider authenticationProvider(BCryptPasswordEncoder bCryptPasswordEncoder,
-                                                         InMemoryUserDetailsManager inMemoryUserDetailsManager) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(bCryptPasswordEncoder);
-        provider.setUserDetailsService(inMemoryUserDetailsManager);
-        return provider;
-    }
+//    @Bean
+//    public AuthenticationProvider authenticationProvider(BCryptPasswordEncoder bCryptPasswordEncoder,
+//                                                         InMemoryUserDetailsManager inMemoryUserDetailsManager) {
+//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+//        provider.setPasswordEncoder(bCryptPasswordEncoder);
+//        provider.setUserDetailsService(inMemoryUserDetailsManager);
+//        return provider;
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationProvider provider){

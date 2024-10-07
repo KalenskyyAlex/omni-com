@@ -13,6 +13,7 @@ public class UserConverter {
                 .email(entity.getEmail())
                 .password(entity.getPassword())
                 .emailVerified(entity.isEmailVerified())
+                .accountLocked(entity.isAccountLocked())
                 .role(entity.getRoles().getName())
                 .authorities(converter.convertToDatabaseColumn(entity.getRoles().getAuthorities()))
                 .build();
@@ -32,7 +33,7 @@ public class UserConverter {
                         .build())
                 .emailVerified(dto.isEmailVerified())
                 .loginAttempts(0)
-                .accountLocked(false)
+                .accountLocked(dto.isAccountLocked())
                 .build();
     }
 
