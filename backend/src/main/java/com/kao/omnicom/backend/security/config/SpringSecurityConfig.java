@@ -1,12 +1,10 @@
 package com.kao.omnicom.backend.security.config;
 
 import com.kao.omnicom.backend.security.CustomAuthenticationManager;
+import com.kao.omnicom.backend.security.filter.CustomAuthenticationTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -25,32 +24,19 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SpringSecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, CustomAuthenticationManager customAuthenticationManager) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, CustomAuthenticationManager customAuthenticationManager, CustomAuthenticationTokenFilter authFilter) throws Exception {
         return httpSecurity
                 .authenticationManager(customAuthenticationManager)
+                .addFilterBefore(authFilter,  UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(registry -> {
 //                    registry.requestMatchers("/api/user/**").permitAll();
                     registry.requestMatchers("/api/terminal/**").permitAll();
-                    registry.requestMatchers("/api/login/**").permitAll();
+//                    registry.requestMatchers("/api/login/**").permitAll();
                     registry.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
-    }
-
-//    @Bean
-//    public AuthenticationProvider authenticationProvider(BCryptPasswordEncoder bCryptPasswordEncoder,
-//                                                         InMemoryUserDetailsManager inMemoryUserDetailsManager) {
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//        provider.setPasswordEncoder(bCryptPasswordEncoder);
-//        provider.setUserDetailsService(inMemoryUserDetailsManager);
-//        return provider;
-//    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationProvider provider){
-        return new CustomAuthenticationManager(provider);
     }
 
     @Bean

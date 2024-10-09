@@ -20,19 +20,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.net.http.HttpResponse;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 import static com.kao.omnicom.backend.dto.StandardResponse.getResponse;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@Component
 public class CustomAuthenticationTokenFilter extends AbstractAuthenticationProcessingFilter {
 
     private final Logger logger = Logger.getLogger("CustomAuthenticationTokenFilter");
@@ -41,7 +41,7 @@ public class CustomAuthenticationTokenFilter extends AbstractAuthenticationProce
     private final JwtService jwtService;
 
     protected CustomAuthenticationTokenFilter(AuthenticationManager authenticationManager, UserService userService, JwtService jwtService) {
-        super(new AntPathRequestMatcher("/api/user/login", POST.name()), authenticationManager);
+        super(new AntPathRequestMatcher("/api/login", POST.name()), authenticationManager);
 
         this.jwtService = jwtService;
         this.userService = userService;
@@ -49,6 +49,8 @@ public class CustomAuthenticationTokenFilter extends AbstractAuthenticationProce
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+        logger.log(Level.INFO, "Custom filter invoked");
+
         try {
             LoginRequest user = new ObjectMapper()
                     .configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true)
@@ -60,7 +62,6 @@ public class CustomAuthenticationTokenFilter extends AbstractAuthenticationProce
             return getAuthenticationManager().authenticate(auth);
         } catch (Exception exception) {
             logger.log(Level.SEVERE, exception.getMessage());
-//            handleErrorResponse(request, response, exception);
             return null;
         }
     }
