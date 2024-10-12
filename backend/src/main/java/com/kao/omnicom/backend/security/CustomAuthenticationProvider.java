@@ -3,6 +3,7 @@ package com.kao.omnicom.backend.security;
 import com.kao.omnicom.backend.dto.User;
 import com.kao.omnicom.backend.dto.UserPrincipal;
 import com.kao.omnicom.backend.exception.APIException;
+import com.kao.omnicom.backend.exception.CustomAuthenticationException;
 import com.kao.omnicom.backend.jpa.converter.UserConverter;
 import com.kao.omnicom.backend.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +43,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             return CustomAuthenticationToken.authenticated(user, userPrincipal.getAuthorities());
         }
 
-        throw new APIException("Bad Credentials");
+        throw new CustomAuthenticationException("Bad Credentials");
     }
 
     @Override

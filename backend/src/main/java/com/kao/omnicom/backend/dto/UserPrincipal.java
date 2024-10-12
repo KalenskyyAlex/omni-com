@@ -6,7 +6,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
 @RequiredArgsConstructor
 public class UserPrincipal implements UserDetails {

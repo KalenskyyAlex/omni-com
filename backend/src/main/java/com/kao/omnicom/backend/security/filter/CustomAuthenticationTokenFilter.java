@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kao.omnicom.backend.dto.LoginRequest;
 import com.kao.omnicom.backend.dto.StandardResponse;
 import com.kao.omnicom.backend.dto.User;
+import com.kao.omnicom.backend.exception.CustomAuthenticationException;
 import com.kao.omnicom.backend.security.CustomAuthenticationToken;
 import com.kao.omnicom.backend.services.JwtService;
 import com.kao.omnicom.backend.services.UserService;
@@ -40,6 +41,8 @@ public class CustomAuthenticationTokenFilter extends AbstractAuthenticationProce
     private final UserService userService;
     private final JwtService jwtService;
 
+    private LoginRequest cachedUser;
+
     protected CustomAuthenticationTokenFilter(AuthenticationManager authenticationManager, UserService userService, JwtService jwtService) {
         super(new AntPathRequestMatcher("/api/login", POST.name()), authenticationManager);
 
@@ -55,14 +58,15 @@ public class CustomAuthenticationTokenFilter extends AbstractAuthenticationProce
             LoginRequest user = new ObjectMapper()
                     .configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true)
                     .readValue(request.getInputStream(), LoginRequest.class);
-            userService.updateLoginAttempt(user.getEmail(), LoginType.LOGIN_ATTEMPT);
+
+            cachedUser = user;
 
             Authentication auth = CustomAuthenticationToken.unauthenticated(user.getEmail(), user.getPassword());
 
             return getAuthenticationManager().authenticate(auth);
         } catch (Exception exception) {
             logger.log(Level.SEVERE, exception.getMessage());
-            return null;
+            throw new CustomAuthenticationException(exception.getMessage());
         }
     }
 
@@ -79,6 +83,14 @@ public class CustomAuthenticationTokenFilter extends AbstractAuthenticationProce
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(out, response_);
         out.flush();
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        logger.log(Level.WARNING, "Increasing unsuccessful loginAttempts count");
+        userService.updateLoginAttempt(cachedUser.getEmail(), LoginType.LOGIN_ATTEMPT);
+
+        super.unsuccessfulAuthentication(request, response, failed);
     }
 
     private StandardResponse sendResponse(HttpServletRequest request, HttpServletResponse response, User user) {

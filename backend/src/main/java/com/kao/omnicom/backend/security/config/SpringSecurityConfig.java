@@ -29,9 +29,7 @@ public class SpringSecurityConfig {
                 .authenticationManager(customAuthenticationManager)
                 .addFilterBefore(authFilter,  UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(registry -> {
-//                    registry.requestMatchers("/api/user/**").permitAll();
                     registry.requestMatchers("/api/terminal/**").permitAll();
-//                    registry.requestMatchers("/api/login/**").permitAll();
                     registry.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults())

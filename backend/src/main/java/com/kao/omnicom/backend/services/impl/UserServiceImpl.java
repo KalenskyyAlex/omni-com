@@ -120,9 +120,9 @@ public class UserServiceImpl implements UserService {
                 }
             }
             case LOGIN_SUCCESS -> {
-                if(userCacheStore.get(user.getEmail()) == null) {
-                    user.setLoginAttempts(0);
-                    user.setAccountLocked(false);
+                user.setLoginAttempts(0);
+                user.setAccountLocked(false);
+                if(userCacheStore.get(user.getEmail()) != null) {
                     userCacheStore.remove(user.getEmail());
                 }
             }
