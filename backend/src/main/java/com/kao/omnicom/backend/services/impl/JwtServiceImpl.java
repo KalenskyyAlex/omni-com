@@ -37,9 +37,15 @@ import static io.jsonwebtoken.Header.JWT_TYPE;
 import static io.jsonwebtoken.Header.TYPE;
 import static org.springframework.boot.web.server.Cookie.SameSite.NONE;
 
+import org.springframework.beans.factory.annotation.Value;
+
+
 @Service
 @RequiredArgsConstructor
 public class JwtServiceImpl extends JwtConfig implements JwtService {
+
+    @Value("${jwt.cookie.secure}")
+    private boolean cookieSecure;
 
     private final Logger logger = Logger.getLogger("JwtServiceImpl");
 
@@ -103,6 +109,7 @@ public class JwtServiceImpl extends JwtConfig implements JwtService {
                 String accessToken = createToken(user, Token::getAccessToken);
                 Cookie cookie = new Cookie(type.getName(), accessToken);
                 cookie.setHttpOnly(true);
+                cookie.setSecure(cookieSecure);
                 cookie.setMaxAge(2 * 60);
                 cookie.setPath("/");
                 cookie.setAttribute("SameSite", NONE.name());
@@ -113,6 +120,7 @@ public class JwtServiceImpl extends JwtConfig implements JwtService {
                 String refreshToken = createToken(user, Token::getRefreshToken);
                 Cookie cookie = new Cookie(type.getName(), refreshToken);
                 cookie.setHttpOnly(true);
+                cookie.setSecure(cookieSecure);
                 cookie.setMaxAge(2 * 60 * 60);
                 cookie.setPath("/");
                 cookie.setAttribute("SameSite", NONE.name());
