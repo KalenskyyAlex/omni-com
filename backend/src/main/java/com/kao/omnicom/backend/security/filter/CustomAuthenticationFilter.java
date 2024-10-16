@@ -7,6 +7,7 @@ import com.kao.omnicom.backend.dto.StandardResponse;
 import com.kao.omnicom.backend.dto.User;
 import com.kao.omnicom.backend.exception.CustomAuthenticationException;
 import com.kao.omnicom.backend.security.CustomAuthenticationToken;
+import com.kao.omnicom.backend.security.util.NegateRequestMatcher;
 import com.kao.omnicom.backend.services.JwtService;
 import com.kao.omnicom.backend.services.UserService;
 import com.kao.omnicom.backend.util.enumeration.LoginType;
@@ -34,36 +35,36 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Component
-public class CustomAuthenticationTokenFilter extends AbstractAuthenticationProcessingFilter {
+public class CustomAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    private final Logger logger = Logger.getLogger("CustomAuthenticationTokenFilter");
+    private final Logger logger = Logger.getLogger("CustomAuthenticationFilter");
 
-    private final UserService userService;
+//    private final UserService userService;
     private final JwtService jwtService;
+//
+//    private LoginRequest cachedUser;
 
-    private LoginRequest cachedUser;
-
-    protected CustomAuthenticationTokenFilter(AuthenticationManager authenticationManager, UserService userService, JwtService jwtService) {
-        super(new AntPathRequestMatcher("/api/login", POST.name()), authenticationManager);
+    protected CustomAuthenticationFilter(AuthenticationManager authenticationManager, UserService userService, JwtService jwtService) {
+        super(new NegateRequestMatcher(new AntPathRequestMatcher("/api/login", POST.name())), authenticationManager);
 
         this.jwtService = jwtService;
-        this.userService = userService;
+//        this.userService = userService;
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        logger.log(Level.INFO, "Custom filter invoked");
+        logger.log(Level.INFO, "Custom auth filter invoked");
 
         try {
-            LoginRequest user = new ObjectMapper()
-                    .configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true)
-                    .readValue(request.getInputStream(), LoginRequest.class);
-
-            cachedUser = user;
-
-            Authentication auth = CustomAuthenticationToken.unauthenticated(user.getEmail(), user.getPassword());
-
-            return getAuthenticationManager().authenticate(auth);
+//            LoginRequest user = new ObjectMapper()
+//                    .configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true)
+//                    .readValue(request.getInputStream(), LoginRequest.class);
+//
+//            cachedUser = user;
+//
+//            Authentication auth = CustomAuthenticationToken.unauthenticated(user.getEmail(), user.getPassword());
+//
+//            return getAuthenticationManager().authenticate(auth);
         } catch (Exception exception) {
             logger.log(Level.SEVERE, exception.getMessage());
             throw new CustomAuthenticationException(exception.getMessage());
@@ -72,30 +73,30 @@ public class CustomAuthenticationTokenFilter extends AbstractAuthenticationProce
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
-        User user = (User) authentication.getPrincipal();
-        userService.updateLoginAttempt(user.getEmail(), LoginType.LOGIN_SUCCESS);
-
-        StandardResponse response_ = sendResponse(request, response, user);
-        response.setContentType(APPLICATION_JSON_VALUE);
-        response.setStatus(OK.value());
-
-        ServletOutputStream out = response.getOutputStream();
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(out, response_);
-        out.flush();
+//        User user = (User) authentication.getPrincipal();
+//        userService.updateLoginAttempt(user.getEmail(), LoginType.LOGIN_SUCCESS);
+//
+//        StandardResponse response_ = sendResponse(request, response, user);
+//        response.setContentType(APPLICATION_JSON_VALUE);
+//        response.setStatus(OK.value());
+//
+//        ServletOutputStream out = response.getOutputStream();
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.writeValue(out, response_);
+//        out.flush();
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        logger.log(Level.WARNING, "Increasing unsuccessful loginAttempts count");
-        userService.updateLoginAttempt(cachedUser.getEmail(), LoginType.LOGIN_ATTEMPT);
-
-        super.unsuccessfulAuthentication(request, response, failed);
+//        logger.log(Level.WARNING, "Increasing unsuccessful loginAttempts count");
+//        userService.updateLoginAttempt(cachedUser.getEmail(), LoginType.LOGIN_ATTEMPT);
+//
+//        super.unsuccessfulAuthentication(request, response, failed);
     }
 
-    private StandardResponse sendResponse(HttpServletRequest request, HttpServletResponse response, User user) {
-        jwtService.addCookie(response, user, TokenType.ACCESS);
-        jwtService.addCookie(response, user, TokenType.REFRESH);
+    private StandardResponse validateCookies(HttpServletRequest request, HttpServletResponse response, User user) {
+        //        jwtService.addCookie(response, user, TokenType.ACCESS);
+//        jwtService.addCookie(response, user, TokenType.REFRESH);
 
         return getResponse(request, Map.of("user", user), "Login Success", OK);
     }

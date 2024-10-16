@@ -1,7 +1,7 @@
 package com.kao.omnicom.backend.security.config;
 
 import com.kao.omnicom.backend.security.CustomAuthenticationManager;
-import com.kao.omnicom.backend.security.filter.CustomAuthenticationTokenFilter;
+import com.kao.omnicom.backend.security.filter.CustomAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SpringSecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, CustomAuthenticationManager customAuthenticationManager, CustomAuthenticationTokenFilter authFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, CustomAuthenticationManager customAuthenticationManager, CustomAuthenticationFilter authFilter) throws Exception {
         return httpSecurity
                 .authenticationManager(customAuthenticationManager)
                 .addFilterBefore(authFilter,  UsernamePasswordAuthenticationFilter.class)
