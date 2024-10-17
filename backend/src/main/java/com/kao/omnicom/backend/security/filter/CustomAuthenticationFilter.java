@@ -1,20 +1,15 @@
 package com.kao.omnicom.backend.security.filter;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kao.omnicom.backend.dto.LoginRequest;
-import com.kao.omnicom.backend.dto.StandardResponse;
+import com.kao.omnicom.backend.dto.rest.StandardResponse;
 import com.kao.omnicom.backend.dto.User;
 import com.kao.omnicom.backend.exception.CustomAuthenticationException;
 import com.kao.omnicom.backend.security.CustomAuthenticationToken;
 import com.kao.omnicom.backend.security.util.NegateRequestMatcher;
 import com.kao.omnicom.backend.services.JwtService;
 import com.kao.omnicom.backend.services.UserService;
-import com.kao.omnicom.backend.util.enumeration.LoginType;
-import com.kao.omnicom.backend.util.enumeration.TokenType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,21 +20,21 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.kao.omnicom.backend.dto.StandardResponse.getResponse;
+import static com.kao.omnicom.backend.dto.rest.StandardResponse.getResponse;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Component
 public class CustomAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private final Logger logger = Logger.getLogger("CustomAuthenticationFilter");
 
-//    private final UserService userService;
+    //    private final UserService userService;
     private final JwtService jwtService;
 //
 //    private LoginRequest cachedUser;
@@ -56,16 +51,16 @@ public class CustomAuthenticationFilter extends AbstractAuthenticationProcessing
         logger.log(Level.INFO, "Custom auth filter invoked");
 
         try {
+            validateCookies(request, response, null);
 //            LoginRequest user = new ObjectMapper()
 //                    .configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true)
 //                    .readValue(request.getInputStream(), LoginRequest.class);
 //
 //            cachedUser = user;
 //
-//            Authentication auth = CustomAuthenticationToken.unauthenticated(user.getEmail(), user.getPassword());
+            Authentication auth = CustomAuthenticationToken.unauthenticated("oleksandrkalenskij7@gmail.com", "skibidi");
 //
-//            return getAuthenticationManager().authenticate(auth);
-            return null;
+            return getAuthenticationManager().authenticate(auth);
         } catch (Exception exception) {
             logger.log(Level.SEVERE, exception.getMessage());
             throw new CustomAuthenticationException(exception.getMessage());
@@ -85,6 +80,8 @@ public class CustomAuthenticationFilter extends AbstractAuthenticationProcessing
 //        ObjectMapper mapper = new ObjectMapper();
 //        mapper.writeValue(out, response_);
 //        out.flush();
+        logger.log(Level.INFO, "Authentication successful");
+        chain.doFilter(request, response);
     }
 
     @Override
@@ -93,14 +90,21 @@ public class CustomAuthenticationFilter extends AbstractAuthenticationProcessing
 //        userService.updateLoginAttempt(cachedUser.getEmail(), LoginType.LOGIN_ATTEMPT);
 //
 //        super.unsuccessfulAuthentication(request, response, failed);
+        logger.log(Level.INFO, "Authentication unsuccessful");
     }
 
     private StandardResponse validateCookies(HttpServletRequest request, HttpServletResponse response, User user) {
 //        jwtService.addCookie(response, user, TokenType.ACCESS);
 //        jwtService.addCookie(response, user, TokenType.REFRESH);
 
+        Cookie cookie = Arrays.stream(request.getCookies())
+                .filter(c -> c.getName().equals("access-token"))
+                .findFirst()
+                .orElseThrow(() -> {
+                    logger.log(Level.SEVERE, "Bad access token");
+                    return new CustomAuthenticationException("Bad access token");
+                });
 
-
-        return getResponse(request, Map.of("user", user), "Login Success", OK);
+        return getResponse(request, Map.of("user", "user"), "Login Success", OK);
     }
 }

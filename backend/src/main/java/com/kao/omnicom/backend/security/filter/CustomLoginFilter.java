@@ -2,8 +2,8 @@ package com.kao.omnicom.backend.security.filter;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kao.omnicom.backend.dto.LoginRequest;
-import com.kao.omnicom.backend.dto.StandardResponse;
+import com.kao.omnicom.backend.dto.rest.LoginRequest;
+import com.kao.omnicom.backend.dto.rest.StandardResponse;
 import com.kao.omnicom.backend.dto.User;
 import com.kao.omnicom.backend.exception.CustomAuthenticationException;
 import com.kao.omnicom.backend.security.CustomAuthenticationToken;
@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.kao.omnicom.backend.dto.StandardResponse.getResponse;
+import static com.kao.omnicom.backend.dto.rest.StandardResponse.getResponse;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -99,6 +99,6 @@ public class CustomLoginFilter extends AbstractAuthenticationProcessingFilter {
         jwtService.addCookie(response, user, TokenType.ACCESS);
         jwtService.addCookie(response, user, TokenType.REFRESH);
 
-        return getResponse(request, Map.of("user", user), "Login Success", OK);
+        return getResponse(request, Map.of("user", "user"), "Login Success", OK);
     }
 }

@@ -1,4 +1,4 @@
-package com.kao.omnicom.backend.dto;
+package com.kao.omnicom.backend.dto.rest;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;

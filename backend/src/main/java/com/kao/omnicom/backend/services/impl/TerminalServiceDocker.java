@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 
-import com.kao.omnicom.backend.dto.OutputResponse;
+import com.kao.omnicom.backend.dto.rest.OutputResponse;
 import com.kao.omnicom.backend.services.TerminalService;
 import org.springframework.stereotype.Service;
 

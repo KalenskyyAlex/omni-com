@@ -134,7 +134,6 @@ public class JwtServiceImpl extends JwtConfig implements JwtService {
         return claimsFunction.andThen(claims).apply(token);
     }
 
-
     private Function<String, List<GrantedAuthority>> authorities = (token) ->
             AuthorityUtils.commaSeparatedStringToAuthorityList(new StringJoiner(AUTHORITY_DELIMITER)
                     .add(claimsFunction
