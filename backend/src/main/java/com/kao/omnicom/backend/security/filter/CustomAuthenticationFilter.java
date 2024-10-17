@@ -65,6 +65,7 @@ public class CustomAuthenticationFilter extends AbstractAuthenticationProcessing
 //            Authentication auth = CustomAuthenticationToken.unauthenticated(user.getEmail(), user.getPassword());
 //
 //            return getAuthenticationManager().authenticate(auth);
+            return null;
         } catch (Exception exception) {
             logger.log(Level.SEVERE, exception.getMessage());
             throw new CustomAuthenticationException(exception.getMessage());
@@ -95,8 +96,10 @@ public class CustomAuthenticationFilter extends AbstractAuthenticationProcessing
     }
 
     private StandardResponse validateCookies(HttpServletRequest request, HttpServletResponse response, User user) {
-        //        jwtService.addCookie(response, user, TokenType.ACCESS);
+//        jwtService.addCookie(response, user, TokenType.ACCESS);
 //        jwtService.addCookie(response, user, TokenType.REFRESH);
+
+
 
         return getResponse(request, Map.of("user", user), "Login Success", OK);
     }

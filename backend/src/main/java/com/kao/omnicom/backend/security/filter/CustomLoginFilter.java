@@ -83,6 +83,7 @@ public class CustomLoginFilter extends AbstractAuthenticationProcessingFilter {
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(out, response_);
         out.flush();
+        logger.log(Level.INFO, "Authentication successful");
     }
 
     @Override
@@ -90,6 +91,7 @@ public class CustomLoginFilter extends AbstractAuthenticationProcessingFilter {
         logger.log(Level.WARNING, "Increasing unsuccessful loginAttempts count");
         userService.updateLoginAttempt(cachedUser.getEmail(), LoginType.LOGIN_ATTEMPT);
 
+        logger.log(Level.INFO, "Authentication unsuccessful");
         super.unsuccessfulAuthentication(request, response, failed);
     }
 

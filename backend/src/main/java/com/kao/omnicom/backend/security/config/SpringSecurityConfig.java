@@ -2,6 +2,7 @@ package com.kao.omnicom.backend.security.config;
 
 import com.kao.omnicom.backend.security.CustomAuthenticationManager;
 import com.kao.omnicom.backend.security.filter.CustomAuthenticationFilter;
+import com.kao.omnicom.backend.security.filter.CustomLoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,10 +25,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SpringSecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, CustomAuthenticationManager customAuthenticationManager, CustomAuthenticationFilter authFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, CustomAuthenticationManager customAuthenticationManager, CustomAuthenticationFilter authFilter, CustomLoginFilter loginFilter) throws Exception {
         return httpSecurity
                 .authenticationManager(customAuthenticationManager)
                 .addFilterBefore(authFilter,  UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(loginFilter,  UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/api/terminal/**").permitAll();
                     registry.anyRequest().authenticated();
