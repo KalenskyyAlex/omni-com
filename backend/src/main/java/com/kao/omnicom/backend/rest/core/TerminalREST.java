@@ -1,4 +1,4 @@
-package com.kao.omnicom.backend.rest;
+package com.kao.omnicom.backend.rest.core;
 
 import com.kao.omnicom.backend.dto.rest.OutputResponse;
 import com.kao.omnicom.backend.dto.rest.TerminalRequest;

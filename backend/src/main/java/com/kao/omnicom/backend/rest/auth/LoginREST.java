@@ -1,4 +1,4 @@
-package com.kao.omnicom.backend.rest;
+package com.kao.omnicom.backend.rest.auth;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
