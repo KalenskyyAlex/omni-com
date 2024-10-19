@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -28,8 +29,8 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, CustomAuthenticationManager customAuthenticationManager, CustomAuthenticationFilter authFilter, CustomLoginFilter loginFilter) throws Exception {
         return httpSecurity
                 .authenticationManager(customAuthenticationManager)
-                .addFilterBefore(authFilter,  UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(loginFilter,  UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(authFilter,  AnonymousAuthenticationFilter.class)
+                .addFilterBefore(loginFilter,  AnonymousAuthenticationFilter.class)
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/api/terminal/**").permitAll();
                     registry.requestMatchers("/api/login/**").permitAll();
