@@ -10,4 +10,8 @@ public class CustomAuthenticationException extends AuthenticationException {
   public CustomAuthenticationException(String msg) {
     super(msg);
   }
+
+  public CustomAuthenticationException() {
+    this("Authentication Failed");
+  }
 }

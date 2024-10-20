@@ -7,6 +7,8 @@ import com.kao.omnicom.backend.security.CustomAuthenticationToken;
 import com.kao.omnicom.backend.security.util.NegateRequestMatcher;
 import com.kao.omnicom.backend.services.JwtService;
 import com.kao.omnicom.backend.services.UserService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -95,18 +98,32 @@ public class CustomAuthenticationFilter extends AbstractAuthenticationProcessing
         logger.log(Level.INFO, "Authentication unsuccessful");
     }
 
-    private StandardResponse validateCookies(HttpServletRequest request, HttpServletResponse response, User user) {
-//        jwtService.addCookie(response, user, TokenType.ACCESS);
-//        jwtService.addCookie(response, user, TokenType.REFRESH);
+    private void validateCookies(HttpServletRequest request, HttpServletResponse response, User user) {
+        String token = jwtService.extractToken(request, "access-token").orElseThrow(() -> {
+            logger.log(Level.SEVERE, "Bad access token");
+            return new CustomAuthenticationException("Bad access token");
+        });
 
-        Cookie cookie = Arrays.stream(request.getCookies())
-                .filter(c -> c.getName().equals("access-token"))
-                .findFirst()
-                .orElseThrow(() -> {
-                    logger.log(Level.SEVERE, "Bad access token");
-                    return new CustomAuthenticationException("Bad access token");
-                });
+        Claims claims = jwtService.verifyAndGetClaims(token);
 
-        return getResponse(request, Map.of("user", "user"), "Login Success", OK);
+        if (!claims.getAudience().contains("OMNICOM")) {
+            logger.log(Level.SEVERE, "Token with bad audience");
+            throw new CustomAuthenticationException();
+        }
+
+        if (!claims.getIssuedAt().before(new Date())) {
+            logger.log(Level.SEVERE, "Token issued in future");
+            throw new CustomAuthenticationException();
+        }
+
+        if (!claims.getNotBefore().before(new Date())) {
+            logger.log(Level.SEVERE, "Token issued in future");
+            throw new CustomAuthenticationException();
+        }
+
+        if (claims.getExpiration().before(new Date())) {
+            logger.log(Level.SEVERE, "Token expired");
+            throw new CustomAuthenticationException();
+        }
     }
 }

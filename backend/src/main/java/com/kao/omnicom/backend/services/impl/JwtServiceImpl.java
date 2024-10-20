@@ -177,6 +177,15 @@ public class JwtServiceImpl extends JwtConfig implements JwtService {
     }
 
     @Override
+    public Claims verifyAndGetClaims(String token){
+        return Jwts.parser()
+                .verifyWith(key.get())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+
+    @Override
     public void removeCookie(HttpServletRequest request, HttpServletResponse response, String cookieName) {
         Optional<Cookie> cookieOptional = extractCookie.apply(request, cookieName);
 

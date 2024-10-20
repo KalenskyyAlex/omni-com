@@ -4,6 +4,7 @@ import com.kao.omnicom.backend.dto.Token;
 import com.kao.omnicom.backend.dto.TokenData;
 import com.kao.omnicom.backend.dto.User;
 import com.kao.omnicom.backend.util.enumeration.TokenType;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -19,6 +20,8 @@ public interface JwtService {
     void addCookie(HttpServletResponse response, User user, TokenType type);
 
     <T> T getTokenData(String token, Function<TokenData, T> tokenFunction);
+
+    Claims verifyAndGetClaims(String token);
 
     void removeCookie(HttpServletRequest request, HttpServletResponse response, String cookieName);
 
