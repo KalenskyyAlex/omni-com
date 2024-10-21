@@ -1,10 +1,11 @@
-package com.kao.omnicom.backend.security;
+package com.kao.omnicom.backend.security.provider;
 
 import com.kao.omnicom.backend.dto.User;
 import com.kao.omnicom.backend.dto.UserPrincipal;
 import com.kao.omnicom.backend.exception.APIException;
 import com.kao.omnicom.backend.exception.CustomAuthenticationException;
 import com.kao.omnicom.backend.jpa.converter.UserConverter;
+import com.kao.omnicom.backend.security.token.CustomAuthenticationToken;
 import com.kao.omnicom.backend.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,8 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Component
 @RequiredArgsConstructor

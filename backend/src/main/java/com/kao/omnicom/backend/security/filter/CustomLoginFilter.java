@@ -6,7 +6,7 @@ import com.kao.omnicom.backend.dto.rest.LoginRequest;
 import com.kao.omnicom.backend.dto.rest.StandardResponse;
 import com.kao.omnicom.backend.dto.User;
 import com.kao.omnicom.backend.exception.CustomAuthenticationException;
-import com.kao.omnicom.backend.security.CustomAuthenticationToken;
+import com.kao.omnicom.backend.security.token.CustomAuthenticationToken;
 import com.kao.omnicom.backend.services.JwtService;
 import com.kao.omnicom.backend.services.UserService;
 import com.kao.omnicom.backend.util.enumeration.LoginType;
@@ -99,6 +99,6 @@ public class CustomLoginFilter extends AbstractAuthenticationProcessingFilter {
         jwtService.addCookie(response, user, TokenType.ACCESS);
         jwtService.addCookie(response, user, TokenType.REFRESH);
 
-        return getResponse(request, Map.of("user", "user"), "Login Success", OK);
+        return getResponse(request, Map.of("user", user), "Login Success", OK);
     }
 }

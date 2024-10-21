@@ -1,4 +1,4 @@
-package com.kao.omnicom.backend.security;
+package com.kao.omnicom.backend.security.token;
 
 import com.kao.omnicom.backend.dto.User;
 import com.kao.omnicom.backend.exception.APIException;

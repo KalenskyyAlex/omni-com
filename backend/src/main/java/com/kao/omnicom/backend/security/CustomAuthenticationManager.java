@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,19 +18,21 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
     private final Logger logger = Logger.getLogger("CustomAuthenticationManager");
 
-    public final AuthenticationProvider provider;
+    public final List<AuthenticationProvider> providers;
 
     @Override
     public Authentication authenticate(Authentication authentication) {
         logger.log(Level.INFO, "CustomAuthenticationManager invoked");
+
         try {
-            if (provider.supports(authentication.getClass())) {
-                return provider.authenticate(authentication);
+            for(AuthenticationProvider provider: providers) {
+                if (provider.supports(authentication.getClass())) {
+                    return provider.authenticate(authentication);
+                }
             }
-            else {
-                logger.log(Level.SEVERE, String.format("Custom AuthentificationProvider does not support this Authentication: %s", authentication.getClass().getName()));
-                return new DaoAuthenticationProvider().authenticate(authentication);
-            }
+
+            logger.log(Level.SEVERE, String.format("Custom AuthentificationProvider does not support this Authentication: %s", authentication.getClass().getName()));
+            return new DaoAuthenticationProvider().authenticate(authentication);
         }
         catch (AuthenticationException e) {
             logger.log(Level.SEVERE, String.format("Could not authenticate: %s", authentication.getClass().getName()));

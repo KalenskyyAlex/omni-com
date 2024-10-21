@@ -1,11 +1,14 @@
 package com.kao.omnicom.backend.security.config;
 
 import com.kao.omnicom.backend.security.CustomAuthenticationManager;
+import com.kao.omnicom.backend.security.provider.CustomAuthenticationProvider;
 import com.kao.omnicom.backend.security.filter.CustomAuthenticationFilter;
 import com.kao.omnicom.backend.security.filter.CustomLoginFilter;
+import com.kao.omnicom.backend.security.provider.CustomEncryptedAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,7 +20,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -40,6 +44,11 @@ public class SpringSecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
+    }
+
+    @Bean
+    public List<AuthenticationProvider> providerList (CustomAuthenticationProvider customAuthenticationProvider, CustomEncryptedAuthenticationProvider customEncryptedAuthenticationProvider) {
+        return List.of(customAuthenticationProvider, customEncryptedAuthenticationProvider);
     }
 
     @Bean
